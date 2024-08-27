@@ -30,4 +30,9 @@ public class Account {
 
     public Account() {
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
 }
