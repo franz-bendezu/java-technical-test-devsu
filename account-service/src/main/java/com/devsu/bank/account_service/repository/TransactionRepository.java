@@ -1,5 +1,7 @@
 package com.devsu.bank.account_service.repository;
 
+import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,4 +15,7 @@ public interface TransactionRepository  extends JpaRepository<Transaction, Long>
     
     @Query("SELECT t FROM Transaction t WHERE t.account.id = :accountId ORDER BY t.id DESC LIMIT 1")
     Optional<Transaction> findLastTransactionByAccountId(Long accountId);
+
+    @Query("SELECT t FROM Transaction t WHERE t.account.id = :accountId AND t.createdAt BETWEEN :startDate AND :endDate")
+    List<Transaction> findAllByAccountIdAndCreatedAtBetween(Long accountId, Instant startDate, Instant endDate);
 }

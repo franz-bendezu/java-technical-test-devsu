@@ -1,5 +1,9 @@
 package com.devsu.bank.account_service.model;
 
+import java.time.Instant;
+
+import org.springframework.data.annotation.CreatedDate;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,6 +29,9 @@ public class Transaction {
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
+
+    @CreatedDate
+    private Instant createdAt;
 
     public Transaction() {
     }
