@@ -7,4 +7,5 @@ CREATE TABLE transaction (
     CONSTRAINT fk_account
         FOREIGN KEY(account_id) 
         REFERENCES account(id)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
