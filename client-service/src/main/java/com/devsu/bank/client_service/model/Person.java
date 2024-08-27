@@ -7,7 +7,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 
+import lombok.Data;
+
 @Entity
+@Data
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Person {
     @Id

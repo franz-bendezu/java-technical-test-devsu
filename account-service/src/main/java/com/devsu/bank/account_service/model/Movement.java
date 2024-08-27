@@ -7,7 +7,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
+import lombok.Data;
+
 @Entity
+@Data
 public class Movement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,9 +28,4 @@ public class Movement {
 
     public Movement() {
     }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
 }
