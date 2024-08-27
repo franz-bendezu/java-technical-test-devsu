@@ -1,10 +1,13 @@
 package com.devsu.bank.account_service.service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.devsu.bank.account_service.dto.TransactionCreateDTO;
 import com.devsu.bank.account_service.dto.TransactionDTO;
 import com.devsu.bank.account_service.model.Account;
 import com.devsu.bank.account_service.model.Transaction;
@@ -32,7 +35,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Transaction save(TransactionDTO transactionDTO) {
+    public Transaction save(TransactionCreateDTO transactionDTO) {
         Account account = accountRepository.findById(transactionDTO.getAccountId())
                 .orElseThrow(() -> new RuntimeException("Cuenta no encontrada"));
         Optional<Transaction> lastTransaction = transactionRepository
@@ -56,7 +59,7 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setAmount(transactionDTO.getAmount());
         transaction.setAccount(account);
         transaction.setBalance(newBalance);
-        
+
         return transactionRepository.save(transaction);
     }
 
@@ -66,9 +69,27 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Transaction updateById(Long id, TransactionDTO transaction) {
+    public Transaction updateById(Long id, TransactionCreateDTO transaction) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'updateById'");
+    }
+
+    public List<TransactionDTO> findAllByAccountIdAndCreatedAtBetween(Long accountId, Instant startDate,
+            Instant endDate) {
+        return transactionRepository.findAllByAccountIdAndCreatedAtBetween(
+                accountId, startDate, endDate)
+                .stream()
+                .map(this::convertToTransactionDTO)
+                .collect(Collectors.toList());
+    }
+
+    private TransactionDTO convertToTransactionDTO(Transaction transaction) {
+        TransactionDTO transactionDTO = new TransactionDTO();
+        transactionDTO.setAmount(transaction.getAmount());
+        transactionDTO.setBalance(transaction.getBalance());
+        transactionDTO.setTransactionType(transaction.getTransactionType());
+        transactionDTO.setCreatedAt(transaction.getCreatedAt());
+        return transactionDTO;
     }
 
 }

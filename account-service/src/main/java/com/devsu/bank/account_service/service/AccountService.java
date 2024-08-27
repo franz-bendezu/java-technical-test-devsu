@@ -1,15 +1,19 @@
 package com.devsu.bank.account_service.service;
 
+import com.devsu.bank.account_service.dto.AccountStatementDTO;
 import com.devsu.bank.account_service.model.Account;
 
+import java.time.Instant;
 import java.util.List;
 
 public interface AccountService {
     public List<Account> findAll();
-    
+
     public Account findById(Long id);
-    
+
     public Account save(Account Account);
-    
+
     public void deleteById(Long id);
+
+    public AccountStatementDTO getAccountStatement(Long clientId, Instant startDate, Instant endDate);
 }
