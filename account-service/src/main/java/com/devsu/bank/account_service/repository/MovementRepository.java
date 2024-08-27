@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.devsu.bank.account_service.model.Movement;
 
 @Repository
-public interface MovementRepostory  extends JpaRepository<Movement, Long> {
+public interface MovementRepository  extends JpaRepository<Movement, Long> {
     
 }
