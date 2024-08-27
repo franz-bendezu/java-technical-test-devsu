@@ -37,7 +37,7 @@ public class TransactionController {
 
     @PostMapping
     public Transaction save(@RequestBody TransactionCreateDTO movement) {
-        return transactionService.save(movement);
+        return transactionService.create(movement);
     }
 
     @PutMapping("/{id}")

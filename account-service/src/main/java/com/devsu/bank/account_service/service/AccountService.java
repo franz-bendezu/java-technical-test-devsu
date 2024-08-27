@@ -12,7 +12,7 @@ public interface AccountService {
 
     public Account findById(Long id);
 
-    public Account save(AccountCreateDTO account);
+    public Account create(AccountCreateDTO account);
 
     public void deleteById(Long id);
 

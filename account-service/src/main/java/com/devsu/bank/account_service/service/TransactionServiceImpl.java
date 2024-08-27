@@ -35,7 +35,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Transaction save(TransactionCreateDTO transactionDTO) {
+    public Transaction create(TransactionCreateDTO transactionDTO) {
         Account account = accountRepository.findById(transactionDTO.getAccountId())
                 .orElseThrow(() -> new RuntimeException("Cuenta no encontrada"));
         Optional<Transaction> lastTransaction = transactionRepository

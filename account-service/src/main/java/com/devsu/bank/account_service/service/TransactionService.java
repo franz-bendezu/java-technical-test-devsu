@@ -13,7 +13,7 @@ public interface TransactionService {
 
     public Transaction findById(Long id);
 
-    public Transaction save(TransactionCreateDTO transaction);
+    public Transaction create(TransactionCreateDTO transaction);
 
     public Transaction updateById(Long id, TransactionCreateDTO transaction);
 

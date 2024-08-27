@@ -37,7 +37,7 @@ public class AccountController {
 
     @PostMapping
     public Account save(@RequestBody AccountCreateDTO account) {
-        return accountService.save(account);
+        return accountService.create(account);
     }
 
     @PutMapping("/{id}")
