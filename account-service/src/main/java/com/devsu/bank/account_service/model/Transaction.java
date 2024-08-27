@@ -11,12 +11,12 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Movement {
+public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String movementType;
+    private String transactionType;
 
     private Integer amount;
 
@@ -26,6 +26,6 @@ public class Movement {
     @JoinColumn(name = "account_id")
     private Account account;
 
-    public Movement() {
+    public Transaction() {
     }
 }

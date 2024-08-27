@@ -27,7 +27,7 @@ public class Account {
     private Long clientId;
 
     @OneToMany(mappedBy = "account")
-    private List<Movement> movements;
+    private List<Transaction> transactions;
 
     public Account() {
     }

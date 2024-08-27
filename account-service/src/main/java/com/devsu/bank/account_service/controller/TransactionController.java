@@ -11,42 +11,42 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.devsu.bank.account_service.model.Movement;
-import com.devsu.bank.account_service.service.MovementService;
+import com.devsu.bank.account_service.model.Transaction;
+import com.devsu.bank.account_service.service.TransactionService;
 
 @RestController
 @RequestMapping("/movements")
-public class MovementController {
+public class TransactionController {
 
-    private MovementService movementService;
+    private TransactionService transactionService;
 
-    public MovementController(MovementService movementService) {
-        this.movementService = movementService;
+    public TransactionController(TransactionService movementService) {
+        this.transactionService = movementService;
     }
 
     @GetMapping
-    public List<Movement> findAll() {
-        return movementService.findAll();
+    public List<Transaction> findAll() {
+        return transactionService.findAll();
     }
 
     @GetMapping("/{id}")
-    public Movement findById(@PathVariable Long id) {
-        return movementService.findById(id);
+    public Transaction findById(@PathVariable Long id) {
+        return transactionService.findById(id);
     }
 
     @PostMapping
-    public Movement save(@RequestBody Movement movement) {
-        return movementService.save(movement);
+    public Transaction save(@RequestBody Transaction movement) {
+        return transactionService.save(movement);
     }
 
     @PutMapping("/{id}")
-    public Movement update(@PathVariable Long id, @RequestBody Movement movement) {
+    public Transaction update(@PathVariable Long id, @RequestBody Transaction movement) {
         movement.setId(id);
-        return movementService.save(movement);
+        return transactionService.save(movement);
     }
 
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable Long id) {
-        movementService.deleteById(id);
+        transactionService.deleteById(id);
     }
 }
