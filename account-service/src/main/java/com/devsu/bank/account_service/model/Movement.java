@@ -23,8 +23,11 @@ public class Movement {
     @JoinColumn(name = "account_id")
     private Account account;
 
-    
     public Movement() {
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
 }
