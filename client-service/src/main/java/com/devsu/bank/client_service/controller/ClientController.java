@@ -2,6 +2,7 @@ package com.devsu.bank.client_service.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.devsu.bank.client_service.dto.ClientDTO;
 import com.devsu.bank.client_service.model.Client;
 import com.devsu.bank.client_service.service.ClientService;
 
@@ -36,14 +37,13 @@ public class ClientController {
     }
 
     @PostMapping
-    public Client save(@RequestBody Client client) {
+    public Client save(@RequestBody ClientDTO client) {
         return clientService.save(client);
     }
 
     @PutMapping("/{id}")
-    public Client update(@PathVariable Long id, @RequestBody Client client) {
-        client.setId(id);
-        return clientService.save(client);
+    public Client update(@PathVariable Long id, @RequestBody ClientDTO client) {
+        return clientService.updateById(id, client);
     }
 
     @DeleteMapping("/{id}")

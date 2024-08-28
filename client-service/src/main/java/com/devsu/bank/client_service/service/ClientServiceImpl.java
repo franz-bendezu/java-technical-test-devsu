@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.devsu.bank.client_service.dto.ClientDTO;
 import com.devsu.bank.client_service.model.Client;
 import com.devsu.bank.client_service.repository.ClientRepository;
 
@@ -27,13 +28,31 @@ public class ClientServiceImpl  implements ClientService {
     }
 
     @Override
-    public Client save(Client client) {
+    public Client save(ClientDTO clientDTO) {
+        Client client = new Client();
+        client.setName(clientDTO.getName());
+        client.setAddress(clientDTO.getAddress());
+        client.setPhone(clientDTO.getPhone());
+        client.setPassword(clientDTO.getPassword());
         return clientRepository.save(client);
     }
+
+    @Override
+    public Client updateById(Long id, ClientDTO client) {
+        Client clientToUpdate = clientRepository.findById(id).
+                orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+        clientToUpdate.setName(client.getName());
+        clientToUpdate.setAddress(client.getAddress());
+        clientToUpdate.setPhone(client.getPhone());
+        clientToUpdate.setPassword(client.getPassword());
+        return clientRepository.save(clientToUpdate);
+    }
+
 
     @Override
     public void deleteById(Long id) {
         clientRepository.deleteById(id);
     }
 
+ 
 }
