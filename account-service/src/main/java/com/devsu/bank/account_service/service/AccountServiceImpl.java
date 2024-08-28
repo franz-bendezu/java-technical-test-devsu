@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.devsu.bank.account_service.dto.AccountCreateDTO;
+import com.devsu.bank.account_service.dto.AccountDTO;
 import com.devsu.bank.account_service.dto.StatementAccountDTO;
 import com.devsu.bank.account_service.dto.ReportStatementAccountDTO;
 import com.devsu.bank.account_service.dto.TransactionDTO;
@@ -24,34 +25,37 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<Account> findAll() {
-        return accountRepository.findAll();
+    public List<AccountDTO> findAll() {
+        return accountRepository.findAll().stream().map(this::toAccountDTO).collect(Collectors.toList());
     }
 
     @Override
-    public Account findById(Long id) {
-        return accountRepository.findById(id).orElse(null);
+    public AccountDTO findById(Long id) {
+        return accountRepository.findById(id).map(this::toAccountDTO).orElseThrow(
+
+                () -> new RuntimeException("Account with id " + id + " not found"));
     }
 
     @Override
-    public Account create(AccountCreateDTO accountCreateDTO) {
+    public AccountDTO create(AccountCreateDTO accountCreateDTO) {
         Account account = new Account();
         account.setClientId(accountCreateDTO.getClientId());
         account.setAccountNumber(accountCreateDTO.getAccountNumber());
         account.setAccountType(accountCreateDTO.getAccountType());
         account.setInitialAmount(accountCreateDTO.getInitialAmount());
-        return accountRepository.save(account);
+        Account savedAccount = accountRepository.save(account);
+        return toAccountDTO(savedAccount);
     }
 
     @Override
-    public Account updateById(Long id, AccountCreateDTO accountCreateDTO) {
+    public AccountDTO updateById(Long id, AccountCreateDTO accountCreateDTO) {
         Account account = accountRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Account with id " + id + " not found")
-        );
+                () -> new RuntimeException("Account with id " + id + " not found"));
         account.setAccountNumber(accountCreateDTO.getAccountNumber());
         account.setAccountType(accountCreateDTO.getAccountType());
         account.setInitialAmount(accountCreateDTO.getInitialAmount());
-        return accountRepository.save(account);
+        Account savedAccount = accountRepository.save(account);
+        return toAccountDTO(savedAccount);
     }
 
     @Override
@@ -80,6 +84,17 @@ public class AccountServiceImpl implements AccountService {
 
         accountStatementDTO.setAccounts(accounts);
         return accountStatementDTO;
+    }
+
+    private AccountDTO toAccountDTO(Account account) {
+        AccountDTO accountDTO = new AccountDTO();
+        accountDTO.setId(account.getId());
+        accountDTO.setAccountNumber(account.getAccountNumber());
+        accountDTO.setAccountType(account.getAccountType());
+        accountDTO.setInitialAmount(account.getInitialAmount());
+        accountDTO.setStatus(account.isStatus());
+        accountDTO.setClientId(account.getClientId());
+        return accountDTO;
     }
 
 }
