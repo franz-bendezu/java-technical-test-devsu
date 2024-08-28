@@ -22,8 +22,8 @@ public class ReportController {
     }
 
     @GetMapping()
-    public ReportStatementAccountDTO getAccountStatement(@RequestParam Long clientId, @RequestParam Instant startDate,
-            @RequestParam Instant endDate) {
-        return accountService.getAccountStatement(clientId, startDate, endDate);
+    public ReportStatementAccountDTO getAccountStatement(@RequestParam Long clientId, @RequestParam Instant start,
+            @RequestParam Instant end) {
+        return accountService.getAccountStatement(clientId, start, end);
     }
 }
