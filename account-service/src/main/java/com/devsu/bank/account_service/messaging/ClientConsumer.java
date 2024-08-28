@@ -16,7 +16,7 @@ public class ClientConsumer {
     private static final String RESPONSE_TOPIC = "client-info-response";
     private final ConcurrentMap<Long, CompletableFuture<ClientDTO>> futures = new ConcurrentHashMap<>();
 
-    @KafkaListener(topics = RESPONSE_TOPIC)
+    @KafkaListener(topics = RESPONSE_TOPIC, containerFactory = "kafkaListenerContainerFactory")
     public void consume(ClientDTO clientDTO) {
         CompletableFuture<ClientDTO> future = futures.remove(clientDTO.getId());
         if (future != null) {

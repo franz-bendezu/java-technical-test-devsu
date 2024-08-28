@@ -10,11 +10,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class ClientProducer {
 
-
     private static final String REQUEST_TOPIC = "client-info-request";
 
-
-    private KafkaTemplate<String, Long> kafkaTemplate;
+    private final KafkaTemplate<String, Long> kafkaTemplate;
 
     public ClientProducer(KafkaTemplate<String, Long> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;

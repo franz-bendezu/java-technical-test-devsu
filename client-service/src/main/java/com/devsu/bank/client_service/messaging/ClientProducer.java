@@ -11,7 +11,6 @@ public class ClientProducer {
 
     private static final String REQUEST_TOPIC = "client-info-response";
 
-    @Autowired
     private KafkaTemplate<String, Client> kafkaTemplate;
 
     public ClientProducer(KafkaTemplate<String, Client> kafkaTemplate) {

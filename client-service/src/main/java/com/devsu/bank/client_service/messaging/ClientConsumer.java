@@ -18,9 +18,8 @@ public class ClientConsumer {
         this.clientProducer = clientProducer;
     }
 
-    @KafkaListener(topics = RESPONSE_TOPIC)
-    public void consumeClientRequest(String message) {
-        Long clientId = Long.parseLong(message);
+    @KafkaListener(topics = RESPONSE_TOPIC, containerFactory = "kafkaListenerContainerFactory")
+    public void consumeClientRequest(Long clientId) {
         Client clientInfo = clientService.findById(clientId);
         clientProducer.sendClientInfo(clientInfo);
     }
