@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.devsu.bank.account_service.config.CommonSettings;
 import com.devsu.bank.account_service.dto.TransactionCreateDTO;
 import com.devsu.bank.account_service.dto.TransactionDTO;
+import com.devsu.bank.account_service.exception.TransactionNotFoundException;
 import com.devsu.bank.account_service.model.Account;
 import com.devsu.bank.account_service.model.Transaction;
 import com.devsu.bank.account_service.repository.AccountRepository;
@@ -33,7 +34,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public TransactionDTO findById(Long id) {
         return transactionRepository.findById(id).map(this::convertToTransactionDTO)
-                .orElseThrow(() -> new RuntimeException("Transacción no encontrada"));
+                .orElseThrow(() -> new TransactionNotFoundException());
     }
 
     @Override
@@ -74,7 +75,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public TransactionDTO updateById(Long id, TransactionCreateDTO transaction) {
         Transaction transactionToUpdate = transactionRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Transacción no encontrada"));
+                .orElseThrow(() -> new TransactionNotFoundException());
         transactionToUpdate.setAmount(transaction.getAmount());
         if (transaction.getAmount() > 0) {
             transactionToUpdate.setTransactionType("DEPOSIT");
