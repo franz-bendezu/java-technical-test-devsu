@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.devsu.bank.account_service.dto.TransactionCreateDTO;
+import com.devsu.bank.account_service.dto.TransactionDTO;
 import com.devsu.bank.account_service.model.Transaction;
 import com.devsu.bank.account_service.service.TransactionService;
 
@@ -30,22 +31,22 @@ public class TransactionController {
     }
 
     @GetMapping
-    public List<Transaction> findAll() {
+    public List<TransactionDTO> findAll() {
         return transactionService.findAll();
     }
 
     @GetMapping("/{id}")
-    public Transaction findById(@PathVariable Long id) {
+    public TransactionDTO findById(@PathVariable Long id) {
         return transactionService.findById(id);
     }
 
     @PostMapping
-    public Transaction save(@Valid @RequestBody TransactionCreateDTO movement) {
+    public TransactionDTO save(@Valid @RequestBody TransactionCreateDTO movement) {
         return transactionService.create(movement);
     }
 
     @PutMapping("/{id}")
-    public Transaction update(@PathVariable Long id, @Valid @RequestBody TransactionCreateDTO movement) {
+    public TransactionDTO update(@PathVariable Long id, @Valid @RequestBody TransactionCreateDTO movement) {
         return transactionService.updateById(id, movement);
     }
 

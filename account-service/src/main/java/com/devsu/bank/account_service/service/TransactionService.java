@@ -9,13 +9,13 @@ import com.devsu.bank.account_service.model.Transaction;
 
 public interface TransactionService {
 
-    public List<Transaction> findAll();
+    public List<TransactionDTO> findAll();
 
-    public Transaction findById(Long id);
+    public TransactionDTO findById(Long id);
 
-    public Transaction create(TransactionCreateDTO transaction);
+    public TransactionDTO create(TransactionCreateDTO transaction);
 
-    public Transaction updateById(Long id, TransactionCreateDTO transaction);
+    public TransactionDTO updateById(Long id, TransactionCreateDTO transaction);
 
     public void deleteById(Long id);
 

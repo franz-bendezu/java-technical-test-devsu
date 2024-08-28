@@ -25,17 +25,18 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<Transaction> findAll() {
-        return transactionRepository.findAll();
+    public List<TransactionDTO> findAll() {
+        return transactionRepository.findAll().stream().map(this::convertToTransactionDTO).collect(Collectors.toList());
     }
 
     @Override
-    public Transaction findById(Long id) {
-        return transactionRepository.findById(id).orElse(null);
+    public TransactionDTO findById(Long id) {
+        return transactionRepository.findById(id).map(this::convertToTransactionDTO)
+                .orElseThrow(() -> new RuntimeException("Transacción no encontrada"));
     }
 
     @Override
-    public Transaction create(TransactionCreateDTO transactionDTO) {
+    public TransactionDTO create(TransactionCreateDTO transactionDTO) {
         Account account = accountRepository.findById(transactionDTO.getAccountId())
                 .orElseThrow(() -> new RuntimeException("Cuenta no encontrada"));
         Optional<Transaction> lastTransaction = transactionRepository
@@ -60,7 +61,8 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setAccount(account);
         transaction.setBalance(newBalance);
 
-        return transactionRepository.save(transaction);
+        Transaction transactionResult = transactionRepository.save(transaction);
+        return convertToTransactionDTO(transactionResult);
     }
 
     @Override
@@ -69,9 +71,17 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Transaction updateById(Long id, TransactionCreateDTO transaction) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateById'");
+    public TransactionDTO updateById(Long id, TransactionCreateDTO transaction) {
+        Transaction transactionToUpdate = transactionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Transacción no encontrada"));
+        transactionToUpdate.setAmount(transaction.getAmount());
+        if (transaction.getAmount() > 0) {
+            transactionToUpdate.setTransactionType("DEPOSIT");
+        } else {
+            transactionToUpdate.setTransactionType("WITHDRAW");
+        }
+        Transaction transactionResult = transactionRepository.save(transactionToUpdate);
+        return convertToTransactionDTO(transactionResult);
     }
 
     public List<TransactionDTO> findAllByAccountIdAndCreatedAtBetween(Long accountId, Instant startDate,
