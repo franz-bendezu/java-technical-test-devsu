@@ -1,4 +1,4 @@
-package com.devsu.bank.account_service.config;
+package com.devsu.bank.client_service.config;
 
 import java.util.HashMap;
 import java.util.Map;
