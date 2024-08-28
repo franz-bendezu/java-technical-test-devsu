@@ -43,7 +43,7 @@ public class TransactionServiceImpl implements TransactionService {
     public TransactionDTO create(TransactionCreateDTO transactionDTO) {
         Account account = this.accountService.findById(transactionDTO.getAccountId());
         Optional<Transaction> lastTransaction = transactionRepository
-                .findLastTransactionByAccountId(transactionDTO.getAccountId());
+                .findLastByAccountId(transactionDTO.getAccountId());
         Integer balance = lastTransaction.map(Transaction::getBalance).orElse(0);
         Integer newBalance = balance + transactionDTO.getAmount();
         if (newBalance < 0) {
@@ -92,7 +92,5 @@ public class TransactionServiceImpl implements TransactionService {
                 .map(TransactionMapper::toDTO)
                 .collect(Collectors.toList());
     }
-
- 
 
 }

@@ -14,7 +14,7 @@ import com.devsu.bank.account_service.model.Transaction;
 public interface TransactionRepository  extends JpaRepository<Transaction, Long> {
     
     @Query("SELECT t FROM Transaction t WHERE t.account.id = :accountId ORDER BY t.id DESC LIMIT 1")
-    Optional<Transaction> findLastTransactionByAccountId(Long accountId);
+    Optional<Transaction> findLastByAccountId(Long accountId);
 
     @Query("SELECT t FROM Transaction t WHERE t.account.id = :accountId AND t.createdAt BETWEEN :startDate AND :endDate")
     List<Transaction> findAllByAccountIdAndCreatedAtBetween(Long accountId, Instant startDate, Instant endDate);
