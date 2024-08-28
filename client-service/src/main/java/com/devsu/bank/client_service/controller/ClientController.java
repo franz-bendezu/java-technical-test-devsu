@@ -6,6 +6,8 @@ import com.devsu.bank.client_service.dto.ClientDTO;
 import com.devsu.bank.client_service.model.Client;
 import com.devsu.bank.client_service.service.ClientService;
 
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
-
 
 @RestController
 @RequestMapping("/clients")
@@ -37,12 +38,12 @@ public class ClientController {
     }
 
     @PostMapping
-    public Client save(@RequestBody ClientDTO client) {
+    public Client save(@Valid @RequestBody ClientDTO client) {
         return clientService.save(client);
     }
 
     @PutMapping("/{id}")
-    public Client update(@PathVariable Long id, @RequestBody ClientDTO client) {
+    public Client update(@PathVariable Long id, @Valid @RequestBody ClientDTO client) {
         return clientService.updateById(id, client);
     }
 
