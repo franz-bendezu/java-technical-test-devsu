@@ -37,6 +37,8 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     ports:
       - 22181:2181
+    networks:
+      - kafka
 
   kafka:
     image: confluentinc/cp-kafka:latest
