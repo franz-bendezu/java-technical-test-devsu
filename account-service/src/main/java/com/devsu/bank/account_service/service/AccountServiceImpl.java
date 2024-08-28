@@ -13,6 +13,7 @@ import com.devsu.bank.account_service.dto.AccountDTO;
 import com.devsu.bank.account_service.dto.StatementAccountDTO;
 import com.devsu.bank.account_service.dto.ReportStatementAccountDTO;
 import com.devsu.bank.account_service.dto.TransactionDTO;
+import com.devsu.bank.account_service.mapper.AccountMapper;
 import com.devsu.bank.account_service.model.Account;
 import com.devsu.bank.account_service.repository.AccountRepository;
 
@@ -28,12 +29,12 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public List<AccountDTO> findAll() {
-        return accountRepository.findAll().stream().map(this::toAccountDTO).collect(Collectors.toList());
+        return accountRepository.findAll().stream().map(AccountMapper::toDTO).collect(Collectors.toList());
     }
 
     @Override
     public AccountDTO findById(Long id) {
-        return accountRepository.findById(id).map(this::toAccountDTO).orElseThrow(
+        return accountRepository.findById(id).map(AccountMapper::toDTO).orElseThrow(
 
                 () -> new RuntimeException("Account with id " + id + " not found"));
     }
@@ -46,7 +47,7 @@ public class AccountServiceImpl implements AccountService {
         account.setAccountType(accountCreateDTO.getAccountType());
         account.setInitialAmount(accountCreateDTO.getInitialAmount());
         Account savedAccount = accountRepository.save(account);
-        return toAccountDTO(savedAccount);
+        return AccountMapper.toDTO(savedAccount);
     }
 
     @Override
@@ -57,7 +58,7 @@ public class AccountServiceImpl implements AccountService {
         account.setAccountType(accountCreateDTO.getAccountType());
         account.setInitialAmount(accountCreateDTO.getInitialAmount());
         Account savedAccount = accountRepository.save(account);
-        return toAccountDTO(savedAccount);
+        return AccountMapper.toDTO(savedAccount);
     }
 
     @Override
@@ -87,19 +88,6 @@ public class AccountServiceImpl implements AccountService {
 
         accountStatementDTO.setAccounts(accounts);
         return accountStatementDTO;
-    }
-
-    private AccountDTO toAccountDTO(Account account) {
-        AccountDTO accountDTO = new AccountDTO();
-        accountDTO.setId(account.getId());
-        accountDTO.setAccountNumber(account.getAccountNumber());
-        accountDTO.setAccountType(account.getAccountType());
-        accountDTO.setInitialAmount(account.getInitialAmount());
-        accountDTO.setStatus(account.isStatus());
-        accountDTO.setClientId(account.getClientId());
-        accountDTO.setId(account.getId());
-
-        return accountDTO;
     }
 
 }

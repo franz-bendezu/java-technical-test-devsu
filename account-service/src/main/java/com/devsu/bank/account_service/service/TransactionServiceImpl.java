@@ -99,8 +99,8 @@ public class TransactionServiceImpl implements TransactionService {
         transactionDTO.setAmount(transaction.getAmount());
         transactionDTO.setBalance(transaction.getBalance());
         transactionDTO.setTransactionType(transaction.getTransactionType());
-        transactionDTO.setCreatedDate(transaction.getCreatedAt().
-        atZone(CommonSettings.TIME_ZONE).toLocalDate().toString());
+        transactionDTO
+                .setCreatedDate(transaction.getCreatedAt().atZone(CommonSettings.TIME_ZONE).toLocalDate().toString());
         transactionDTO.setAccountId(transaction.getAccount().getId());
         transactionDTO.setId(transaction.getId());
         return transactionDTO;
