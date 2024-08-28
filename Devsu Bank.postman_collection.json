@@ -1,0 +1,298 @@
+{
+	"info": {
+		"_postman_id": "5b0e01ad-832a-4380-8c4b-03afb7e6f890",
+		"name": "Devsu Bank",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "10123236"
+	},
+	"item": [
+		{
+			"name": "Account Microservice",
+			"item": [
+				{
+					"name": "reportes",
+					"item": [
+						{
+							"name": "Report GET",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{account-ms-url}}/reports?clientId=123&start=2024-08-28&end=2024-08-28",
+									"host": [
+										"{{account-ms-url}}"
+									],
+									"path": [
+										"reports"
+									],
+									"query": [
+										{
+											"key": "clientId",
+											"value": "123",
+											"description": "Id del cliente"
+										},
+										{
+											"key": "start",
+											"value": "2024-08-28",
+											"description": "Fecha de inicio para los movimientos"
+										},
+										{
+											"key": "end",
+											"value": "2024-08-28",
+											"description": "Fecha de fin para los movimientos"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "cuentas",
+					"item": [
+						{
+							"name": "Account GET",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{account-ms-url}}/accounts"
+							},
+							"response": []
+						},
+						{
+							"name": "Account POST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"accountType\": \"Ahorros\",\r\n    \"initialAmount\": 0,\r\n    \"accountNumber\": \"test\",\r\n    \"clientId\": 123\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{account-ms-url}}/accounts"
+							},
+							"response": []
+						},
+						{
+							"name": "Account PUT",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"accountType\": \"Ahorros\",\r\n    \"initialAmount\": 123,\r\n    \"accountNumber\": \"1234\",\r\n    \"clientId\": 123\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{account-ms-url}}/accounts/2"
+							},
+							"response": []
+						},
+						{
+							"name": "Account DELETE",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:8080/accounts/5"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "cuentas Copy",
+					"item": [
+						{
+							"name": "Account GET",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{account-ms-url}}/accounts"
+							},
+							"response": []
+						},
+						{
+							"name": "Account POST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"accountType\": \"Ahorros\",\r\n    \"initialAmount\": 0,\r\n    \"accountNumber\": \"test\",\r\n    \"clientId\": 123\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{account-ms-url}}/accounts"
+							},
+							"response": []
+						},
+						{
+							"name": "Account PUT",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"accountType\": \"Ahorros\",\r\n    \"initialAmount\": 123,\r\n    \"accountNumber\": \"1234\",\r\n    \"clientId\": 123\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{account-ms-url}}/accounts/2"
+							},
+							"response": []
+						},
+						{
+							"name": "Account DELETE",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:8080/accounts/5"
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"description": "URL Endpoint: {{account-ms-url}}\n\n[<br><br>](http://localhost:8081}})"
+		},
+		{
+			"name": "Client Microservice",
+			"item": [
+				{
+					"name": "clientes",
+					"item": [
+						{
+							"name": "Client GET",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{client-ms-url}}/clients"
+							},
+							"response": []
+						},
+						{
+							"name": "Client POST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Franz\",\r\n    \"address\": \"Casa\",\r\n    \"phone\": \"+51123456\",\r\n    \"password\" : \"1234\",\r\n    \"status\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{client-ms-url}}/clients"
+							},
+							"response": []
+						},
+						{
+							"name": "Client PUT",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Franz\",\r\n    \"address\": \"Casa\",\r\n    \"phone\": \"+51123456\",\r\n    \"password\" : \"1234\",\r\n    \"status\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{client-ms-url}}/clients/1"
+							},
+							"response": []
+						},
+						{
+							"name": "Client DELETE",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{client-ms-url}}/clients/2"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "account-ms-url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "client-ms-url",
+			"value": "http://localhost:8081",
+			"type": "string"
+		}
+	]
+}
