@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 services:
   ### Posgres database for Clients
   db-client:
@@ -12,8 +12,6 @@ services:
       POSTGRES_PORT: 5432
     ports:
       - 5432:5432
-    expose:
-      - 5432
 
   ## MySQL database for Accounts
   db-account:
@@ -27,9 +25,6 @@ services:
       MYSQL_ROOT_PASSWORD: root
     ports:
       - 3306:3306
-    expose:
-      - 3306
-
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     environment:
@@ -37,7 +32,7 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     ports:
       - 22181:2181
-  
+
   kafka:
     image: confluentinc/cp-kafka:latest
     depends_on:
@@ -52,13 +47,40 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
-  kafka-ui:
-    image: provectuslabs/kafka-ui:latest
+  client-ms:
+    build:
+      context: ./client-service
+      dockerfile: Dockerfile
+    container_name: client-ms
+    environment:
+      - SPRING_DATASOURCE_HOST=db-client
+      - SPRING_DATASOURCE_PORT=5432
+      - SPRING_DATASOURCE_USERNAME=test
+      - SPRING_DATASOURCE_PASSWORD=test
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - SPRING_KAFKA_GROUP_ID=client-ms
+      - PORT=8080
     depends_on:
+      - db-client
       - kafka
     ports:
-      - 8090:8080
+      - 8080:8080
+
+  account-ms:
+    build:
+      context: ./account-service
+      dockerfile: Dockerfile
+    container_name: account-ms
     environment:
-      KAFKA_CLUSTERS_0_NAME: local
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
-      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
+      - SPRING_DATASOURCE_HOST=db-account
+      - SPRING_DATASOURCE_PORT=3306
+      - SPRING_DATASOURCE_USERNAME=test
+      - SPRING_DATASOURCE_PASSWORD=test
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - SPRING_KAFKA_GROUP_ID=account-ms
+      - PORT=8081
+    depends_on:
+      - db-account
+      - kafka
+    ports:
+      - 8081:8081
