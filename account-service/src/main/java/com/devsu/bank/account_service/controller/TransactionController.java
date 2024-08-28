@@ -16,8 +16,10 @@ import com.devsu.bank.account_service.model.Transaction;
 import com.devsu.bank.account_service.service.TransactionService;
 
 @RestController
-@RequestMapping("/movements")
+@RequestMapping(TransactionController.PATH)
 public class TransactionController {
+
+    public static final String PATH = "/movements";
 
     private TransactionService transactionService;
 

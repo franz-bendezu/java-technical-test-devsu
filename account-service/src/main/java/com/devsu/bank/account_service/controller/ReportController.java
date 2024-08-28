@@ -11,9 +11,11 @@ import com.devsu.bank.account_service.dto.AccountStatementDTO;
 import com.devsu.bank.account_service.service.AccountService;
 
 @RestController
-@RequestMapping("/reports")
+@RequestMapping(ReportController.PATH)
 public class ReportController {
     private final AccountService accountService;
+
+    public static final String PATH = "/reports";
 
     public ReportController(AccountService accountService) {
         this.accountService = accountService;

@@ -16,8 +16,10 @@ import com.devsu.bank.account_service.model.Account;
 import com.devsu.bank.account_service.service.AccountService;
 
 @RestController
-@RequestMapping("/accounts")
+@RequestMapping(AccountController.PATH)
 public class AccountController {
+
+    public static final String PATH = "/accounts";
     
     private AccountService accountService;
 
