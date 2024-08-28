@@ -3,6 +3,7 @@ package com.devsu.bank.account_service.model;
 import java.util.List;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
@@ -26,7 +27,7 @@ public class Account {
 
     private Long clientId;
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account",  fetch = FetchType.LAZY,)
     private List<Transaction> transactions;
 
     public Account() {

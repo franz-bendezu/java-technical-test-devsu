@@ -32,15 +32,14 @@ public class ReportServiceImpl implements ReportService {
         Instant startTransaction = start.atStartOfDay(CommonSettings.TIME_ZONE).toInstant();
         Instant endTransaction = end.plusDays(1).atStartOfDay(CommonSettings.TIME_ZONE).toInstant();
         List<StatementAccountDTO> accounts = accountRepository.findAllByClientId(clientId).stream().map(account -> {
-            StatementAccountDTO accountDTO = new StatementAccountDTO();
-            accountDTO.setAccountNumber(account.getAccountNumber());
-            accountDTO.setInitialAmount(account.getInitialAmount());
 
             List<TransactionDTO> transactions = transactionService.findAllByAccountIdAndCreatedAtBetween(
                     account.getId(),
                     startTransaction,
-                    endTransaction
-            );
+                    endTransaction);
+            StatementAccountDTO accountDTO = new StatementAccountDTO();
+            accountDTO.setAccountNumber(account.getAccountNumber());
+            accountDTO.setInitialAmount(account.getInitialAmount());
             accountDTO.setTransactions(transactions);
 
             return accountDTO;
