@@ -11,6 +11,7 @@ import com.devsu.bank.account_service.config.CommonSettings;
 import com.devsu.bank.account_service.dto.TransactionCreateDTO;
 import com.devsu.bank.account_service.dto.TransactionDTO;
 import com.devsu.bank.account_service.exception.AccountNotFoundException;
+import com.devsu.bank.account_service.exception.InsufficientBalanceException;
 import com.devsu.bank.account_service.exception.TransactionNotFoundException;
 import com.devsu.bank.account_service.model.Account;
 import com.devsu.bank.account_service.model.Transaction;
@@ -47,7 +48,7 @@ public class TransactionServiceImpl implements TransactionService {
         Integer balance = lastTransaction.map(Transaction::getBalance).orElse(0);
         Integer newBalance = balance + transactionDTO.getAmount();
         if (newBalance < 0) {
-            throw new InsufficientBalanceException()
+            throw new InsufficientBalanceException();
         }
 
         Transaction transaction = new Transaction();
