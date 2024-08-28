@@ -97,6 +97,8 @@ public class AccountServiceImpl implements AccountService {
         accountDTO.setInitialAmount(account.getInitialAmount());
         accountDTO.setStatus(account.isStatus());
         accountDTO.setClientId(account.getClientId());
+        accountDTO.setId(account.getId());
+        
         return accountDTO;
     }
 
