@@ -16,17 +16,16 @@ import com.devsu.bank.account_service.exception.TransactionNotFoundException;
 import com.devsu.bank.account_service.mapper.TransactionMapper;
 import com.devsu.bank.account_service.model.Account;
 import com.devsu.bank.account_service.model.Transaction;
-import com.devsu.bank.account_service.repository.AccountRepository;
 import com.devsu.bank.account_service.repository.TransactionRepository;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
     private TransactionRepository transactionRepository;
-    private AccountRepository accountRepository;
+    private AccountService accountService;
 
-    public TransactionServiceImpl(TransactionRepository movementRepository, AccountRepository accountRepository) {
+    public TransactionServiceImpl(TransactionRepository movementRepository, AccountService accountService) {
         this.transactionRepository = movementRepository;
-        this.accountRepository = accountRepository;
+        this.accountService = accountService;
     }
 
     @Override
@@ -42,8 +41,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public TransactionDTO create(TransactionCreateDTO transactionDTO) {
-        Account account = accountRepository.findById(transactionDTO.getAccountId())
-                .orElseThrow(() -> new AccountNotFoundException());
+        Account account = this.accountService.findById(transactionDTO.getAccountId());
         Optional<Transaction> lastTransaction = transactionRepository
                 .findLastTransactionByAccountId(transactionDTO.getAccountId());
         Integer balance = lastTransaction.map(Transaction::getBalance).orElse(0);
