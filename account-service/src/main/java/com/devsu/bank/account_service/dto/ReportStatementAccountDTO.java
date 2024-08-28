@@ -4,11 +4,10 @@ import java.util.List;
 
 import lombok.Data;
 
-
 @Data
-public class AccountStatementDTO {
-    
+public class ReportStatementAccountDTO {
+
     private String customerName;
 
-    private List<AccountDTO> accounts;
+    private List<StatementAccountDTO> accounts;
 }

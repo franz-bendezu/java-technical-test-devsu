@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.devsu.bank.account_service.dto.AccountCreateDTO;
-import com.devsu.bank.account_service.dto.AccountDTO;
-import com.devsu.bank.account_service.dto.AccountStatementDTO;
+import com.devsu.bank.account_service.dto.StatementAccountDTO;
+import com.devsu.bank.account_service.dto.ReportStatementAccountDTO;
 import com.devsu.bank.account_service.dto.TransactionDTO;
 import com.devsu.bank.account_service.model.Account;
 import com.devsu.bank.account_service.repository.AccountRepository;
@@ -59,13 +59,13 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccountStatementDTO getAccountStatement(Long clientId, Instant startDate, Instant endDate) {
+    public ReportStatementAccountDTO getAccountStatement(Long clientId, Instant startDate, Instant endDate) {
 
-        AccountStatementDTO accountStatementDTO = new AccountStatementDTO();
+        ReportStatementAccountDTO accountStatementDTO = new ReportStatementAccountDTO();
         // TODO: Implementar la lógica para obtener el nombre del cliente
 
-        List<AccountDTO> accounts = accountRepository.findAllByClientId(clientId).stream().map(account -> {
-            AccountDTO accountDTO = new AccountDTO();
+        List<StatementAccountDTO> accounts = accountRepository.findAllByClientId(clientId).stream().map(account -> {
+            StatementAccountDTO accountDTO = new StatementAccountDTO();
             accountDTO.setAccountNumber(account.getAccountNumber());
             accountDTO.setInitialAmount(account.getInitialAmount());
 
