@@ -66,7 +66,7 @@ services:
       - SPRING_FLYWAY_HOST=db-client
       - SPRING_FLYWAY_PORT=5432
       - SPRING_FLYWAY_DB=ms_client
-      - SPRING_FLYWAY_SCHEMA=ms_client
+      - SPRING_FLYWAY_SCHEMA=public
     depends_on:
       - db-client
       - kafka
@@ -92,7 +92,7 @@ services:
       - SPRING_FLYWAY_HOST=db-account
       - SPRING_FLYWAY_PORT=3306
       - SPRING_FLYWAY_DB=ms_account
-      - SPRING_FLYWAY_SCHEMA=public
+      - SPRING_FLYWAY_SCHEMA=ms_account
     depends_on:
       - db-account
       - kafka
