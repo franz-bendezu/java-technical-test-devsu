@@ -13,6 +13,7 @@ import com.devsu.bank.account_service.dto.AccountDTO;
 import com.devsu.bank.account_service.dto.StatementAccountDTO;
 import com.devsu.bank.account_service.dto.ReportStatementAccountDTO;
 import com.devsu.bank.account_service.dto.TransactionDTO;
+import com.devsu.bank.account_service.exception.AccountNotFoundException;
 import com.devsu.bank.account_service.mapper.AccountMapper;
 import com.devsu.bank.account_service.model.Account;
 import com.devsu.bank.account_service.repository.AccountRepository;
@@ -35,8 +36,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountDTO findById(Long id) {
         return accountRepository.findById(id).map(AccountMapper::toDTO).orElseThrow(
-
-                () -> new RuntimeException("Account with id " + id + " not found"));
+                () -> new AccountNotFoundException());
     }
 
     @Override
@@ -53,7 +53,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountDTO updateById(Long id, AccountCreateDTO accountCreateDTO) {
         Account account = accountRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Account with id " + id + " not found"));
+                () -> new AccountNotFoundException());
         account.setAccountNumber(accountCreateDTO.getAccountNumber());
         account.setAccountType(accountCreateDTO.getAccountType());
         account.setInitialAmount(accountCreateDTO.getInitialAmount());

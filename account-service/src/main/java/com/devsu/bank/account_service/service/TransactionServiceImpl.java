@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.devsu.bank.account_service.config.CommonSettings;
 import com.devsu.bank.account_service.dto.TransactionCreateDTO;
 import com.devsu.bank.account_service.dto.TransactionDTO;
+import com.devsu.bank.account_service.exception.AccountNotFoundException;
 import com.devsu.bank.account_service.exception.TransactionNotFoundException;
 import com.devsu.bank.account_service.model.Account;
 import com.devsu.bank.account_service.model.Transaction;
@@ -40,7 +41,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public TransactionDTO create(TransactionCreateDTO transactionDTO) {
         Account account = accountRepository.findById(transactionDTO.getAccountId())
-                .orElseThrow(() -> new RuntimeException("Cuenta no encontrada"));
+                .orElseThrow(() -> new AccountNotFoundException());
         Optional<Transaction> lastTransaction = transactionRepository
                 .findLastTransactionByAccountId(transactionDTO.getAccountId());
         Integer balance = lastTransaction.map(Transaction::getBalance).orElse(0);
