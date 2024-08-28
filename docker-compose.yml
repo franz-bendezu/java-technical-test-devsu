@@ -12,6 +12,8 @@ services:
       POSTGRES_PORT: 5432
     ports:
       - 5432:5432
+    networks:
+      - db-client
 
   ## MySQL database for Accounts
   db-account:
@@ -25,6 +27,9 @@ services:
       MYSQL_ROOT_PASSWORD: root
     ports:
       - 3306:3306
+    networks:
+      - db-account
+
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     environment:
@@ -46,6 +51,8 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - kafka
 
   client-ms:
     build:
@@ -72,6 +79,9 @@ services:
       - kafka
     ports:
       - 8080:8080
+    networks:
+      - db-client
+      - kafka
 
   account-ms:
     build:
@@ -98,3 +108,15 @@ services:
       - kafka
     ports:
       - 8081:8081
+    networks:
+      - db-account
+      - kafka
+
+networks:
+  db-account:
+    driver: bridge
+  db-client:
+    driver: bridge
+  kafka:
+    driver: bridge
+  
