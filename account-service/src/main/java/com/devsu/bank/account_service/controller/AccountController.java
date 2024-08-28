@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.devsu.bank.account_service.dto.AccountCreateDTO;
 import com.devsu.bank.account_service.dto.AccountDTO;
+import com.devsu.bank.account_service.mapper.AccountMapper;
 import com.devsu.bank.account_service.model.Account;
 import com.devsu.bank.account_service.service.AccountService;
 
@@ -37,17 +38,17 @@ public class AccountController {
 
     @GetMapping("/{id}")
     public AccountDTO findById(@PathVariable Long id) {
-        return accountService.findById(id);
+        return AccountMapper.toDTO(accountService.findById(id));
     }
 
     @PostMapping
     public AccountDTO save(@Valid @RequestBody AccountCreateDTO account) {
-        return accountService.create(account);
+        return AccountMapper.toDTO(accountService.create(account));
     }
 
     @PutMapping("/{id}")
     public AccountDTO update(@PathVariable Long id, @Valid @RequestBody AccountCreateDTO account) {
-        return accountService.updateById(id, account);
+        return AccountMapper.toDTO(accountService.updateById(id, account));
     }
 
     @DeleteMapping("/{id}")

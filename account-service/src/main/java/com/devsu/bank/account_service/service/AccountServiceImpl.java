@@ -2,7 +2,6 @@ package com.devsu.bank.account_service.service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.time.ZoneId;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -34,31 +33,27 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccountDTO findById(Long id) {
-        return accountRepository.findById(id).map(AccountMapper::toDTO).orElseThrow(
-                () -> new AccountNotFoundException());
+    public Account findById(Long id) {
+        return accountRepository.findById(id).orElseThrow(AccountNotFoundException::new);
     }
 
     @Override
-    public AccountDTO create(AccountCreateDTO accountCreateDTO) {
+    public Account create(AccountCreateDTO accountCreateDTO) {
         Account account = new Account();
         account.setClientId(accountCreateDTO.getClientId());
         account.setAccountNumber(accountCreateDTO.getAccountNumber());
         account.setAccountType(accountCreateDTO.getAccountType());
         account.setInitialAmount(accountCreateDTO.getInitialAmount());
-        Account savedAccount = accountRepository.save(account);
-        return AccountMapper.toDTO(savedAccount);
+        return accountRepository.save(account);
     }
 
     @Override
-    public AccountDTO updateById(Long id, AccountCreateDTO accountCreateDTO) {
-        Account account = accountRepository.findById(id).orElseThrow(
-                () -> new AccountNotFoundException());
+    public Account updateById(Long id, AccountCreateDTO accountCreateDTO) {
+        Account account = this.findById(id);
         account.setAccountNumber(accountCreateDTO.getAccountNumber());
         account.setAccountType(accountCreateDTO.getAccountType());
         account.setInitialAmount(accountCreateDTO.getInitialAmount());
-        Account savedAccount = accountRepository.save(account);
-        return AccountMapper.toDTO(savedAccount);
+        return accountRepository.save(account);
     }
 
     @Override
