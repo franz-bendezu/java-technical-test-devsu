@@ -20,11 +20,9 @@ import com.devsu.bank.account_service.repository.AccountRepository;
 @Service
 public class AccountServiceImpl implements AccountService {
     private AccountRepository accountRepository;
-    private TransactionService transactionService;
 
-    public AccountServiceImpl(AccountRepository accountRepository, TransactionService transactionService) {
+    public AccountServiceImpl(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
-        this.transactionService = transactionService;
     }
 
     @Override
@@ -59,30 +57,6 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void deleteById(Long id) {
         accountRepository.deleteById(id);
-    }
-
-    @Override
-    public ReportStatementAccountDTO getAccountStatement(Long clientId, LocalDate start, LocalDate end) {
-
-        ReportStatementAccountDTO accountStatementDTO = new ReportStatementAccountDTO();
-        // TODO: Implementar la lógica para obtener el nombre del cliente
-
-        List<StatementAccountDTO> accounts = accountRepository.findAllByClientId(clientId).stream().map(account -> {
-            StatementAccountDTO accountDTO = new StatementAccountDTO();
-            accountDTO.setAccountNumber(account.getAccountNumber());
-            accountDTO.setInitialAmount(account.getInitialAmount());
-
-            List<TransactionDTO> transactions = transactionService.findAllByAccountIdAndCreatedAtBetween(
-                    account.getId(),
-                    start.atStartOfDay(CommonSettings.TIME_ZONE).toInstant(),
-                    end.plusDays(1).atStartOfDay(CommonSettings.TIME_ZONE).toInstant());
-            accountDTO.setTransactions(transactions);
-
-            return accountDTO;
-        }).collect(Collectors.toList());
-
-        accountStatementDTO.setAccounts(accounts);
-        return accountStatementDTO;
     }
 
 }

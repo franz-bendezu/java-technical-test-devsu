@@ -7,10 +7,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.devsu.bank.account_service.config.CommonSettings;
 import com.devsu.bank.account_service.dto.TransactionCreateDTO;
 import com.devsu.bank.account_service.dto.TransactionDTO;
-import com.devsu.bank.account_service.exception.AccountNotFoundException;
 import com.devsu.bank.account_service.exception.InsufficientBalanceException;
 import com.devsu.bank.account_service.exception.TransactionNotFoundException;
 import com.devsu.bank.account_service.mapper.TransactionMapper;

@@ -17,7 +17,5 @@ public interface AccountService {
 
     public void deleteById(Long id);
 
-    public ReportStatementAccountDTO getAccountStatement(Long clientId, LocalDate start, LocalDate end);
-
     public Account updateById(Long id, AccountCreateDTO account);
 }
