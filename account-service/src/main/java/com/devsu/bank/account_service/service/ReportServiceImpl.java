@@ -1,5 +1,6 @@
 package com.devsu.bank.account_service.service;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,6 +29,8 @@ public class ReportServiceImpl implements ReportService {
         ReportStatementAccountDTO accountStatementDTO = new ReportStatementAccountDTO();
         // TODO: Implementar la lógica para obtener el nombre del cliente
 
+        Instant startTransaction = start.atStartOfDay(CommonSettings.TIME_ZONE).toInstant();
+        Instant endTransaction = end.plusDays(1).atStartOfDay(CommonSettings.TIME_ZONE).toInstant();
         List<StatementAccountDTO> accounts = accountRepository.findAllByClientId(clientId).stream().map(account -> {
             StatementAccountDTO accountDTO = new StatementAccountDTO();
             accountDTO.setAccountNumber(account.getAccountNumber());
@@ -35,8 +38,9 @@ public class ReportServiceImpl implements ReportService {
 
             List<TransactionDTO> transactions = transactionService.findAllByAccountIdAndCreatedAtBetween(
                     account.getId(),
-                    start.atStartOfDay(CommonSettings.TIME_ZONE).toInstant(),
-                    end.plusDays(1).atStartOfDay(CommonSettings.TIME_ZONE).toInstant());
+                    startTransaction,
+                    endTransaction
+            );
             accountDTO.setTransactions(transactions);
 
             return accountDTO;
