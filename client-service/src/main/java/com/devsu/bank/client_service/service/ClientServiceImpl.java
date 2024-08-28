@@ -2,6 +2,7 @@ package com.devsu.bank.client_service.service;
 
 import java.util.List;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.devsu.bank.client_service.dto.ClientDTO;
@@ -12,9 +13,12 @@ import com.devsu.bank.client_service.repository.ClientRepository;
 public class ClientServiceImpl  implements ClientService {
 
     private ClientRepository clientRepository;
+    
+    private final PasswordEncoder passwordEncoder;
 
-    public ClientServiceImpl(ClientRepository clientRepository) {
+    public ClientServiceImpl(ClientRepository clientRepository, PasswordEncoder passwordEncoder) {
         this.clientRepository = clientRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -33,19 +37,21 @@ public class ClientServiceImpl  implements ClientService {
         client.setName(clientDTO.getName());
         client.setAddress(clientDTO.getAddress());
         client.setPhone(clientDTO.getPhone());
-        client.setPassword(clientDTO.getPassword());
+        client.setPassword(passwordEncoder.encode(clientDTO.getPassword()));
         return clientRepository.save(client);
     }
 
     @Override
     public Client updateById(Long id, ClientDTO client) {
-        Client clientToUpdate = clientRepository.findById(id).
+        Client currentClient = clientRepository.findById(id).
                 orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
-        clientToUpdate.setName(client.getName());
-        clientToUpdate.setAddress(client.getAddress());
-        clientToUpdate.setPhone(client.getPhone());
-        clientToUpdate.setPassword(client.getPassword());
-        return clientRepository.save(clientToUpdate);
+        currentClient.setName(client.getName());
+        currentClient.setAddress(client.getAddress());
+        currentClient.setPhone(client.getPhone());
+        if (client.getPassword() != null) {
+            currentClient.setPassword(passwordEncoder.encode(client.getPassword()));
+        }
+        return clientRepository.save(currentClient);
     }
 
 
