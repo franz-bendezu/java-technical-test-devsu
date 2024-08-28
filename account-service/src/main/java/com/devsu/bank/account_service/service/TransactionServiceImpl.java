@@ -47,10 +47,7 @@ public class TransactionServiceImpl implements TransactionService {
         Integer balance = lastTransaction.map(Transaction::getBalance).orElse(0);
         Integer newBalance = balance + transactionDTO.getAmount();
         if (newBalance < 0) {
-            throw new RuntimeException("Saldo insuficiente");
-        }
-        if (transactionDTO.getAmount() == 0) {
-            throw new RuntimeException("El monto de la transacción debe ser diferente de 0");
+            throw new InsufficientBalanceException()
         }
 
         Transaction transaction = new Transaction();
