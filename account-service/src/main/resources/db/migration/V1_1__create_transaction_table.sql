@@ -4,8 +4,7 @@ CREATE TABLE transaction (
     amount INT,
     balance INT,
     account_id BIGINT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_account
         FOREIGN KEY(account_id) 
         REFERENCES account(id)
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
