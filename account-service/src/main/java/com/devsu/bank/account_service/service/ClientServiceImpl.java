@@ -4,10 +4,13 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import org.springframework.stereotype.Service;
+
 import com.devsu.bank.account_service.dto.ClientDTO;
 import com.devsu.bank.account_service.messaging.ClientConsumer;
 import com.devsu.bank.account_service.messaging.ClientProducer;
 
+@Service
 public class ClientServiceImpl implements ClientService {
 
     private final ClientProducer clientProducer;
