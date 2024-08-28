@@ -13,6 +13,7 @@ import com.devsu.bank.account_service.dto.TransactionDTO;
 import com.devsu.bank.account_service.exception.AccountNotFoundException;
 import com.devsu.bank.account_service.exception.InsufficientBalanceException;
 import com.devsu.bank.account_service.exception.TransactionNotFoundException;
+import com.devsu.bank.account_service.mapper.TransactionMapper;
 import com.devsu.bank.account_service.model.Account;
 import com.devsu.bank.account_service.model.Transaction;
 import com.devsu.bank.account_service.repository.AccountRepository;
@@ -30,12 +31,12 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public List<TransactionDTO> findAll() {
-        return transactionRepository.findAll().stream().map(this::convertToTransactionDTO).collect(Collectors.toList());
+        return transactionRepository.findAll().stream().map(TransactionMapper::toDTO).collect(Collectors.toList());
     }
 
     @Override
     public TransactionDTO findById(Long id) {
-        return transactionRepository.findById(id).map(this::convertToTransactionDTO)
+        return transactionRepository.findById(id).map(TransactionMapper::toDTO)
                 .orElseThrow(() -> new TransactionNotFoundException());
     }
 
@@ -63,7 +64,7 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setBalance(newBalance);
 
         Transaction transactionResult = transactionRepository.save(transaction);
-        return convertToTransactionDTO(transactionResult);
+        return TransactionMapper.toDTO(transactionResult);
     }
 
     @Override
@@ -82,7 +83,7 @@ public class TransactionServiceImpl implements TransactionService {
             transactionToUpdate.setTransactionType("WITHDRAW");
         }
         Transaction transactionResult = transactionRepository.save(transactionToUpdate);
-        return convertToTransactionDTO(transactionResult);
+        return TransactionMapper.toDTO(transactionResult);
     }
 
     public List<TransactionDTO> findAllByAccountIdAndCreatedAtBetween(Long accountId, Instant startDate,
@@ -90,20 +91,10 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionRepository.findAllByAccountIdAndCreatedAtBetween(
                 accountId, startDate, endDate)
                 .stream()
-                .map(this::convertToTransactionDTO)
+                .map(TransactionMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
-    private TransactionDTO convertToTransactionDTO(Transaction transaction) {
-        TransactionDTO transactionDTO = new TransactionDTO();
-        transactionDTO.setAmount(transaction.getAmount());
-        transactionDTO.setBalance(transaction.getBalance());
-        transactionDTO.setTransactionType(transaction.getTransactionType());
-        transactionDTO
-                .setCreatedDate(transaction.getCreatedAt().atZone(CommonSettings.TIME_ZONE).toLocalDate().toString());
-        transactionDTO.setAccountId(transaction.getAccount().getId());
-        transactionDTO.setId(transaction.getId());
-        return transactionDTO;
-    }
+ 
 
 }

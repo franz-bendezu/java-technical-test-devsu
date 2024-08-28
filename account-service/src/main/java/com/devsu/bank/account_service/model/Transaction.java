@@ -5,6 +5,9 @@ import java.time.Instant;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.devsu.bank.account_service.config.CommonSettings;
+import com.devsu.bank.account_service.dto.TransactionDTO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -40,4 +43,6 @@ public class Transaction {
 
     public Transaction() {
     }
+
+
 }
