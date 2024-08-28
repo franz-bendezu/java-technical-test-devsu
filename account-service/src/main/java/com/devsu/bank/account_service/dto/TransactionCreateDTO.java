@@ -1,16 +1,15 @@
 package com.devsu.bank.account_service.dto;
 
-import org.springframework.lang.NonNull;
-
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
 public class TransactionCreateDTO {
 
-    @NonNull
+    @NotNull
     private Integer amount;
 
-    @NonNull
+    @NotNull
     private Long accountId;
 
     public TransactionCreateDTO() {

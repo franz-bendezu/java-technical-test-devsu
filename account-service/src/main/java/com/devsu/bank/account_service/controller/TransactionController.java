@@ -15,11 +15,13 @@ import com.devsu.bank.account_service.dto.TransactionCreateDTO;
 import com.devsu.bank.account_service.model.Transaction;
 import com.devsu.bank.account_service.service.TransactionService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping(TransactionController.PATH)
 public class TransactionController {
 
-    public static final String PATH = "/movements";
+    public static final String PATH = "/transactions";
 
     private TransactionService transactionService;
 
@@ -38,12 +40,12 @@ public class TransactionController {
     }
 
     @PostMapping
-    public Transaction save(@RequestBody TransactionCreateDTO movement) {
+    public Transaction save(@Valid @RequestBody TransactionCreateDTO movement) {
         return transactionService.create(movement);
     }
 
     @PutMapping("/{id}")
-    public Transaction update(@PathVariable Long id, @RequestBody TransactionCreateDTO movement) {
+    public Transaction update(@PathVariable Long id, @Valid @RequestBody TransactionCreateDTO movement) {
         return transactionService.updateById(id, movement);
     }
 
