@@ -1,7 +1,9 @@
 package com.devsu.bank.account_service.controller;
 
 import java.time.Instant;
+import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,8 +24,9 @@ public class ReportController {
     }
 
     @GetMapping()
-    public ReportStatementAccountDTO getAccountStatement(@RequestParam Long clientId, @RequestParam Instant start,
-            @RequestParam Instant end) {
+    public ReportStatementAccountDTO getAccountStatement(@RequestParam Long clientId,
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @RequestParam LocalDate  start,
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @RequestParam LocalDate end) {
         return accountService.getAccountStatement(clientId, start, end);
     }
 }

@@ -1,7 +1,8 @@
 package com.devsu.bank.account_service.service;
 
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
+import java.time.ZoneId;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import com.devsu.bank.account_service.repository.AccountRepository;
 
 @Service
 public class AccountServiceImpl implements AccountService {
+    static final ZoneId TIME_ZONE = ZoneId.of("America/Bogota");
     private AccountRepository accountRepository;
     private TransactionService transactionService;
 
@@ -64,7 +66,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public ReportStatementAccountDTO getAccountStatement(Long clientId, Instant startDate, Instant endDate) {
+    public ReportStatementAccountDTO getAccountStatement(Long clientId, LocalDate start, LocalDate end) {
 
         ReportStatementAccountDTO accountStatementDTO = new ReportStatementAccountDTO();
         // TODO: Implementar la lógica para obtener el nombre del cliente
@@ -75,8 +77,9 @@ public class AccountServiceImpl implements AccountService {
             accountDTO.setInitialAmount(account.getInitialAmount());
 
             List<TransactionDTO> transactions = transactionService.findAllByAccountIdAndCreatedAtBetween(
-                    account.getId(), startDate,
-                    endDate);
+                    account.getId(),
+                    start.atStartOfDay(TIME_ZONE).toInstant(),
+                    end.plusDays(1).atStartOfDay(TIME_ZONE).toInstant());
             accountDTO.setTransactions(transactions);
 
             return accountDTO;

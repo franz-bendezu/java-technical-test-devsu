@@ -4,7 +4,7 @@ import com.devsu.bank.account_service.dto.AccountCreateDTO;
 import com.devsu.bank.account_service.dto.AccountDTO;
 import com.devsu.bank.account_service.dto.ReportStatementAccountDTO;
 
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface AccountService {
@@ -16,7 +16,7 @@ public interface AccountService {
 
     public void deleteById(Long id);
 
-    public ReportStatementAccountDTO getAccountStatement(Long clientId, Instant startDate, Instant endDate);
+    public ReportStatementAccountDTO getAccountStatement(Long clientId, LocalDate start, LocalDate end);
 
     public AccountDTO updateById(Long id, AccountCreateDTO account);
 }
