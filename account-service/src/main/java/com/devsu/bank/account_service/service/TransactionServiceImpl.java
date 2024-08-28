@@ -37,7 +37,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public TransactionDTO findById(Long id) {
         return transactionRepository.findById(id).map(TransactionMapper::toDTO)
-                .orElseThrow(() -> new TransactionNotFoundException());
+                .orElseThrow(TransactionNotFoundException::new);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public TransactionDTO updateById(Long id, TransactionCreateDTO transaction) {
         Transaction transactionToUpdate = transactionRepository.findById(id)
-                .orElseThrow(() -> new TransactionNotFoundException());
+                .orElseThrow(TransactionNotFoundException::new);
         transactionToUpdate.setAmount(transaction.getAmount());
         if (transaction.getAmount() > 0) {
             transactionToUpdate.setTransactionType("DEPOSIT");
