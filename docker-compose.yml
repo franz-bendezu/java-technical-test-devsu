@@ -61,6 +61,12 @@ services:
       - SPRING_KAFKA_GROUP_ID=client-ms
       - PORT=8080
       - SPRING_FLYWAY_ENABLED=true
+      - SPRING_FLYWAY_USERNAME=test
+      - SPRING_FLYWAY_PASSWORD=test
+      - SPRING_FLYWAY_HOST=db-client
+      - SPRING_FLYWAY_PORT=5432
+      - SPRING_FLYWAY_DB=ms_client
+      - SPRING_FLYWAY_SCHEMA=ms_client
     depends_on:
       - db-client
       - kafka
@@ -81,6 +87,12 @@ services:
       - SPRING_KAFKA_GROUP_ID=account-ms
       - PORT=8081
       - SPRING_FLYWAY_ENABLED=true
+      - SPRING_FLYWAY_USERNAME=test
+      - SPRING_FLYWAY_PASSWORD=test
+      - SPRING_FLYWAY_HOST=db-account
+      - SPRING_FLYWAY_PORT=3306
+      - SPRING_FLYWAY_DB=ms_account
+      - SPRING_FLYWAY_SCHEMA=public
     depends_on:
       - db-account
       - kafka
