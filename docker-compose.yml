@@ -61,6 +61,7 @@ services:
       context: ./client-service
       dockerfile: Dockerfile
     container_name: client-ms
+    restart: unless-stopped
     environment:
       - SPRING_DATASOURCE_HOST=db-client
       - SPRING_DATASOURCE_PORT=5432
@@ -90,6 +91,7 @@ services:
       context: ./account-service
       dockerfile: Dockerfile
     container_name: account-ms
+    restart: unless-stopped
     environment:
       - SPRING_DATASOURCE_HOST=db-account
       - SPRING_DATASOURCE_PORT=3306
