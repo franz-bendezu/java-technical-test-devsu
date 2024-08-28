@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.devsu.bank.account_service.config.CommonSettings;
 import com.devsu.bank.account_service.dto.TransactionCreateDTO;
 import com.devsu.bank.account_service.dto.TransactionDTO;
 import com.devsu.bank.account_service.model.Account;
@@ -98,7 +99,8 @@ public class TransactionServiceImpl implements TransactionService {
         transactionDTO.setAmount(transaction.getAmount());
         transactionDTO.setBalance(transaction.getBalance());
         transactionDTO.setTransactionType(transaction.getTransactionType());
-        transactionDTO.setCreatedAt(transaction.getCreatedAt());
+        transactionDTO.setCreatedDate(transaction.getCreatedAt().
+        atZone(CommonSettings.TIME_ZONE).toLocalDate().toString());
         transactionDTO.setAccountId(transaction.getAccount().getId());
         transactionDTO.setId(transaction.getId());
         return transactionDTO;

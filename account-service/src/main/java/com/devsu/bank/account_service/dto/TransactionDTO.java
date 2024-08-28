@@ -15,7 +15,7 @@ public class TransactionDTO {
 
     private String transactionType;
 
-    private Instant createdAt;
+    private String createdDate;
     
     private Long accountId;
 }

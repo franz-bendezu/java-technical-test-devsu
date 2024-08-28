@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.devsu.bank.account_service.config.CommonSettings;
 import com.devsu.bank.account_service.dto.AccountCreateDTO;
 import com.devsu.bank.account_service.dto.AccountDTO;
 import com.devsu.bank.account_service.dto.StatementAccountDTO;
@@ -17,7 +18,6 @@ import com.devsu.bank.account_service.repository.AccountRepository;
 
 @Service
 public class AccountServiceImpl implements AccountService {
-    static final ZoneId TIME_ZONE = ZoneId.of("America/Bogota");
     private AccountRepository accountRepository;
     private TransactionService transactionService;
 
@@ -78,8 +78,8 @@ public class AccountServiceImpl implements AccountService {
 
             List<TransactionDTO> transactions = transactionService.findAllByAccountIdAndCreatedAtBetween(
                     account.getId(),
-                    start.atStartOfDay(TIME_ZONE).toInstant(),
-                    end.plusDays(1).atStartOfDay(TIME_ZONE).toInstant());
+                    start.atStartOfDay(CommonSettings.TIME_ZONE).toInstant(),
+                    end.plusDays(1).atStartOfDay(CommonSettings.TIME_ZONE).toInstant());
             accountDTO.setTransactions(transactions);
 
             return accountDTO;
@@ -98,7 +98,7 @@ public class AccountServiceImpl implements AccountService {
         accountDTO.setStatus(account.isStatus());
         accountDTO.setClientId(account.getClientId());
         accountDTO.setId(account.getId());
-        
+
         return accountDTO;
     }
 
