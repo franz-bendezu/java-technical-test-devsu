@@ -36,6 +36,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account create(AccountCreateDTO accountCreateDTO) {
         Account account = new Account();
+        account.setClientId(accountCreateDTO.getClientId());
         account.setAccountNumber(accountCreateDTO.getAccountNumber());
         account.setAccountType(accountCreateDTO.getAccountType());
         account.setInitialAmount(accountCreateDTO.getInitialAmount());

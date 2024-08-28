@@ -15,12 +15,14 @@ import com.devsu.bank.account_service.dto.AccountCreateDTO;
 import com.devsu.bank.account_service.model.Account;
 import com.devsu.bank.account_service.service.AccountService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping(AccountController.PATH)
 public class AccountController {
 
     public static final String PATH = "/accounts";
-    
+
     private AccountService accountService;
 
     public AccountController(AccountService accountService) {
@@ -38,12 +40,12 @@ public class AccountController {
     }
 
     @PostMapping
-    public Account save(@RequestBody AccountCreateDTO account) {
+    public Account save(@Valid @RequestBody AccountCreateDTO account) {
         return accountService.create(account);
     }
 
     @PutMapping("/{id}")
-    public Account update(@PathVariable Long id, @RequestBody AccountCreateDTO account) {
+    public Account update(@PathVariable Long id, @Valid @RequestBody AccountCreateDTO account) {
         return accountService.updateById(id, account);
     }
 

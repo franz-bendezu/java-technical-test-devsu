@@ -25,6 +25,5 @@ public class ReportController {
     public ReportStatementAccountDTO getAccountStatement(@RequestParam Long clientId, @RequestParam Instant startDate,
             @RequestParam Instant endDate) {
         return accountService.getAccountStatement(clientId, startDate, endDate);
-        
     }
 }
