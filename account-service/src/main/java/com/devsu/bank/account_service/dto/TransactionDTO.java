@@ -7,6 +7,8 @@ import lombok.Data;
 @Data
 public class TransactionDTO {
 
+    private Long id;
+
     private Integer amount;
 
     private Integer balance;
@@ -15,4 +17,5 @@ public class TransactionDTO {
 
     private Instant createdAt;
     
+    private Long accountId;
 }

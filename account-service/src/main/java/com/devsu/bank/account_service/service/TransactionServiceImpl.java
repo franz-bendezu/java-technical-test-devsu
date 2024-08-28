@@ -99,6 +99,8 @@ public class TransactionServiceImpl implements TransactionService {
         transactionDTO.setBalance(transaction.getBalance());
         transactionDTO.setTransactionType(transaction.getTransactionType());
         transactionDTO.setCreatedAt(transaction.getCreatedAt());
+        transactionDTO.setAccountId(transaction.getAccount().getId());
+        transactionDTO.setId(transaction.getId());
         return transactionDTO;
     }
 
