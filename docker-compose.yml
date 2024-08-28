@@ -60,6 +60,7 @@ services:
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
       - SPRING_KAFKA_GROUP_ID=client-ms
       - PORT=8080
+      - SPRING_FLYWAY_ENABLED=true
     depends_on:
       - db-client
       - kafka
@@ -79,6 +80,7 @@ services:
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
       - SPRING_KAFKA_GROUP_ID=account-ms
       - PORT=8081
+      - SPRING_FLYWAY_ENABLED=true
     depends_on:
       - db-account
       - kafka
