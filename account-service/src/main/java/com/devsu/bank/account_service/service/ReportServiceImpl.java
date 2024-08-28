@@ -4,12 +4,15 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Service;
+
 import com.devsu.bank.account_service.config.CommonSettings;
 import com.devsu.bank.account_service.dto.ReportStatementAccountDTO;
 import com.devsu.bank.account_service.dto.StatementAccountDTO;
 import com.devsu.bank.account_service.dto.TransactionDTO;
 import com.devsu.bank.account_service.repository.AccountRepository;
 
+@Service
 public class ReportServiceImpl implements ReportService {
     private AccountRepository accountRepository;
     private TransactionService transactionService;
