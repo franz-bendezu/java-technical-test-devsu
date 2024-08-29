@@ -1,17 +1,13 @@
 package com.devsu.bank.account_service.service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.devsu.bank.account_service.config.CommonSettings;
 import com.devsu.bank.account_service.dto.AccountCreateDTO;
 import com.devsu.bank.account_service.dto.AccountDTO;
-import com.devsu.bank.account_service.dto.StatementAccountDTO;
-import com.devsu.bank.account_service.dto.ReportStatementAccountDTO;
-import com.devsu.bank.account_service.dto.TransactionDTO;
+import com.devsu.bank.account_service.dto.ClientDTO;
 import com.devsu.bank.account_service.exception.AccountNotFoundException;
 import com.devsu.bank.account_service.mapper.AccountMapper;
 import com.devsu.bank.account_service.model.Account;
@@ -20,9 +16,11 @@ import com.devsu.bank.account_service.repository.AccountRepository;
 @Service
 public class AccountServiceImpl implements AccountService {
     private AccountRepository accountRepository;
+    private ClientService clientService;
 
-    public AccountServiceImpl(AccountRepository accountRepository) {
+    public AccountServiceImpl(AccountRepository accountRepository, ClientService clientService) {
         this.accountRepository = accountRepository;
+        this.clientService = clientService;
     }
 
     @Override
@@ -38,7 +36,8 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account create(AccountCreateDTO accountCreateDTO) {
         Account account = new Account();
-        account.setClientId(accountCreateDTO.getClientId());
+        ClientDTO client = clientService.findById(accountCreateDTO.getClientId());
+        account.setClientId(client.getId());
         account.setAccountNumber(accountCreateDTO.getAccountNumber());
         account.setAccountType(accountCreateDTO.getAccountType());
         account.setInitialAmount(accountCreateDTO.getInitialAmount());
