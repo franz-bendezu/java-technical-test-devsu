@@ -54,7 +54,7 @@ public class ClientControllerIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        if(initialClient != null) {
+        if (initialClient != null) {
             return;
         }
         Client client = new Client();
@@ -65,7 +65,8 @@ public class ClientControllerIntegrationTest {
         client.setAddress("123 Main St");
         client.setPhone("555-1234");
         client.setPassword("password");
-        client.setStatus("true");
+        client.setStatus(true);
+
         initialClient = clientRepository.save(client);
 
     }
@@ -110,7 +111,7 @@ public class ClientControllerIntegrationTest {
         client.setAddress("123 Main St");
         client.setPhone("555-1234");
         client.setPassword("password");
-        client.setStatus("false");
+        client.setStatus(false);
 
         mockMvc.perform(post("/clientes")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -128,7 +129,7 @@ public class ClientControllerIntegrationTest {
         client.setAddress("456 Main St");
         client.setPhone("555-5678");
         client.setPassword("password");
-        client.setStatus("true");
+        client.setStatus(true);
 
         mockMvc.perform(put("/clientes/{id}", initialClient.getId())
                 .contentType(MediaType.APPLICATION_JSON)

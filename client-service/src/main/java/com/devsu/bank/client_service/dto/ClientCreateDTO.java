@@ -26,7 +26,7 @@ public class ClientCreateDTO {
 
     @NotNull
     @JsonProperty("estado")
-    private String status;
+    private Boolean status;
 
     @JsonProperty("genero")
     private String gender;
