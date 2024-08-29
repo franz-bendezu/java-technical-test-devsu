@@ -27,4 +27,14 @@ public class ClientCreateDTO {
     @NotNull
     @JsonProperty("estado")
     private String status;
+
+    @JsonProperty("genero")
+    private String gender;
+
+    @JsonProperty("edad")
+    private Integer age;
+
+    @JsonProperty("identificacion")
+    private String identification;
+
 }
