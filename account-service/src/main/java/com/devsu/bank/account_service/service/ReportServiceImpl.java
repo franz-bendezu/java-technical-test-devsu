@@ -45,26 +45,30 @@ public class ReportServiceImpl implements ReportService {
         List<Transaction> allTransactions = transactionService.findAllByClientIdAndCreatedAtBetween(
                 clientId, startTransaction, endTransaction);
 
-        Map<Long, List<TransactionDTO>> transactionsByAccountId = allTransactions.stream()
-                .map(TransactionMapper::toDTO)
-                .collect(Collectors.groupingBy(TransactionDTO::getAccountId));
+        Map<Long, List<Transaction>> transactionsByAccountId = allTransactions.stream()
+                .collect(Collectors.groupingBy(
+                    (Transaction transaction) -> transaction.getAccount().getId()
+                ));
 
         List<StatementAccountDTO> accounts = accountRepository.findAllByClientId(clientId).stream().map(account -> {
-            List<TransactionDTO> transactions = transactionsByAccountId.getOrDefault(account.getId(),
+            List<Transaction> transactions = transactionsByAccountId.getOrDefault(account.getId(),
                     Collections.emptyList());
 
             // TODO: Analizar si deberia usar saldo del rango de fechas o el saldo actual
             Integer balance = transactions.stream()
-                    .sorted(Comparator.comparing(TransactionDTO::getCreatedDate).reversed()) // Sort by date descending
+                    .sorted(Comparator.comparing(Transaction::getCreatedAt).reversed()) 
                     .findFirst()
-                    .map(TransactionDTO::getBalance)
+                    .map(Transaction::getBalance)
                     .orElse(account.getInitialAmount());
             StatementAccountDTO accountDTO = new StatementAccountDTO();
             accountDTO.setId(account.getId());
             accountDTO.setAccountNumber(account.getAccountNumber());
-            accountDTO.setInitialAmount(account.getInitialAmount());
             accountDTO.setCurrentAmount(balance);
-            accountDTO.setTransactions(transactions);
+            accountDTO.setTransactions(
+                transactions.stream()
+                    .map(TransactionMapper::toDTO)
+                    .collect(Collectors.toList())
+            );
 
             return accountDTO;
         }).collect(Collectors.toList());
