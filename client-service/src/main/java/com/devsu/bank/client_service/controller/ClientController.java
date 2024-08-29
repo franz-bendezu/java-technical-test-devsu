@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
 @RestController
-@RequestMapping("/clients")
+@RequestMapping("/clientes")
 public class ClientController {
     private ClientService clientService;
 
