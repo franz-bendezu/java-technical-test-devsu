@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Comparator;
 
-import org.springframework.boot.autoconfigure.integration.IntegrationProperties.RSocket.Client;
 import org.springframework.stereotype.Service;
 
 import com.devsu.bank.account_service.config.CommonSettings;
@@ -52,7 +52,13 @@ public class ReportServiceImpl implements ReportService {
         List<StatementAccountDTO> accounts = accountRepository.findAllByClientId(clientId).stream().map(account -> {
             List<TransactionDTO> transactions = transactionsByAccountId.getOrDefault(account.getId(),
                     Collections.emptyList());
-            Integer balance = transactionService.getBalanceByAccount(account);
+
+            // TODO: Analizar si deberia usar saldo del rango de fechas o el saldo actual
+            Integer balance = transactions.stream()
+                    .sorted(Comparator.comparing(TransactionDTO::getCreatedDate).reversed()) // Sort by date descending
+                    .findFirst()
+                    .map(TransactionDTO::getBalance)
+                    .orElse(account.getInitialAmount());
             StatementAccountDTO accountDTO = new StatementAccountDTO();
             accountDTO.setId(account.getId());
             accountDTO.setAccountNumber(account.getAccountNumber());
