@@ -33,7 +33,7 @@ public class ReportServiceImpl implements ReportService {
 
         ReportStatementAccountDTO accountStatementDTO = new ReportStatementAccountDTO();
   
-        ClientDTO client = clientService.getClient(clientId);
+        ClientDTO client = clientService.findById(clientId);
         accountStatementDTO.setCustomerName(client.getName());
 
         Instant startTransaction = start.atStartOfDay(CommonSettings.TIME_ZONE).toInstant();

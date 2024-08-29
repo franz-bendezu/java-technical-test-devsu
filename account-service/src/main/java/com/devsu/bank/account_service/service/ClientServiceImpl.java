@@ -22,7 +22,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public ClientDTO getClient(Long clientId) {
+    public ClientDTO findById(Long clientId) {
         // Request client info by ID
         clientProducer.requestClientInfo(clientId);
 
