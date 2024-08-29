@@ -39,7 +39,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public TransactionDTO create(TransactionCreateDTO transactionDTO) {
+    public Transaction create(TransactionCreateDTO transactionDTO) {
         Account account = this.accountService.findById(transactionDTO.getAccountId());
         Optional<Transaction> lastTransaction = transactionRepository
                 .findLastByAccountId(transactionDTO.getAccountId());
@@ -60,8 +60,7 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setAccount(account);
         transaction.setBalance(newBalance);
 
-        Transaction transactionResult = transactionRepository.save(transaction);
-        return TransactionMapper.toDTO(transactionResult);
+        return transactionRepository.save(transaction);
     }
 
     @Override
@@ -70,7 +69,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public TransactionDTO updateById(Long id, TransactionCreateDTO transaction) {
+    public Transaction updateById(Long id, TransactionCreateDTO transaction) {
         Transaction transactionToUpdate = transactionRepository.findById(id)
                 .orElseThrow(TransactionNotFoundException::new);
         transactionToUpdate.setAmount(transaction.getAmount());
@@ -79,8 +78,7 @@ public class TransactionServiceImpl implements TransactionService {
         } else {
             transactionToUpdate.setTransactionType(TransactionType.WITHDRAW);
         }
-        Transaction transactionResult = transactionRepository.save(transactionToUpdate);
-        return TransactionMapper.toDTO(transactionResult);
+        return transactionRepository.save(transactionToUpdate);
     }
 
     public List<TransactionDTO> findAllByAccountIdAndCreatedAtBetween(Long accountId, Instant startDate,

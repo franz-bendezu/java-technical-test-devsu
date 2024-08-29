@@ -13,9 +13,9 @@ public interface TransactionService {
 
     public TransactionDTO findById(Long id);
 
-    public TransactionDTO create(TransactionCreateDTO transaction);
+    public Transaction create(TransactionCreateDTO transaction);
 
-    public TransactionDTO updateById(Long id, TransactionCreateDTO transaction);
+    public Transaction updateById(Long id, TransactionCreateDTO transaction);
 
     public void deleteById(Long id);
 

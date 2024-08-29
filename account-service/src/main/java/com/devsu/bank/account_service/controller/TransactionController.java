@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.devsu.bank.account_service.dto.TransactionCreateDTO;
 import com.devsu.bank.account_service.dto.TransactionDTO;
+import com.devsu.bank.account_service.mapper.TransactionMapper;
 import com.devsu.bank.account_service.model.Transaction;
 import com.devsu.bank.account_service.service.TransactionService;
 
@@ -42,12 +43,12 @@ public class TransactionController {
 
     @PostMapping
     public TransactionDTO save(@Valid @RequestBody TransactionCreateDTO movement) {
-        return transactionService.create(movement);
+        return TransactionMapper.toDTO(transactionService.create(movement));
     }
 
     @PutMapping("/{id}")
     public TransactionDTO update(@PathVariable Long id, @Valid @RequestBody TransactionCreateDTO movement) {
-        return transactionService.updateById(id, movement);
+        return TransactionMapper.toDTO(transactionService.updateById(id, movement));
     }
 
     @DeleteMapping("/{id}")
