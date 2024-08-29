@@ -9,7 +9,7 @@ public class TransactionMapper {
         TransactionDTO transactionDTO = new TransactionDTO();
         transactionDTO.setAmount(transaction.getAmount());
         transactionDTO.setBalance(transaction.getBalance());
-        transactionDTO.setTransactionType(transaction.getTransactionType());
+        transactionDTO.setTransactionType(transaction.getTransactionType().getName());
         transactionDTO
                 .setCreatedDate(transaction.getCreatedAt().atZone(CommonSettings.TIME_ZONE).toLocalDate().toString());
         transactionDTO.setAccountId(transaction.getAccount().getId());

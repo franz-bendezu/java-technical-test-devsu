@@ -14,6 +14,7 @@ import com.devsu.bank.account_service.exception.TransactionNotFoundException;
 import com.devsu.bank.account_service.mapper.TransactionMapper;
 import com.devsu.bank.account_service.model.Account;
 import com.devsu.bank.account_service.model.Transaction;
+import com.devsu.bank.account_service.model.TransactionType;
 import com.devsu.bank.account_service.repository.TransactionRepository;
 
 @Service
@@ -51,9 +52,9 @@ public class TransactionServiceImpl implements TransactionService {
         Transaction transaction = new Transaction();
 
         if (transactionDTO.getAmount() > 0) {
-            transaction.setTransactionType("DEPOSIT");
+            transaction.setTransactionType(TransactionType.DEPOSIT);
         } else {
-            transaction.setTransactionType("WITHDRAW");
+            transaction.setTransactionType(TransactionType.WITHDRAW);
         }
         transaction.setAmount(transactionDTO.getAmount());
         transaction.setAccount(account);
@@ -74,9 +75,9 @@ public class TransactionServiceImpl implements TransactionService {
                 .orElseThrow(TransactionNotFoundException::new);
         transactionToUpdate.setAmount(transaction.getAmount());
         if (transaction.getAmount() > 0) {
-            transactionToUpdate.setTransactionType("DEPOSIT");
+            transactionToUpdate.setTransactionType(TransactionType.DEPOSIT);
         } else {
-            transactionToUpdate.setTransactionType("WITHDRAW");
+            transactionToUpdate.setTransactionType(TransactionType.WITHDRAW);
         }
         Transaction transactionResult = transactionRepository.save(transactionToUpdate);
         return TransactionMapper.toDTO(transactionResult);
