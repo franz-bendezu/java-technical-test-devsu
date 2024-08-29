@@ -1,5 +1,7 @@
 package com.devsu.bank.account_service.service;
 
+import java.util.Optional;
+
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -23,22 +25,19 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public ClientDTO findById(Long clientId) {
-        // Request client info by ID
-        clientProducer.requestClientInfo(clientId);
-
-        // Get the future for the client info
-        CompletableFuture<ClientDTO> clientInfoFuture = clientConsumer.getClientInfoFuture(clientId);
-
-        // Wait for the response with a timeout
-        ClientDTO clientInfo;
         try {
-            clientInfo = clientInfoFuture.get(10, TimeUnit.SECONDS); // Set a timeout of 10 seconds
+            
+            // Request client info by ID
+            clientProducer.requestClientInfo(clientId);
+            // Get the future for the client info
+            CompletableFuture<Optional<ClientDTO>> clientInfoFuture = clientConsumer.getClientInfoFuture(clientId);
+            // Wait for the client info
+            Optional<ClientDTO> clientInfo = clientInfoFuture.get(10, TimeUnit.SECONDS);
+            return clientInfo.orElseThrow(() -> new RuntimeException("Client not found"));
         } catch (TimeoutException e) {
             throw new RuntimeException("Timeout while waiting for client info", e);
         } catch (Exception e) {
             throw new RuntimeException("Failed to get client info", e);
         }
-
-        return clientInfo;
     }
 }

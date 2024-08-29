@@ -14,6 +14,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
+import com.devsu.bank.client_service.dto.ClientDataEventDTO;
 import com.devsu.bank.client_service.model.Client;
 
 @Configuration
@@ -22,14 +23,14 @@ public class KafkaProducerConfig {
     private String bootstrapServers;
 
     @Bean
-    public ProducerFactory<String, Client> producerFactory() {
+    public ProducerFactory<String, ClientDataEventDTO> producerFactory() {
         Map<String, Object> config = new HashMap<>();
         config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-        return new DefaultKafkaProducerFactory<>(config, new StringSerializer(), new JsonSerializer<Client>());
+        return new DefaultKafkaProducerFactory<>(config, new StringSerializer(), new JsonSerializer<ClientDataEventDTO>());
     }
 
     @Bean
-    public KafkaTemplate<String, Client> kafkaTemplate() {
+    public KafkaTemplate<String, ClientDataEventDTO> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 }

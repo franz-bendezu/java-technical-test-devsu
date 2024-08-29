@@ -17,6 +17,7 @@ import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
 import com.devsu.bank.account_service.dto.ClientDTO;
+import com.devsu.bank.account_service.dto.ClientDataEventDTO;
 
 @Configuration
 public class KafkaConsumerConfig {
@@ -26,17 +27,17 @@ public class KafkaConsumerConfig {
     private String groupId;
 
 
-    public ConsumerFactory<String, ClientDTO> consumerFactory() {
+    public ConsumerFactory<String, ClientDataEventDTO> consumerFactory() {
         Map<String, Object> config = new HashMap<>();
         config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         config.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
-         JsonDeserializer<ClientDTO> deserializer = new JsonDeserializer<>(ClientDTO.class);
+         JsonDeserializer<ClientDataEventDTO> deserializer = new JsonDeserializer<>(ClientDataEventDTO.class);
         deserializer.addTrustedPackages("com.devsu.bank.account_service.dto");
 
         // Configure type mapping
         DefaultJackson2JavaTypeMapper typeMapper = new DefaultJackson2JavaTypeMapper();
         Map<String, Class<?>> mappings = new HashMap<>();
-        mappings.put("com.devsu.bank.client_service.model.Client", ClientDTO.class);
+        mappings.put("com.devsu.bank.client_service.dto.ClientDataEventDTO", ClientDataEventDTO.class);
         typeMapper.setIdClassMapping(mappings);
         deserializer.setTypeMapper(typeMapper);
         return new DefaultKafkaConsumerFactory<>(config, new StringDeserializer(),
@@ -44,8 +45,8 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, ClientDTO> kafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, ClientDTO> factory = new ConcurrentKafkaListenerContainerFactory<>();
+    public ConcurrentKafkaListenerContainerFactory<String, ClientDataEventDTO> kafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, ClientDataEventDTO> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         return factory;
     }

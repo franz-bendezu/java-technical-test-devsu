@@ -3,6 +3,7 @@ package com.devsu.bank.client_service.messaging;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
+import com.devsu.bank.client_service.dto.ClientDataEventDTO;
 import com.devsu.bank.client_service.exception.ClientNotFoundException;
 import com.devsu.bank.client_service.model.Client;
 import com.devsu.bank.client_service.service.ClientService;
@@ -21,11 +22,14 @@ public class ClientConsumer {
 
     @KafkaListener(topics = RESPONSE_TOPIC, containerFactory = "kafkaListenerContainerFactory")
     public void consumeClientRequest(Long clientId) {
+        ClientDataEventDTO clientDataEventDTO = new ClientDataEventDTO();
+        clientDataEventDTO.setClientId(clientId);
         try {
             Client client = clientService.findById(clientId);
-            clientProducer.sendClientInfo(client);
+            clientDataEventDTO.setData(client);
+            clientProducer.sendClientInfo(clientDataEventDTO);
         } catch (ClientNotFoundException e) {
-            clientProducer.sendClientInfo(null);
+            clientProducer.sendClientInfo(clientDataEventDTO);
         }
     }
 }
