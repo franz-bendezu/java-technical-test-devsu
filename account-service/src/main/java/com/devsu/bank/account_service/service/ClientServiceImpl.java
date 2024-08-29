@@ -9,6 +9,7 @@ import java.util.concurrent.TimeoutException;
 import org.springframework.stereotype.Service;
 
 import com.devsu.bank.account_service.dto.ClientDTO;
+import com.devsu.bank.account_service.exception.ClientNotFoundException;
 import com.devsu.bank.account_service.messaging.ClientConsumer;
 import com.devsu.bank.account_service.messaging.ClientProducer;
 
@@ -33,7 +34,7 @@ public class ClientServiceImpl implements ClientService {
             CompletableFuture<Optional<ClientDTO>> clientInfoFuture = clientConsumer.getClientInfoFuture(clientId);
             // Wait for the client info
             Optional<ClientDTO> clientInfo = clientInfoFuture.get(10, TimeUnit.SECONDS);
-            return clientInfo.orElseThrow(() -> new RuntimeException("Client not found"));
+            return clientInfo.orElseThrow(ClientNotFoundException::new);
         } catch (TimeoutException e) {
             throw new RuntimeException("Timeout while waiting for client info", e);
         } catch (Exception e) {
