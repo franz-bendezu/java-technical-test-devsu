@@ -91,7 +91,6 @@ public class TransactionServiceImplTest {
 
     @Test
     public void testCreate() {
-        // Arrange
         Long accountId = 1L;
         Integer amount = 100;
         TransactionCreateDTO transactionDTO = new TransactionCreateDTO();
