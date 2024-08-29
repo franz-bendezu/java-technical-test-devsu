@@ -21,7 +21,7 @@ public class Person {
 
     private String gender;
 
-    private int age;
+    private Integer age;
 
     private String identification;
 
