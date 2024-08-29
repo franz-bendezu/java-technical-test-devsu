@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
 @RestController
-@RequestMapping("/clientes")
+@RequestMapping(ClientController.PATH)
 public class ClientController {
+    public static final String PATH = "/clientes";
+
     private ClientService clientService;
 
     public ClientController(ClientService clientService) {
