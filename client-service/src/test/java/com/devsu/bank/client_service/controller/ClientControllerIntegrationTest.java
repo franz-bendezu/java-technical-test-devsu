@@ -29,7 +29,7 @@ import com.devsu.bank.client_service.repository.ClientRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Testcontainers
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 public class ClientControllerIntegrationTest {
 
@@ -53,10 +53,8 @@ public class ClientControllerIntegrationTest {
     Client initialClient;
 
     @BeforeEach
-    void setUp() {
-        if (initialClient != null) {
-            return;
-        }
+    void beforeEach() {
+        clientRepository.deleteAll();
         Client client = new Client();
         client.setName("John Doe");
         client.setGender("Male");
@@ -66,7 +64,6 @@ public class ClientControllerIntegrationTest {
         client.setPhone("555-1234");
         client.setPassword("password");
         client.setStatus(true);
-
         initialClient = clientRepository.save(client);
 
     }
