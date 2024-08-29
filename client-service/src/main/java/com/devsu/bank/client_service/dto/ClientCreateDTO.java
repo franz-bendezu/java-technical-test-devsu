@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class ClientDTO {
+public class ClientCreateDTO {
     @NotBlank
     @JsonProperty("nombre")
     private String name;
