@@ -22,6 +22,8 @@ public interface TransactionService {
 
     public Integer getBalanceByAccount(Account account);
 
+    public List<Transaction> findAllByClientIdAndCreatedAtBetween(Long clientId, Instant startDate, Instant endDate);
+
     public List<TransactionDTO> findAllByAccountIdAndCreatedAtBetween(Long accountId, Instant startDate,
             Instant endDate);
 }

@@ -9,6 +9,9 @@ import lombok.Data;
 @Data
 public class StatementAccountDTO {
 
+    @JsonProperty("id")
+    private Long id;
+
     @JsonProperty("numeroCuenta")
     private String accountNumber;
 

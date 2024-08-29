@@ -84,6 +84,12 @@ public class TransactionServiceImpl implements TransactionService {
         }
         return transactionRepository.save(transactionToUpdate);
     }
+    @Override
+    public List<Transaction> findAllByClientIdAndCreatedAtBetween(Long clientId, Instant startDate,
+            Instant endDate) {
+        return transactionRepository.findAllByClientIdAndCreatedAtBetween(
+                clientId, startDate, endDate);
+    }
 
     public List<TransactionDTO> findAllByAccountIdAndCreatedAtBetween(Long accountId, Instant startDate,
             Instant endDate) {

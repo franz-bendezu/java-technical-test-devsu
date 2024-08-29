@@ -4,6 +4,8 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Collections;
+import java.util.Map;
 
 import org.springframework.boot.autoconfigure.integration.IntegrationProperties.RSocket.Client;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,8 @@ import com.devsu.bank.account_service.dto.ReportStatementAccountDTO;
 import com.devsu.bank.account_service.dto.StatementAccountDTO;
 import com.devsu.bank.account_service.dto.TransactionDTO;
 import com.devsu.bank.account_service.repository.AccountRepository;
+import com.devsu.bank.account_service.model.Transaction;
+import com.devsu.bank.account_service.mapper.TransactionMapper;
 
 @Service
 public class ReportServiceImpl implements ReportService {
@@ -32,20 +36,25 @@ public class ReportServiceImpl implements ReportService {
     public ReportStatementAccountDTO getAccountStatement(Long clientId, LocalDate start, LocalDate end) {
 
         ReportStatementAccountDTO accountStatementDTO = new ReportStatementAccountDTO();
-  
+
         ClientDTO client = clientService.findById(clientId);
         accountStatementDTO.setCustomerName(client.getName());
 
         Instant startTransaction = start.atStartOfDay(CommonSettings.TIME_ZONE).toInstant();
         Instant endTransaction = end.plusDays(1).atStartOfDay(CommonSettings.TIME_ZONE).toInstant();
-        List<StatementAccountDTO> accounts = accountRepository.findAllByClientId(clientId).stream().map(account -> {
+        List<Transaction> allTransactions = transactionService.findAllByClientIdAndCreatedAtBetween(
+                clientId, startTransaction, endTransaction);
 
-            List<TransactionDTO> transactions = transactionService.findAllByAccountIdAndCreatedAtBetween(
-                    account.getId(),
-                    startTransaction,
-                    endTransaction);
+        Map<Long, List<TransactionDTO>> transactionsByAccountId = allTransactions.stream()
+                .map(TransactionMapper::toDTO)
+                .collect(Collectors.groupingBy(TransactionDTO::getAccountId));
+
+        List<StatementAccountDTO> accounts = accountRepository.findAllByClientId(clientId).stream().map(account -> {
+            List<TransactionDTO> transactions = transactionsByAccountId.getOrDefault(account.getId(),
+                    Collections.emptyList());
             Integer balance = transactionService.getBalanceByAccount(account);
             StatementAccountDTO accountDTO = new StatementAccountDTO();
+            accountDTO.setId(account.getId());
             accountDTO.setAccountNumber(account.getAccountNumber());
             accountDTO.setInitialAmount(account.getInitialAmount());
             accountDTO.setCurrentAmount(balance);
