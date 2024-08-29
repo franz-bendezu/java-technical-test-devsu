@@ -110,6 +110,7 @@ public class ClientControllerIntegrationTest {
         client.setAddress("123 Main St");
         client.setPhone("555-1234");
         client.setPassword("password");
+        client.setStatus("false");
 
         mockMvc.perform(post("/clientes")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -127,6 +128,7 @@ public class ClientControllerIntegrationTest {
         client.setAddress("456 Main St");
         client.setPhone("555-5678");
         client.setPassword("password");
+        client.setStatus("true");
 
         mockMvc.perform(put("/clientes/{id}", initialClient.getId())
                 .contentType(MediaType.APPLICATION_JSON)
