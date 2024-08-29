@@ -47,8 +47,9 @@ public class ReportServiceImpl implements ReportService {
 
         Map<Long, List<Transaction>> transactionsByAccountId = allTransactions.stream()
                 .collect(Collectors.groupingBy(
-                    (Transaction transaction) -> transaction.getAccount().getId()
-                ));
+                        (Transaction transaction) -> {
+                            return transaction.getAccount().getId();
+                        }));
 
         List<StatementAccountDTO> accounts = accountRepository.findAllByClientId(clientId).stream().map(account -> {
             List<Transaction> transactions = transactionsByAccountId.getOrDefault(account.getId(),
@@ -56,7 +57,7 @@ public class ReportServiceImpl implements ReportService {
 
             // TODO: Analizar si deberia usar saldo del rango de fechas o el saldo actual
             Integer balance = transactions.stream()
-                    .sorted(Comparator.comparing(Transaction::getCreatedAt).reversed()) 
+                    .sorted(Comparator.comparing(Transaction::getCreatedAt).reversed())
                     .findFirst()
                     .map(Transaction::getBalance)
                     .orElse(account.getInitialAmount());
@@ -65,10 +66,9 @@ public class ReportServiceImpl implements ReportService {
             accountDTO.setAccountNumber(account.getAccountNumber());
             accountDTO.setCurrentAmount(balance);
             accountDTO.setTransactions(
-                transactions.stream()
-                    .map(TransactionMapper::toDTO)
-                    .collect(Collectors.toList())
-            );
+                    transactions.stream()
+                            .map(TransactionMapper::toDTO)
+                            .collect(Collectors.toList()));
 
             return accountDTO;
         }).collect(Collectors.toList());
