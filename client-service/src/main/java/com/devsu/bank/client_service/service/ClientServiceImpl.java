@@ -39,6 +39,10 @@ public class ClientServiceImpl implements ClientService {
         client.setAddress(clientDTO.getAddress());
         client.setPhone(clientDTO.getPhone());
         client.setPassword(passwordEncoder.encode(clientDTO.getPassword()));
+        client.setStatus(clientDTO.getStatus());
+        client.setGender(clientDTO.getGender());
+        client.setAge(clientDTO.getAge());
+        client.setIdentification(clientDTO.getIdentification());
         return clientRepository.save(client);
     }
 
