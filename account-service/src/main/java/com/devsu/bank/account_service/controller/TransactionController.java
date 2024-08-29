@@ -22,7 +22,7 @@ import jakarta.validation.Valid;
 @RequestMapping(TransactionController.PATH)
 public class TransactionController {
 
-    public static final String PATH = "/transactions";
+    public static final String PATH = "/movimientos";
 
     private TransactionService transactionService;
 
