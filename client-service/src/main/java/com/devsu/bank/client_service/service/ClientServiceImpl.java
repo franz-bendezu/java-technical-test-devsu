@@ -6,14 +6,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.devsu.bank.client_service.dto.ClientDTO;
+import com.devsu.bank.client_service.exception.ClientNotFoundException;
 import com.devsu.bank.client_service.model.Client;
 import com.devsu.bank.client_service.repository.ClientRepository;
 
 @Service
-public class ClientServiceImpl  implements ClientService {
+public class ClientServiceImpl implements ClientService {
 
     private ClientRepository clientRepository;
-    
+
     private final PasswordEncoder passwordEncoder;
 
     public ClientServiceImpl(ClientRepository clientRepository, PasswordEncoder passwordEncoder) {
@@ -28,7 +29,7 @@ public class ClientServiceImpl  implements ClientService {
 
     @Override
     public Client findById(Long id) {
-        return clientRepository.findById(id).orElse(null);
+        return clientRepository.findById(id).orElseThrow(ClientNotFoundException::new);
     }
 
     @Override
@@ -43,8 +44,7 @@ public class ClientServiceImpl  implements ClientService {
 
     @Override
     public Client updateById(Long id, ClientDTO client) {
-        Client currentClient = clientRepository.findById(id).
-                orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+        Client currentClient = this.findById(id);
         currentClient.setName(client.getName());
         currentClient.setAddress(client.getAddress());
         currentClient.setPhone(client.getPhone());
@@ -54,11 +54,9 @@ public class ClientServiceImpl  implements ClientService {
         return clientRepository.save(currentClient);
     }
 
-
     @Override
     public void deleteById(Long id) {
         clientRepository.deleteById(id);
     }
 
- 
 }
