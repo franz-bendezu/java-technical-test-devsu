@@ -112,7 +112,11 @@ public class TransactionServiceImplTest {
         Transaction savedTransaction = createTransaction(1L);
         savedTransaction.setBalance(500);
         savedTransaction.setCreatedAt(Instant.now());
-        when(transactionRepository.save(any(Transaction.class))).thenReturn(savedTransaction);
+        
+        when(transactionRepository.save(
+                argThat(transaction -> transaction.getAmount().equals(amount)
+                        && transaction.getBalance().equals(savedTransaction.getBalance()))))
+                .thenReturn(savedTransaction);
 
         Transaction result = transactionService.create(transactionDTO);
 
