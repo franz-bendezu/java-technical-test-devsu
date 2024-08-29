@@ -88,13 +88,13 @@ public class ClientControllerIntegrationTest {
 
     @Test
     public void testFindAll() throws Exception {
-        mockMvc.perform(get("/clientes"))
+        mockMvc.perform(get(ClientController.PATH))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void testFindById() throws Exception {
-        mockMvc.perform(get("/clientes/{id}", initialClient.getId()))
+        mockMvc.perform(get(ClientController.PATH + "/{id}", initialClient.getId()))
                 .andExpect(status().isOk());
     }
 
@@ -110,7 +110,7 @@ public class ClientControllerIntegrationTest {
         client.setPassword("password");
         client.setStatus(false);
 
-        mockMvc.perform(post("/clientes")
+        mockMvc.perform(post(ClientController.PATH)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(client)))
                 .andExpect(status().isOk());
@@ -128,7 +128,7 @@ public class ClientControllerIntegrationTest {
         client.setPassword("password");
         client.setStatus(true);
 
-        mockMvc.perform(put("/clientes/{id}", initialClient.getId())
+        mockMvc.perform(put(ClientController.PATH + "/{id}", initialClient.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(client)))
                 .andExpect(status().isOk());
@@ -136,7 +136,7 @@ public class ClientControllerIntegrationTest {
 
     @Test
     public void testDeleteById() throws Exception {
-        mockMvc.perform(delete("/clientes/{id}", initialClient.getId()))
+        mockMvc.perform(delete(ClientController.PATH + "/{id}", initialClient.getId()))
                 .andExpect(status().isOk());
     }
 }
