@@ -15,9 +15,6 @@ public class StatementAccountDTO {
     @JsonProperty("numeroCuenta")
     private String accountNumber;
 
-    @JsonProperty("saldoInicial")
-    private Integer initialAmount;
-
     @JsonProperty("saldoActual")
     private Integer currentAmount;
 
