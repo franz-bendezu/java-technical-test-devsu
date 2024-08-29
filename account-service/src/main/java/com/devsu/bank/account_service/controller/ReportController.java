@@ -18,16 +18,16 @@ import com.devsu.bank.account_service.service.ReportService;
 public class ReportController {
     private final ReportService reportService;
 
-    public static final String PATH = "/reports";
+    public static final String PATH = "/reportes";
 
     public ReportController(ReportService reportService) {
         this.reportService = reportService;
     }
 
     @GetMapping()
-    public ReportStatementAccountDTO getAccountStatement(@RequestParam Long clientId,
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @RequestParam LocalDate  start,
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @RequestParam LocalDate end) {
+    public ReportStatementAccountDTO getAccountStatement(@RequestParam(value = "client") Long clientId,
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @RequestParam(value = "rangoInicio") LocalDate start,
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @RequestParam(value = "rangoFin") LocalDate end) {
         return reportService.getAccountStatement(clientId, start, end);
     }
 }
