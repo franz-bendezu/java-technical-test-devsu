@@ -7,39 +7,36 @@
 	},
 	"item": [
 		{
-			"name": "Account Microservice",
+			"name": "Microservicio de Cuentas",
 			"item": [
 				{
 					"name": "reportes",
 					"item": [
 						{
-							"name": "Report GET",
+							"name": "Obtener Reporte de Estado de cuenta",
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{account-ms-url}}/reports?clientId=123&start=2024-08-28&end=2024-08-28",
+									"raw": "{{account-ms-url}}/reportes?cliente=123&rangoInicio=2024-08-28&rangoFin=2024-08-28",
 									"host": [
 										"{{account-ms-url}}"
 									],
 									"path": [
-										"reports"
+										"reportes"
 									],
 									"query": [
 										{
-											"key": "clientId",
-											"value": "123",
-											"description": "Id del cliente"
+											"key": "cliente",
+											"value": "123"
 										},
 										{
-											"key": "start",
-											"value": "2024-08-28",
-											"description": "Fecha de inicio para los movimientos"
+											"key": "rangoInicio",
+											"value": "2024-08-28"
 										},
 										{
-											"key": "end",
-											"value": "2024-08-28",
-											"description": "Fecha de fin para los movimientos"
+											"key": "rangoFin",
+											"value": "2024-08-28"
 										}
 									]
 								}
@@ -52,52 +49,52 @@
 					"name": "cuentas",
 					"item": [
 						{
-							"name": "Account GET",
+							"name": "Obtener cuenta",
 							"request": {
 								"method": "GET",
 								"header": [],
-								"url": "{{account-ms-url}}/accounts"
+								"url": "{{account-ms-url}}/cuentas"
 							},
 							"response": []
 						},
 						{
-							"name": "Account POST",
+							"name": "Crear cuenta",
 							"request": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"accountType\": \"Ahorros\",\r\n    \"initialAmount\": 0,\r\n    \"accountNumber\": \"test\",\r\n    \"clientId\": 123\r\n}",
+									"raw": "{\r\n    \"tipo\": \"Ahorros\",\r\n    \"montoInicial\": 0,\r\n    \"numeroCuenta\": \"test\",\r\n    \"cliente\": 123,\r\n    \"estado\":  false\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
-								"url": "{{account-ms-url}}/accounts"
+								"url": "{{account-ms-url}}/cuentas"
 							},
 							"response": []
 						},
 						{
-							"name": "Account PUT",
+							"name": "Actualizar cuenta",
 							"request": {
 								"method": "PUT",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"accountType\": \"Ahorros\",\r\n    \"initialAmount\": 123,\r\n    \"accountNumber\": \"1234\",\r\n    \"clientId\": 123\r\n}",
+									"raw": "{\r\n    \"tipo\": \"Ahorros\",\r\n    \"montoInicial\": 0,\r\n    \"numeroCuenta\": \"test\",\r\n    \"estado\":  false\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
-								"url": "{{account-ms-url}}/accounts/2"
+								"url": "{{account-ms-url}}/cuentas/2"
 							},
 							"response": []
 						},
 						{
-							"name": "Account DELETE",
+							"name": "Eliminar cuenta",
 							"request": {
 								"method": "DELETE",
 								"header": [],
@@ -110,62 +107,62 @@
 										}
 									}
 								},
-								"url": "http://localhost:8080/accounts/5"
+								"url": "{{account-ms-url}}/cuentas/5"
 							},
 							"response": []
 						}
 					]
 				},
 				{
-					"name": "cuentas Copy",
+					"name": "movimientos",
 					"item": [
 						{
-							"name": "Account GET",
+							"name": "Obtener movimientos",
 							"request": {
 								"method": "GET",
 								"header": [],
-								"url": "{{account-ms-url}}/accounts"
+								"url": "{{account-ms-url}}/movimientos"
 							},
 							"response": []
 						},
 						{
-							"name": "Account POST",
+							"name": "Crear movimiento",
 							"request": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"accountType\": \"Ahorros\",\r\n    \"initialAmount\": 0,\r\n    \"accountNumber\": \"test\",\r\n    \"clientId\": 123\r\n}",
+									"raw": "{\r\n    \"cuenta\": 1,\r\n    \"valor\": 1\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
-								"url": "{{account-ms-url}}/accounts"
+								"url": "{{account-ms-url}}/movimientos"
 							},
 							"response": []
 						},
 						{
-							"name": "Account PUT",
+							"name": "Actualizar movimiento",
 							"request": {
 								"method": "PUT",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"accountType\": \"Ahorros\",\r\n    \"initialAmount\": 123,\r\n    \"accountNumber\": \"1234\",\r\n    \"clientId\": 123\r\n}",
+									"raw": "{\r\n    \"cuenta\": 1,\r\n    \"valor\": 1\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
-								"url": "{{account-ms-url}}/accounts/2"
+								"url": "{{account-ms-url}}/movimientos/2"
 							},
 							"response": []
 						},
 						{
-							"name": "Account DELETE",
+							"name": "Eliminar movimiento",
 							"request": {
 								"method": "DELETE",
 								"header": [],
@@ -178,7 +175,7 @@
 										}
 									}
 								},
-								"url": "http://localhost:8080/accounts/5"
+								"url": "{{account-ms-url}}/movimientos/5"
 							},
 							"response": []
 						}
@@ -188,58 +185,58 @@
 			"description": "URL Endpoint: {{account-ms-url}}\n\n[<br><br>](http://localhost:8081}})"
 		},
 		{
-			"name": "Client Microservice",
+			"name": "Microservicios de cliente",
 			"item": [
 				{
 					"name": "clientes",
 					"item": [
 						{
-							"name": "Client GET",
+							"name": "Obtener cliente",
 							"request": {
 								"method": "GET",
 								"header": [],
-								"url": "{{client-ms-url}}/clients"
+								"url": "{{client-ms-url}}/clientes"
 							},
 							"response": []
 						},
 						{
-							"name": "Client POST",
+							"name": "Crear cliente",
 							"request": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Franz\",\r\n    \"address\": \"Casa\",\r\n    \"phone\": \"+51123456\",\r\n    \"password\" : \"1234\",\r\n    \"status\": false\r\n}",
+									"raw": "{\r\n    \"nombre\": \"Franz\",\r\n    \"direccion\": \"Casa\",\r\n    \"telefono\": \"+51123456\",\r\n    \"contrasena\" : \"1234\",\r\n    \"estado\": false\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
-								"url": "{{client-ms-url}}/clients"
+								"url": "{{client-ms-url}}/clientes"
 							},
 							"response": []
 						},
 						{
-							"name": "Client PUT",
+							"name": "Actualizar cliente",
 							"request": {
 								"method": "PUT",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Franz\",\r\n    \"address\": \"Casa\",\r\n    \"phone\": \"+51123456\",\r\n    \"password\" : \"1234\",\r\n    \"status\": false\r\n}",
+									"raw": "{\r\n    \"nombre\": \"Franz\",\r\n    \"direccion\": \"Casa\",\r\n    \"telefono\": \"+51123456\",\r\n    \"contrasena\" : \"1234\",\r\n    \"estado\": true\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
-								"url": "{{client-ms-url}}/clients/1"
+								"url": "{{client-ms-url}}/clientes/1"
 							},
 							"response": []
 						},
 						{
-							"name": "Client DELETE",
+							"name": "Eliminar cliente",
 							"request": {
 								"method": "DELETE",
 								"header": [],
@@ -252,7 +249,7 @@
 										}
 									}
 								},
-								"url": "{{client-ms-url}}/clients/2"
+								"url": "{{client-ms-url}}/clientes/2"
 							},
 							"response": []
 						}
