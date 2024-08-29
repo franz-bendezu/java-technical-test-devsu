@@ -50,9 +50,13 @@ public class ClientControllerIntegrationTest {
         postgres.start();
     }
 
+    Client initialClient;
+
     @BeforeEach
     void setUp() {
-        clientRepository.deleteAll();
+        if(initialClient != null) {
+            return;
+        }
         Client client = new Client();
         client.setName("John Doe");
         client.setGender("Male");
@@ -62,7 +66,7 @@ public class ClientControllerIntegrationTest {
         client.setPhone("555-1234");
         client.setPassword("password");
         client.setStatus("true");
-        clientRepository.save(client);
+        initialClient = clientRepository.save(client);
 
     }
 
@@ -92,7 +96,7 @@ public class ClientControllerIntegrationTest {
 
     @Test
     public void testFindById() throws Exception {
-        mockMvc.perform(get("/clientes/{id}", 1L))
+        mockMvc.perform(get("/clientes/{id}", initialClient.getId()))
                 .andExpect(status().isOk());
     }
 
@@ -105,6 +109,7 @@ public class ClientControllerIntegrationTest {
         client.setIdentification("123456789");
         client.setAddress("123 Main St");
         client.setPhone("555-1234");
+        client.setPassword("password");
 
         mockMvc.perform(post("/clientes")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -121,8 +126,9 @@ public class ClientControllerIntegrationTest {
         client.setIdentification("987654321");
         client.setAddress("456 Main St");
         client.setPhone("555-5678");
+        client.setPassword("password");
 
-        mockMvc.perform(put("/clientes/{id}", 1L)
+        mockMvc.perform(put("/clientes/{id}", initialClient.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(client)))
                 .andExpect(status().isOk());
@@ -130,7 +136,7 @@ public class ClientControllerIntegrationTest {
 
     @Test
     public void testDeleteById() throws Exception {
-        mockMvc.perform(delete("/clientes/{id}", 1L))
+        mockMvc.perform(delete("/clientes/{id}", initialClient.getId()))
                 .andExpect(status().isOk());
     }
 }
