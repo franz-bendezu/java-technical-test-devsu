@@ -27,7 +27,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public ClientDTO findById(Long clientId) {
         try {
-            
+
             // Request client info by ID
             clientProducer.requestClientInfo(clientId);
             // Get the future for the client info
@@ -36,9 +36,9 @@ public class ClientServiceImpl implements ClientService {
             Optional<ClientDTO> clientInfo = clientInfoFuture.get(10, TimeUnit.SECONDS);
             return clientInfo.orElseThrow(ClientNotFoundException::new);
         } catch (TimeoutException e) {
-            throw new RuntimeException("Timeout while waiting for client info", e);
+            throw new ClientNotFoundException("Se excedió el tiempo de espera para obtener la información del cliente");
         } catch (Exception e) {
-            throw new RuntimeException("Failed to get client info", e);
+            throw new RuntimeException("Error al obtener la información del cliente", e);
         }
     }
 }
