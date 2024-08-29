@@ -7,7 +7,8 @@ public class ClientNotFoundException extends RuntimeException {
         super(DEFAULT_MESSAGE);
     }
 
-    public ClientNotFoundException(String message) {
+    public 
+    ClientNotFoundException(String message) {
         super(message);
     }
 }
