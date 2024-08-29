@@ -23,7 +23,7 @@ import jakarta.validation.Valid;
 @RequestMapping(AccountController.PATH)
 public class AccountController {
 
-    public static final String PATH = "/accounts";
+    public static final String PATH = "/cuentas";
 
     private AccountService accountService;
 
