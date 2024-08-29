@@ -42,7 +42,7 @@ public class TransactionServiceImpl implements TransactionService {
         Account account = this.accountService.findById(transactionDTO.getAccountId());
         Optional<Transaction> lastTransaction = transactionRepository
                 .findLastByAccountId(transactionDTO.getAccountId());
-        Integer balance = lastTransaction.map(Transaction::getBalance).orElse(0);
+        Integer balance = lastTransaction.map(Transaction::getBalance).orElse(account.getInitialAmount());
         Integer newBalance = balance + transactionDTO.getAmount();
         if (newBalance < 0) {
             throw new InsufficientBalanceException();
