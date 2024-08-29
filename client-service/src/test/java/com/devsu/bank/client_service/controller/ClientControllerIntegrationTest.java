@@ -87,19 +87,19 @@ public class ClientControllerIntegrationTest {
     }
 
     @Test
-    public void testFindAll() throws Exception {
+    public void shouldReturnAllClients() throws Exception {
         mockMvc.perform(get(ClientController.PATH))
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void testFindById() throws Exception {
+    public void shouldReturnClientById() throws Exception {
         mockMvc.perform(get(ClientController.PATH + "/{id}", initialClient.getId()))
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void testSave() throws Exception {
+    public void shouldCreateClient() throws Exception {
         ClientCreateDTO client = new ClientCreateDTO();
         client.setName("John Doe");
         client.setGender("Male");
@@ -117,7 +117,7 @@ public class ClientControllerIntegrationTest {
     }
 
     @Test
-    public void testSaveBadRequest() throws Exception {
+    public void shouldReturnBadRequestWhenCreateInvalidClient() throws Exception {
         ClientCreateDTO client = new ClientCreateDTO();
         client.setName("John Doe");
     
@@ -129,7 +129,7 @@ public class ClientControllerIntegrationTest {
 
 
     @Test
-    public void testUpdate() throws Exception {
+    public void shouldUpdateClient() throws Exception {
         ClientCreateDTO client = new ClientCreateDTO();
         client.setName("Jane Doe");
         client.setGender("Female");
@@ -147,7 +147,7 @@ public class ClientControllerIntegrationTest {
     }
 
     @Test
-    public void testUpdateNotFound() throws Exception {
+    public void shouldReturnNotFoundWhenUpdatingNonExistentClient() throws Exception {
         ClientCreateDTO client = new ClientCreateDTO();
         client.setName("Jane Doe");
         client.setName("Jane Doe");
@@ -166,7 +166,7 @@ public class ClientControllerIntegrationTest {
     }
 
     @Test
-    public void testDeleteById() throws Exception {
+    public void shouldDeleteClientById() throws Exception {
         mockMvc.perform(delete(ClientController.PATH + "/{id}", initialClient.getId()))
                 .andExpect(status().isOk());
     }
