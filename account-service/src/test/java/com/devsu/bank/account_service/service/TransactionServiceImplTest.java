@@ -37,12 +37,18 @@ public class TransactionServiceImplTest {
         MockitoAnnotations.openMocks(this);
     }
 
+    private Account createAccount(Long id) {
+        Account account = new Account();
+        account.setId(id);
+        account.setClientId(1L);
+        account.setInitialAmount(500);
+        return account;
+    }
+
     private Transaction createTransaction(Long id) {
         Transaction transaction = new Transaction();
         transaction.setId(id);
-        Account account = new Account();
-        account.setId(1L);
-        account.setClientId(1L);
+        Account account = createAccount(1L);
         transaction.setAccount(account);
         transaction.setAmount(100);
         transaction.setBalance(100);
