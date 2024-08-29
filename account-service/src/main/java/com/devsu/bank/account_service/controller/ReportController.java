@@ -25,7 +25,7 @@ public class ReportController {
     }
 
     @GetMapping()
-    public ReportStatementAccountDTO getAccountStatement(@RequestParam(value = "client") Long clientId,
+    public ReportStatementAccountDTO getAccountStatement(@RequestParam(value = "cliente") Long clientId,
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @RequestParam(value = "rangoInicio") LocalDate start,
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @RequestParam(value = "rangoFin") LocalDate end) {
         return reportService.getAccountStatement(clientId, start, end);
