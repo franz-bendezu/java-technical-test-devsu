@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.devsu.bank.account_service.dto.TransactionCreateDTO;
 import com.devsu.bank.account_service.dto.TransactionDTO;
+import com.devsu.bank.account_service.model.Account;
 import com.devsu.bank.account_service.model.Transaction;
 
 public interface TransactionService {
@@ -18,6 +19,8 @@ public interface TransactionService {
     public Transaction updateById(Long id, TransactionCreateDTO transaction);
 
     public void deleteById(Long id);
+
+    public Integer getBalanceByAccount(Account account);
 
     public List<TransactionDTO> findAllByAccountIdAndCreatedAtBetween(Long accountId, Instant startDate,
             Instant endDate);

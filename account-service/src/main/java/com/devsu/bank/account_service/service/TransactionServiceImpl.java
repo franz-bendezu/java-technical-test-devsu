@@ -37,13 +37,17 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionRepository.findById(id).map(TransactionMapper::toDTO)
                 .orElseThrow(TransactionNotFoundException::new);
     }
+    
+    @Override
+    public Integer getBalanceByAccount(Account account) {
+        Optional<Transaction> lastTransaction = transactionRepository.findLastByAccountId(account.getId());
+        return lastTransaction.map(Transaction::getBalance).orElse(account.getInitialAmount());
+    }
 
     @Override
     public Transaction create(TransactionCreateDTO transactionDTO) {
         Account account = this.accountService.findById(transactionDTO.getAccountId());
-        Optional<Transaction> lastTransaction = transactionRepository
-                .findLastByAccountId(transactionDTO.getAccountId());
-        Integer balance = lastTransaction.map(Transaction::getBalance).orElse(account.getInitialAmount());
+        Integer balance = getBalanceByAccount(account);
         Integer newBalance = balance + transactionDTO.getAmount();
         if (newBalance < 0) {
             throw new InsufficientBalanceException();

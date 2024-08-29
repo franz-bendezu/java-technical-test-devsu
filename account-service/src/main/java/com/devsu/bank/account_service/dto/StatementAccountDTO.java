@@ -15,6 +15,9 @@ public class StatementAccountDTO {
     @JsonProperty("saldoInicial")
     private Integer initialAmount;
 
+    @JsonProperty("saldoActual")
+    private Integer currentAmount;
+
     @JsonProperty("movimientos")
     private List<TransactionDTO> transactions;
 

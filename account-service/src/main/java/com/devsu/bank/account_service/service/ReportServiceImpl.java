@@ -44,9 +44,11 @@ public class ReportServiceImpl implements ReportService {
                     account.getId(),
                     startTransaction,
                     endTransaction);
+            Integer balance = transactionService.getBalanceByAccount(account);
             StatementAccountDTO accountDTO = new StatementAccountDTO();
             accountDTO.setAccountNumber(account.getAccountNumber());
             accountDTO.setInitialAmount(account.getInitialAmount());
+            accountDTO.setCurrentAmount(balance);
             accountDTO.setTransactions(transactions);
 
             return accountDTO;
