@@ -19,6 +19,9 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
 public class TransactionServiceImplTest {
@@ -58,7 +61,7 @@ public class TransactionServiceImplTest {
     }
 
     @Test
-    public void testFindAll() {
+    public void shouldReturnAllTransactions() {
         List<Transaction> transactions = new ArrayList<>();
         transactions.add(createTransaction(1L));
         when(transactionRepository.findAll()).thenReturn(transactions);
@@ -69,7 +72,7 @@ public class TransactionServiceImplTest {
     }
 
     @Test
-    public void testFindById() {
+    public void shouldReturnTransactionById() {
         Long id = 1L;
         Transaction transaction = createTransaction(id);
         when(transactionRepository.findById(id)).thenReturn(Optional.of(transaction));
@@ -80,7 +83,7 @@ public class TransactionServiceImplTest {
     }
 
     @Test
-    public void testFindByIdNotFound() {
+    public void shouldThrowExceptionWhenTransactionNotFoundById() {
         Long id = 1L;
         when(transactionRepository.findById(id)).thenReturn(Optional.empty());
 
@@ -90,7 +93,7 @@ public class TransactionServiceImplTest {
     }
 
     @Test
-    public void testCreate() {
+    public void shouldCreateTransaction() {
         Long accountId = 1L;
         Integer amount = 100;
         TransactionCreateDTO transactionDTO = new TransactionCreateDTO();
@@ -112,7 +115,7 @@ public class TransactionServiceImplTest {
         Transaction savedTransaction = createTransaction(1L);
         savedTransaction.setBalance(500);
         savedTransaction.setCreatedAt(Instant.now());
-        
+
         when(transactionRepository.save(
                 argThat(transaction -> transaction.getAmount().equals(amount)
                         && transaction.getBalance().equals(savedTransaction.getBalance()))))
@@ -129,7 +132,7 @@ public class TransactionServiceImplTest {
     }
 
     @Test
-    public void testCreateInsufficientBalance() {
+    public void shouldThrowExceptionWhenInsufficientBalance() {
         Long accountId = 1L;
         Integer amount = -100;
         TransactionCreateDTO transactionDTO = new TransactionCreateDTO();
@@ -146,7 +149,7 @@ public class TransactionServiceImplTest {
     }
 
     @Test
-    public void testDeleteById() {
+    public void shouldDeleteTransactionById() {
         Long id = 1L;
 
         transactionService.deleteById(id);
@@ -155,7 +158,7 @@ public class TransactionServiceImplTest {
     }
 
     @Test
-    public void testUpdateById() {
+    public void shouldUpdateTransactionById() {
         Long id = 1L;
         Integer amount = 200;
         TransactionCreateDTO transactionDTO = new TransactionCreateDTO();
@@ -176,7 +179,7 @@ public class TransactionServiceImplTest {
     }
 
     @Test
-    public void testUpdateByIdNotFound() {
+    public void shouldThrowExceptionWhenUpdatingNonExistentTransaction() {
         Long id = 1L;
         when(transactionRepository.findById(id)).thenReturn(Optional.empty());
 
@@ -186,7 +189,7 @@ public class TransactionServiceImplTest {
     }
 
     @Test
-    public void testFindAllByAccountIdAndCreatedAtBetween() {
+    public void shouldReturnTransactionsByAccountIdAndDateRange() {
         Long accountId = 1L;
         Instant startDate = Instant.now();
         Instant endDate = Instant.now();
@@ -198,7 +201,6 @@ public class TransactionServiceImplTest {
         List<TransactionDTO> result = transactionService.findAllByAccountIdAndCreatedAtBetween(accountId, startDate,
                 endDate);
 
-        // Assert
         Assertions.assertEquals(transactions.size(), result.size());
     }
 }
