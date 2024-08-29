@@ -60,6 +60,10 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void deleteById(Long id) {
+        Boolean exists = clientRepository.existsById(id);
+        if (!exists) {
+            throw new ClientNotFoundException();
+        }
         clientRepository.deleteById(id);
     }
 
