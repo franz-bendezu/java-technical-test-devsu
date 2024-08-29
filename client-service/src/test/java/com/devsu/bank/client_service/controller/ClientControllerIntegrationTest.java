@@ -117,6 +117,18 @@ public class ClientControllerIntegrationTest {
     }
 
     @Test
+    public void testSaveBadRequest() throws Exception {
+        ClientCreateDTO client = new ClientCreateDTO();
+        client.setName("John Doe");
+    
+        mockMvc.perform(post(ClientController.PATH)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(client)))
+                .andExpect(status().isBadRequest());
+    }
+
+
+    @Test
     public void testUpdate() throws Exception {
         ClientCreateDTO client = new ClientCreateDTO();
         client.setName("Jane Doe");
@@ -132,6 +144,25 @@ public class ClientControllerIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(client)))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testUpdateNotFound() throws Exception {
+        ClientCreateDTO client = new ClientCreateDTO();
+        client.setName("Jane Doe");
+        client.setName("Jane Doe");
+        client.setGender("Female");
+        client.setAge(25);
+        client.setIdentification("987654321");
+        client.setAddress("456 Main St");
+        client.setPhone("555-5678");
+        client.setPassword("password");
+        client.setStatus(true);
+
+        mockMvc.perform(put(ClientController.PATH + "/{id}", 0)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(client)))
+                .andExpect(status().isNotFound());
     }
 
     @Test
