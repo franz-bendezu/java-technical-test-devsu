@@ -87,6 +87,11 @@ public class ClientControllerIntegrationTest {
     }
 
     @Test
+    public void shouldExistsPostgresContainer() {
+        assert(postgres.isRunning());
+    }
+
+    @Test
     public void shouldReturnAllClients() throws Exception {
         mockMvc.perform(get(ClientController.PATH))
                 .andExpect(status().isOk());
