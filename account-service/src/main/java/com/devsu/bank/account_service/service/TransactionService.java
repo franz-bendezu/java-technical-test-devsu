@@ -4,7 +4,6 @@ import java.time.Instant;
 import java.util.List;
 
 import com.devsu.bank.account_service.dto.TransactionBaseDTO;
-import com.devsu.bank.account_service.dto.TransactionDTO;
 import com.devsu.bank.account_service.model.Account;
 import com.devsu.bank.account_service.model.Transaction;
 
