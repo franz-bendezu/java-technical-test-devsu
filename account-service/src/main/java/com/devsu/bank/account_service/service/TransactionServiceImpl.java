@@ -33,8 +33,8 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public TransactionDTO findById(Long id) {
-        return transactionRepository.findById(id).map(TransactionMapper::toDTO)
+    public Transaction findById(Long id) {
+        return transactionRepository.findById(id)
                 .orElseThrow(TransactionNotFoundException::new);
     }
     
@@ -91,13 +91,10 @@ public class TransactionServiceImpl implements TransactionService {
                 clientId, startDate, endDate);
     }
 
-    public List<TransactionDTO> findAllByAccountIdAndCreatedAtBetween(Long accountId, Instant startDate,
+    public List<Transaction> findAllByAccountIdAndCreatedAtBetween(Long accountId, Instant startDate,
             Instant endDate) {
         return transactionRepository.findAllByAccountIdAndCreatedAtBetween(
-                accountId, startDate, endDate)
-                .stream()
-                .map(TransactionMapper::toDTO)
-                .collect(Collectors.toList());
+                accountId, startDate, endDate);
     }
 
 }

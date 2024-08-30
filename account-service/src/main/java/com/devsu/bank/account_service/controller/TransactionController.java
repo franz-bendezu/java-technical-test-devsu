@@ -38,7 +38,7 @@ public class TransactionController {
 
     @GetMapping("/{id}")
     public TransactionDTO findById(@PathVariable Long id) {
-        return transactionService.findById(id);
+        return TransactionMapper.toDTO(transactionService.findById(id));
     }
 
     @PostMapping

@@ -77,7 +77,7 @@ public class TransactionServiceImplTest {
         Transaction transaction = createTransaction(id);
         when(transactionRepository.findById(id)).thenReturn(Optional.of(transaction));
 
-        TransactionDTO result = transactionService.findById(id);
+        Transaction result = transactionService.findById(id);
 
         Assertions.assertNotNull(result);
     }
@@ -198,7 +198,7 @@ public class TransactionServiceImplTest {
         when(transactionRepository.findAllByAccountIdAndCreatedAtBetween(accountId, startDate, endDate))
                 .thenReturn(transactions);
 
-        List<TransactionDTO> result = transactionService.findAllByAccountIdAndCreatedAtBetween(accountId, startDate,
+        List<Transaction> result = transactionService.findAllByAccountIdAndCreatedAtBetween(accountId, startDate,
                 endDate);
 
         Assertions.assertEquals(transactions.size(), result.size());

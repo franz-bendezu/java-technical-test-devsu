@@ -12,7 +12,7 @@ public interface TransactionService {
 
     public List<Transaction> findAll();
 
-    public TransactionDTO findById(Long id);
+    public Transaction findById(Long id);
 
     public Transaction create(TransactionBaseDTO transaction);
 
@@ -24,6 +24,6 @@ public interface TransactionService {
 
     public List<Transaction> findAllByClientIdAndCreatedAtBetween(Long clientId, Instant startDate, Instant endDate);
 
-    public List<TransactionDTO> findAllByAccountIdAndCreatedAtBetween(Long accountId, Instant startDate,
+    public List<Transaction> findAllByAccountIdAndCreatedAtBetween(Long accountId, Instant startDate,
             Instant endDate);
 }
