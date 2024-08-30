@@ -6,6 +6,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.devsu.bank.client_service.dto.ClientBaseDTO;
+import com.devsu.bank.client_service.dto.ClientCreateDTO;
+import com.devsu.bank.client_service.dto.ClientUpdateDTO;
 import com.devsu.bank.client_service.exception.ClientNotFoundException;
 import com.devsu.bank.client_service.model.Client;
 import com.devsu.bank.client_service.repository.ClientRepository;
@@ -33,7 +35,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client save(ClientBaseDTO clientDTO) {
+    public Client save(ClientCreateDTO clientDTO) {
         Client client = new Client();
         client.setName(clientDTO.getName());
         client.setAddress(clientDTO.getAddress());
@@ -47,7 +49,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client updateById(Long id, ClientBaseDTO client) {
+    public Client updateById(Long id, ClientUpdateDTO client) {
         Client currentClient = this.findById(id);
         currentClient.setName(client.getName());
         currentClient.setAddress(client.getAddress());

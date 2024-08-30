@@ -14,7 +14,6 @@ public class ClientMapper {
         clientDTO.setName(client.getName());
         clientDTO.setAddress(client.getAddress());
         clientDTO.setPhone(client.getPhone());
-        clientDTO.setPassword(client.getPassword());
         clientDTO.setStatus(client.getStatus());
         clientDTO.setGender(client.getGender());
         clientDTO.setAge(client.getAge());

@@ -20,10 +20,6 @@ public class ClientBaseDTO {
     @JsonProperty("telefono")
     private String phone;
 
-    @NotBlank
-    @JsonProperty("contrasena")
-    private String password;
-
     @NotNull
     @JsonProperty("estado")
     private Boolean status;

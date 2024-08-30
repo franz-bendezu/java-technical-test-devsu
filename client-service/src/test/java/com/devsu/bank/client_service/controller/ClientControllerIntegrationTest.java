@@ -21,6 +21,8 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import com.devsu.bank.client_service.dto.ClientBaseDTO;
+import com.devsu.bank.client_service.dto.ClientCreateDTO;
+import com.devsu.bank.client_service.dto.ClientUpdateDTO;
 import com.devsu.bank.client_service.model.Client;
 import com.devsu.bank.client_service.repository.ClientRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -97,7 +99,7 @@ public class ClientControllerIntegrationTest {
 
     @Test
     public void shouldCreateClient() throws Exception {
-        ClientBaseDTO client = new ClientBaseDTO();
+        ClientCreateDTO client = new ClientCreateDTO();
         client.setName("John Doe");
         client.setGender("Male");
         client.setAge(30);
@@ -127,7 +129,7 @@ public class ClientControllerIntegrationTest {
 
     @Test
     public void shouldUpdateClient() throws Exception {
-        ClientBaseDTO client = new ClientBaseDTO();
+        ClientUpdateDTO client = new ClientUpdateDTO();
         client.setName("Jane Doe");
         client.setGender("Female");
         client.setAge(25);
@@ -145,7 +147,7 @@ public class ClientControllerIntegrationTest {
 
     @Test
     public void shouldReturnNotFoundWhenUpdatingNonExistentClient() throws Exception {
-        ClientBaseDTO client = new ClientBaseDTO();
+        ClientUpdateDTO client = new ClientUpdateDTO();
         client.setName("Jane Doe");
         client.setName("Jane Doe");
         client.setGender("Female");

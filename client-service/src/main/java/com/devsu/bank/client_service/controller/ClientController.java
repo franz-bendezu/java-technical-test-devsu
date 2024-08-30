@@ -3,7 +3,9 @@ package com.devsu.bank.client_service.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.devsu.bank.client_service.dto.ClientBaseDTO;
+import com.devsu.bank.client_service.dto.ClientCreateDTO;
 import com.devsu.bank.client_service.dto.ClientDTO;
+import com.devsu.bank.client_service.dto.ClientUpdateDTO;
 import com.devsu.bank.client_service.mapper.ClientMapper;
 import com.devsu.bank.client_service.service.ClientService;
 
@@ -41,12 +43,12 @@ public class ClientController {
     }
 
     @PostMapping
-    public ClientDTO save(@Valid @RequestBody ClientBaseDTO client) {
+    public ClientDTO save(@Valid @RequestBody ClientCreateDTO client) {
         return ClientMapper.toDTO(clientService.save(client));
     }
 
     @PutMapping("/{id}")
-    public ClientDTO update(@PathVariable Long id, @Valid @RequestBody ClientBaseDTO client) {
+    public ClientDTO update(@PathVariable Long id, @Valid @RequestBody ClientUpdateDTO client) {
         return ClientMapper.toDTO(clientService.updateById(id, client));
     }
 

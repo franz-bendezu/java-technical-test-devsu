@@ -8,9 +8,10 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class ClientDTO extends ClientBaseDTO {
+public class ClientCreateDTO extends ClientBaseDTO {
+
     @NotBlank
-    @JsonProperty("id")
-    private Long id;
-    
+    @JsonProperty("contrasena")
+    private String password;
+
 }
