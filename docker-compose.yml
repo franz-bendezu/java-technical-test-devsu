@@ -77,7 +77,7 @@ services:
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
       - SPRING_KAFKA_GROUP_ID=client-ms
       - PORT=8081
-      - SPRING_FLYWAY_ENABLED=false # Colocar como "true" para executar las migraciones al iniciar la aplicación
+      - SPRING_FLYWAY_ENABLED=true # Colocar como "true" para executar las migraciones al iniciar la aplicación
       # Solo activale si no tienes las tablas creadas
       - SPRING_FLYWAY_USERNAME=test
       - SPRING_FLYWAY_PASSWORD=test
@@ -110,7 +110,7 @@ services:
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
       - SPRING_KAFKA_GROUP_ID=account-ms
       - PORT=8080
-      - SPRING_FLYWAY_ENABLED=false # Colocar como "true" para executar las migraciones al iniciar la aplicación
+      - SPRING_FLYWAY_ENABLED=true # Colocar como "true" para executar las migraciones al iniciar la aplicación
       # Solo activale si no tienes las tablas creadas
       - SPRING_FLYWAY_USERNAME=test
       - SPRING_FLYWAY_PASSWORD=test
