@@ -12,7 +12,7 @@ public class ClientBaseDTO {
     @JsonProperty("nombre")
     private String name;
 
-    @NotBlank(message = "La dirección no puede estar vacía")
+    @NotBlank(message = "La direccion no puede estar vacía")
     @JsonProperty("direccion")
     private String address;
 

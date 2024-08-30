@@ -11,8 +11,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class ClientCreateDTO extends ClientBaseDTO {
 
-    @NotNull(message = "El contrasena no puede estar vacío")
-    @NotBlank(message = "El contrasena no puede estar vacío")
+    @NotNull(message = "La contrasena no puede estar vacía")
+    @NotBlank(message = "La contrasena no puede estar vacía")
     @JsonProperty("contrasena")
     private String password;
 
