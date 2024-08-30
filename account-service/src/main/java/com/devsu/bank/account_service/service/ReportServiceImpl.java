@@ -14,7 +14,6 @@ import com.devsu.bank.account_service.config.CommonSettings;
 import com.devsu.bank.account_service.dto.ClientDTO;
 import com.devsu.bank.account_service.dto.ReportStatementAccountDTO;
 import com.devsu.bank.account_service.dto.StatementAccountDTO;
-import com.devsu.bank.account_service.dto.TransactionDTO;
 import com.devsu.bank.account_service.repository.AccountRepository;
 import com.devsu.bank.account_service.model.Transaction;
 import com.devsu.bank.account_service.mapper.TransactionMapper;

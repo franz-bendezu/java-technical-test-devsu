@@ -1,10 +1,6 @@
 package com.devsu.bank.account_service.messaging;
 
-import org.apache.kafka.clients.producer.ProducerConfig;
-import org.springframework.context.annotation.Bean;
-import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.stereotype.Component;
 
 @Component

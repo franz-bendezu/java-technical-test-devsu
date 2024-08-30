@@ -14,7 +14,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.util.Assert;
 
 import com.devsu.bank.client_service.exception.ClientNotFoundException;
 import com.devsu.bank.client_service.model.Client;

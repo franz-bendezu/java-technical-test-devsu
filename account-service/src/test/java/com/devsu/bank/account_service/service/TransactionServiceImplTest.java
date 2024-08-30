@@ -1,10 +1,8 @@
 package com.devsu.bank.account_service.service;
 
 import com.devsu.bank.account_service.dto.TransactionBaseDTO;
-import com.devsu.bank.account_service.dto.TransactionDTO;
 import com.devsu.bank.account_service.exception.InsufficientBalanceException;
 import com.devsu.bank.account_service.exception.TransactionNotFoundException;
-import com.devsu.bank.account_service.mapper.TransactionMapper;
 import com.devsu.bank.account_service.model.Account;
 import com.devsu.bank.account_service.model.Transaction;
 import com.devsu.bank.account_service.model.TransactionType;

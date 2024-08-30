@@ -1,15 +1,12 @@
 package com.devsu.bank.account_service.service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import com.devsu.bank.account_service.dto.AccountBaseDTO;
-import com.devsu.bank.account_service.dto.AccountDTO;
 import com.devsu.bank.account_service.dto.ClientDTO;
 import com.devsu.bank.account_service.exception.AccountNotFoundException;
-import com.devsu.bank.account_service.mapper.AccountMapper;
 import com.devsu.bank.account_service.model.Account;
 import com.devsu.bank.account_service.repository.AccountRepository;
 import com.devsu.bank.account_service.repository.TransactionRepository;

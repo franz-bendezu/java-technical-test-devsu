@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.devsu.bank.account_service.dto.AccountBaseDTO;
 import com.devsu.bank.account_service.dto.AccountDTO;
 import com.devsu.bank.account_service.mapper.AccountMapper;
-import com.devsu.bank.account_service.model.Account;
 import com.devsu.bank.account_service.service.AccountService;
 
 import jakarta.validation.Valid;

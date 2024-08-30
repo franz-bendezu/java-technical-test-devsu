@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.devsu.bank.client_service.dto.ClientBaseDTO;
 import com.devsu.bank.client_service.dto.ClientDTO;
 import com.devsu.bank.client_service.mapper.ClientMapper;
-import com.devsu.bank.client_service.model.Client;
 import com.devsu.bank.client_service.service.ClientService;
 
 import jakarta.validation.Valid;

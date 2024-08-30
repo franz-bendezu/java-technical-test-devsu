@@ -1,11 +1,8 @@
 package com.devsu.bank.account_service.service;
 
 import com.devsu.bank.account_service.dto.AccountBaseDTO;
-import com.devsu.bank.account_service.dto.AccountDTO;
-import com.devsu.bank.account_service.dto.ReportStatementAccountDTO;
 import com.devsu.bank.account_service.model.Account;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public interface AccountService {

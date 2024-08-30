@@ -1,6 +1,5 @@
 package com.devsu.bank.account_service.controller;
 
-import java.time.Instant;
 import java.time.LocalDate;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.devsu.bank.account_service.dto.ReportStatementAccountDTO;
-import com.devsu.bank.account_service.service.AccountService;
 import com.devsu.bank.account_service.service.ReportService;
 
 @RestController
