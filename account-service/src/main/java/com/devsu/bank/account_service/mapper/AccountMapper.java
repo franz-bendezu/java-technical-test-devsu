@@ -1,5 +1,8 @@
 package com.devsu.bank.account_service.mapper;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.devsu.bank.account_service.dto.AccountDTO;
 import com.devsu.bank.account_service.model.Account;
 
@@ -15,6 +18,10 @@ public class AccountMapper {
         accountDTO.setId(account.getId());
 
         return accountDTO;
+    }
+
+    public static List<AccountDTO> toDTO(List<Account> accounts) {
+        return accounts.stream().map(AccountMapper::toDTO).collect(Collectors.toList());
     }
 
 }
