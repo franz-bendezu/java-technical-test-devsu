@@ -56,6 +56,13 @@ services:
     networks:
       - kafka
 
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
+    networks:
+      - redis-network
+
   client-ms:
     build:
       context: ./client-service
@@ -72,7 +79,8 @@ services:
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
       - SPRING_KAFKA_GROUP_ID=client-ms
       - PORT=8080
-      - SPRING_FLYWAY_ENABLED=true
+      - SPRING_FLYWAY_ENABLED=false # Colocar como "true" para executar las migraciones al iniciar la aplicación
+      # Solo activale si no tienes las tablas creadas
       - SPRING_FLYWAY_USERNAME=test
       - SPRING_FLYWAY_PASSWORD=test
       - SPRING_FLYWAY_HOST=db-client
@@ -82,6 +90,7 @@ services:
     depends_on:
       - db-client
       - kafka
+      - redis
     ports:
       - 8080:8080
     networks:
@@ -104,7 +113,8 @@ services:
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
       - SPRING_KAFKA_GROUP_ID=account-ms
       - PORT=8081
-      - SPRING_FLYWAY_ENABLED=true
+      - SPRING_FLYWAY_ENABLED=false # Colocar como "true" para executar las migraciones al iniciar la aplicación
+      # Solo activale si no tienes las tablas creadas
       - SPRING_FLYWAY_USERNAME=test
       - SPRING_FLYWAY_PASSWORD=test
       - SPRING_FLYWAY_HOST=db-account
@@ -114,6 +124,7 @@ services:
     depends_on:
       - db-account
       - kafka
+      - redis
     ports:
       - 8081:8081
     networks:
@@ -127,4 +138,5 @@ networks:
     driver: bridge
   kafka:
     driver: bridge
-  
+  redis-network:
+    driver: bridge
