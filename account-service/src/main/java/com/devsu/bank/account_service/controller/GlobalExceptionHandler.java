@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<InsufficientBalanceException> handleInsufficientBalanceException(
             InsufficientBalanceException ex) {
         // Directly return a message or status code
-        return new ResponseEntity<>(ex, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(ex, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(TransactionNotFoundException.class)
