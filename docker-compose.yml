@@ -62,6 +62,8 @@ services:
       dockerfile: Dockerfile
     container_name: client-ms
     restart: unless-stopped
+    deploy:
+      replicas: 1
     environment:
       - SPRING_DATASOURCE_HOST=db-client
       - SPRING_DATASOURCE_PORT=5432
@@ -92,6 +94,8 @@ services:
       dockerfile: Dockerfile
     container_name: account-ms
     restart: unless-stopped
+    deploy:
+      replicas: 1
     environment:
       - SPRING_DATASOURCE_HOST=db-account
       - SPRING_DATASOURCE_PORT=3306
