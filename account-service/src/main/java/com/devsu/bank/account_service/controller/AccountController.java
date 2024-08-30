@@ -33,7 +33,7 @@ public class AccountController {
 
     @GetMapping
     public List<AccountDTO> findAll() {
-        return accountService.findAll();
+        return AccountMapper.toDTO(accountService.findAll());
     }
 
     @GetMapping("/{id}")
