@@ -66,7 +66,7 @@ public class TransactionServiceImplTest {
         transactions.add(createTransaction(1L));
         when(transactionRepository.findAll()).thenReturn(transactions);
 
-        List<TransactionDTO> result = transactionService.findAll();
+        List<Transaction> result = transactionService.findAll();
 
         Assertions.assertEquals(transactions.size(), result.size());
     }
