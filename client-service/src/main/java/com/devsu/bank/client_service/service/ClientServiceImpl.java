@@ -64,7 +64,7 @@ public class ClientServiceImpl implements ClientService {
         if (!exists) {
             throw new ClientNotFoundException();
         }
-        // TODO: Comuniarse con el servicio de cuentas para eliminar las cuentas asociadas al cliente
+        // TODO: Comuniarse con el servicio de cuentas para eliminar ( hard delete o soft delete ) las cuentas asociadas al cliente
         clientRepository.deleteById(id);
     }
 
