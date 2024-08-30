@@ -394,7 +394,7 @@
 								}
 							],
 							"request": {
-								"method": "PUT",
+								"method": "PATCH",
 								"header": [],
 								"body": {
 									"mode": "raw",
@@ -411,7 +411,7 @@
 								{
 									"name": "Respuesta 200",
 									"originalRequest": {
-										"method": "PUT",
+										"method": "PATCH",
 										"header": [],
 										"body": {
 											"mode": "raw",
@@ -455,7 +455,7 @@
 								{
 									"name": "Respuesa 200 - sin actualizar contraseña",
 									"originalRequest": {
-										"method": "PUT",
+										"method": "PATCH",
 										"header": [],
 										"body": {
 											"mode": "raw",
@@ -2261,7 +2261,7 @@
 						}
 					],
 					"request": {
-						"method": "PUT",
+						"method": "PATCH",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -2278,7 +2278,7 @@
 						{
 							"name": "Respuesta 200",
 							"originalRequest": {
-								"method": "PUT",
+								"method": "PATCH",
 								"header": [],
 								"body": {
 									"mode": "raw",
@@ -2322,7 +2322,7 @@
 						{
 							"name": "Respuesa 200 - sin actualizar contraseña",
 							"originalRequest": {
-								"method": "PUT",
+								"method": "PATCH",
 								"header": [],
 								"body": {
 									"mode": "raw",
