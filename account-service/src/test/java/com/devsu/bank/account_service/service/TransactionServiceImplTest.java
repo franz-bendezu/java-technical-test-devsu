@@ -149,10 +149,21 @@ public class TransactionServiceImplTest {
     @Test
     public void shouldDeleteTransactionById() {
         Long id = 1L;
+        when(transactionRepository.existsById(id)).thenReturn(true);
 
         transactionService.deleteById(id);
 
         verify(transactionRepository, times(1)).deleteById(id);
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenDeletingNonExistentTransaction() {
+        Long id = 1L;
+        when(transactionRepository.existsById(id)).thenReturn(false);
+
+        Assertions.assertThrows(TransactionNotFoundException.class, () -> {
+            transactionService.deleteById(id);
+        });
     }
 
     @Test
