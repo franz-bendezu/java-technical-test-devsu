@@ -8,11 +8,11 @@ import lombok.Data;
 @Data
 public class TransactionBaseDTO {
 
-    @NotNull
+    @NotNull(message = "El valor de la transacción es requerido")
     @JsonProperty("valor")
     private Integer amount;
 
-    @NotNull
+    @NotNull(message = "El id de la cuenta es requerido")
     @JsonProperty("cuentaId")
     private Long accountId;
 

@@ -10,24 +10,24 @@ import lombok.Data;
 @Data
 public class AccountBaseDTO {
 
-    @NotNull
+    @NotNull(message = "El número de cuenta es requerido")
     @JsonProperty("numeroCuenta")
     private String accountNumber;
 
-    @NotNull
+    @NotNull(message = "El tipo de cuenta es requerido")
     @JsonProperty("tipo")
     private String accountType;
 
-    @NotNull
-    @Min(0)
+    @NotNull(message = "El monto inicial es requerido")
+    @Min(value = 0, message = "El monto inicial debe ser mayor o igual a 0")
     @JsonProperty("montoInicial")
     private Integer initialAmount;
 
-    @NotNull
+    @NotNull(message = "El estado de la cuenta es requerido")
     @JsonProperty("estado")
     private boolean status;
 
-    @NotNull
+    @NotNull(message = "El id del cliente es requerido")
     @JsonProperty("clienteId")
     private Long clientId;
 
