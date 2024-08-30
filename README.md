@@ -63,9 +63,9 @@ docker-compose up --build
 
 Para compilar y ejecutar cada microservicio individualmente, siga los siguientes pasos:
 
-#### [`account-service`] ("/account-service")
+#### [`account-service`](/account-service)
 
-1. Navegue al directorio [`account-service`]("/account-service"):
+1. Navegue al directorio [`account-service`](/account-service):
 
    ```sh
    cd account-service
@@ -76,9 +76,9 @@ Para compilar y ejecutar cada microservicio individualmente, siga los siguientes
    ./mvnw spring-boot:run
    ```
 
-#### [`client-service`]("/client-service")
+#### [`client-service`](/client-service)
 
-1. Navegue al directorio [`client-service`]("/client-service"):
+1. Navegue al directorio [`client-service`](/client-service):
 
    ```sh
    cd client-service
@@ -117,10 +117,6 @@ esté configurada en [`true`]
 
 Las migraciones de base de datos se ejecutan automáticamente al iniciar los contenedores de Docker
  siempre y cuando la variable [`SPRING_FLYWAY_ENABLED`] esté configurada en [`true`] en los archivos [`docker-compose.yml`](docker-compose.yml) para cada microservicio.
-
-## Contacto
-
-Para cualquier consulta, por favor contacte al equipo de Devsu.
 
 ```
 
