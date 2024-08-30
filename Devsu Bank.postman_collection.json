@@ -7,6 +7,622 @@
 	},
 	"item": [
 		{
+			"name": "Microservicios de cliente",
+			"item": [
+				{
+					"name": "clientes",
+					"item": [
+						{
+							"name": "Obtener clientes",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 200\", function () {",
+											"  pm.response.to.have.status(200);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate the response schema for required fields\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('array');",
+											"    ",
+											"    responseData.forEach(function(cliente) {",
+											"        pm.expect(cliente).to.have.property('nombre');",
+											"        pm.expect(cliente).to.have.property('direccion');",
+											"        pm.expect(cliente).to.have.property('telefono');",
+											"        pm.expect(cliente).to.have.property('estado');",
+											"        pm.expect(cliente).to.have.property('genero');",
+											"        pm.expect(cliente).to.have.property('edad');",
+											"        pm.expect(cliente).to.have.property('identificacion');",
+											"        pm.expect(cliente).to.have.property('id');",
+											"    });",
+											"});",
+											"",
+											"",
+											"pm.test(\"Estado field must be a boolean\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    responseData.forEach(function(cliente) {",
+											"        pm.expect(cliente.estado).to.be.a('boolean');",
+											"    });",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response contains the header Content-Type with value application/json\", function () {",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+											"});",
+											"",
+											"",
+											"pm.test(\"Id field is a non-negative integer\", function () {",
+											"  const responseData = pm.response.json();",
+											"  ",
+											"  pm.expect(responseData).to.be.an('array');",
+											"  responseData.forEach(function (client) {",
+											"    pm.expect(client.id).to.be.a('number').and.to.satisfy((id) => id >= 0, \"Id must be a non-negative integer\");",
+											"  });",
+											"});",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{client-ms-url}}/clientes"
+							},
+							"response": [
+								{
+									"name": "Respuesta 200",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": "http://localhost:8081/clientes"
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "Crear cliente",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test(\"La respuesta tiene código 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate the response schema for the required fields\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.nombre).to.exist.and.to.be.a('string');",
+											"    pm.expect(responseData.direccion).to.exist.and.to.be.a('string');",
+											"    pm.expect(responseData.telefono).to.exist.and.to.be.a('string');",
+											"    pm.expect(responseData.contrasena).to.not.exist.and.to.be.a('string');",
+											"    pm.expect(responseData.estado).to.exist.and.to.be.a('boolean');",
+											"});",
+											"",
+											"",
+											"pm.test(\"Estado field should be a boolean\", function () {",
+											"    const responseData = pm.response.json();",
+											"",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.estado).to.be.a('boolean');",
+											"});",
+											"",
+											"",
+											"pm.test(\"Id field is a non-negative integer\", function () {",
+											"  const responseData = pm.response.json();",
+											"",
+											"  pm.expect(responseData).to.be.an('object');",
+											"  pm.expect(responseData.id).to.exist.and.to.be.a('number');",
+											"  pm.expect(responseData.id).to.be.at.least(0, \"Id should be a non-negative integer\");",
+											"});",
+											"",
+											"// Only set the variable if the response is successful ",
+											"if (pm.response.code === 200) {",
+											"    const responseData = pm.response.json();",
+											"    pm.collectionVariables.set('clienteId', responseData.id);",
+											"}",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nombre\": \"Franz\",\r\n    \"direccion\": \"Casa\",\r\n    \"telefono\": \"+51123456\",\r\n    \"contrasena\" : \"1234\",\r\n    \"estado\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{client-ms-url}}/clientes"
+							},
+							"response": [
+								{
+									"name": "Respuesta 200",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"nombre\": \"Franz\",\r\n    \"direccion\": \"Casa\",\r\n    \"telefono\": \"+51123456\",\r\n    \"contrasena\" : \"1234\",\r\n    \"estado\": false\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "http://localhost:8081/clientes"
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 30 Aug 2024 07:58:02 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"nombre\": \"Franz\",\n    \"direccion\": \"Casa\",\n    \"telefono\": \"+51123456\",\n    \"estado\": false,\n    \"genero\": null,\n    \"edad\": null,\n    \"identificacion\": null,\n    \"id\": 19\n}"
+								},
+								{
+									"name": "Respuesta 400",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{client-ms-url}}/clientes"
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 30 Aug 2024 08:01:14 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Campos inválidos\",\n    \"path\": \"uri=/clientes\",\n    \"code\": null,\n    \"errors\": [\n        {\n            \"field\": \"status\",\n            \"message\": \"El estado no puede estar vacío\"\n        },\n        {\n            \"field\": \"phone\",\n            \"message\": \"El correo no puede estar vacío\"\n        },\n        {\n            \"field\": \"password\",\n            \"message\": \"La contrasena no puede estar vacía\"\n        },\n        {\n            \"field\": \"password\",\n            \"message\": \"La contrasena no puede estar vacía\"\n        },\n        {\n            \"field\": \"address\",\n            \"message\": \"La direccion no puede estar vacía\"\n        },\n        {\n            \"field\": \"name\",\n            \"message\": \"El nombre no puede estar vacío\"\n        }\n    ]\n}"
+								}
+							]
+						},
+						{
+							"name": "Obtener cliente",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 200\", function () {",
+											"  pm.response.to.have.status(200);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate the response schema for required fields\", function () {",
+											"    const cliente = pm.response.json();",
+											"    ",
+											"    pm.expect(cliente).to.have.property('nombre');",
+											"    pm.expect(cliente).to.have.property('direccion');",
+											"    pm.expect(cliente).to.have.property('telefono');",
+											"    pm.expect(cliente).not.to.have.property('contrasena');",
+											"    pm.expect(cliente).to.have.property('estado');",
+											"    pm.expect(cliente).to.have.property('genero');",
+											"    pm.expect(cliente).to.have.property('edad');",
+											"    pm.expect(cliente).to.have.property('identificacion');",
+											"    pm.expect(cliente).to.have.property('id');",
+											"",
+											"});",
+											"",
+											"",
+											"pm.test(\"Estado field must be a boolean\", function () {",
+											"    const cliente = pm.response.json();",
+											"    pm.expect(cliente.estado).to.be.a('boolean');",
+											"    ",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response contains the header Content-Type with value application/json\", function () {",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+											"});",
+											"",
+											"",
+											"pm.test(\"Id field is a non-negative integer\", function () {",
+											"  const client = pm.response.json();",
+											"",
+											"    pm.expect(client.id).to.be.a('number').and.to.satisfy((id) => id >= 0, \"Id must be a non-negative integer\");",
+											"",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{client-ms-url}}/clientes/{{clienteId}}"
+							},
+							"response": [
+								{
+									"name": "Respuesta 200",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": "http://localhost:8081/clientes/1"
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 30 Aug 2024 08:18:34 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"nombre\": \"Franz\",\n    \"direccion\": \"Casa\",\n    \"telefono\": \"+51123456\",\n    \"estado\": false,\n    \"genero\": null,\n    \"edad\": null,\n    \"identificacion\": null,\n    \"id\": 1\n}"
+								}
+							]
+						},
+						{
+							"name": "Actualizar cliente",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test(\"La respuesta tiene código 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response has the required fields\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.nombre).to.exist;",
+											"    pm.expect(responseData.direccion).to.exist;",
+											"    pm.expect(responseData.telefono).to.exist;",
+											"    pm.expect(responseData.estado).to.exist;",
+											"    pm.expect(responseData.id).to.exist;",
+											"});",
+											"",
+											"",
+											"pm.test(\"Nombre, direccion, and telefono are non-empty strings\", function () {",
+											"  const responseData = pm.response.json();",
+											"  ",
+											"  pm.expect(responseData).to.be.an('object');",
+											"  pm.expect(responseData.nombre).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Nombre should not be empty\");",
+											"  pm.expect(responseData.direccion).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Direccion should not be empty\");",
+											"  pm.expect(responseData.telefono).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Telefono should not be empty\");",
+											"});",
+											"",
+											"",
+											"pm.test(\"Estado is a boolean value\", function () {",
+											"  const responseData = pm.response.json();",
+											"  ",
+											"  pm.expect(responseData).to.have.property('estado').that.is.a('boolean');",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nombre\": \"Franz\",\r\n    \"direccion\": \"Casa\",\r\n    \"telefono\": \"+51123456\",\r\n    \"estado\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{client-ms-url}}/clientes/{{clienteId}}"
+							},
+							"response": [
+								{
+									"name": "Respuesta 200",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"nombre\": \"Franz\",\r\n    \"direccion\": \"Casa\",\r\n    \"telefono\": \"+51123456\",\r\n    \"contrasena\" : \"1234\",\r\n    \"estado\": true\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "http://localhost:8081/clientes/1"
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 30 Aug 2024 08:01:35 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"nombre\": \"Franz\",\n    \"direccion\": \"Casa\",\n    \"telefono\": \"+51123456\",\n    \"estado\": false,\n    \"genero\": null,\n    \"edad\": null,\n    \"identificacion\": null,\n    \"id\": 1\n}"
+								},
+								{
+									"name": "Respuesa 200 - sin actualizar contraseña",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"nombre\": \"Franz\",\r\n    \"direccion\": \"Casa\",\r\n    \"telefono\": \"+51123456\",\r\n    \"estado\": true\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{client-ms-url}}/clientes/1"
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 30 Aug 2024 08:02:15 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"nombre\": \"Franz\",\n    \"direccion\": \"Casa\",\n    \"telefono\": \"+51123456\",\n    \"estado\": false,\n    \"genero\": null,\n    \"edad\": null,\n    \"identificacion\": null,\n    \"id\": 1\n}"
+								}
+							]
+						},
+						{
+							"name": "Eliminar cliente",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test(\"La respuesta tiene código 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{client-ms-url}}/clientes/{{clienteId}}"
+							},
+							"response": [
+								{
+									"name": "Respuesta 404",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "http://localhost:8081/clientes/5"
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 30 Aug 2024 08:03:14 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Cliente no encontrado\",\n    \"path\": \"uri=/clientes/2\",\n    \"code\": \"CLIENT_NOT_FOUND\"\n}"
+								},
+								{
+									"name": "Respuesta 200",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{client-ms-url}}/clientes/5"
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Content-Length",
+											"value": "0"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 30 Aug 2024 08:03:40 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": null
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
 			"name": "Microservicio de Cuentas",
 			"item": [
 				{
@@ -51,10 +667,6 @@
 											"});",
 											"",
 											"",
-											"pm.test(\"Response time is within an acceptable range\", function () {",
-											"  pm.expect(pm.response.responseTime).to.be.below(200);",
-											"});",
-											"",
 											"",
 											"pm.test(\"Content-Type header is application/json\", function () {",
 											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
@@ -83,11 +695,11 @@
 							},
 							"response": [
 								{
-									"name": "200",
+									"name": "Respuesta 200",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
-										"url": "{{account-ms-url}}/cuentas"
+										"url": "http://localhost:8080/cuentas"
 									},
 									"status": "OK",
 									"code": 200,
@@ -120,7 +732,7 @@
 							]
 						},
 						{
-							"name": "Obtener cuenta",
+							"name": "Crear cuenta",
 							"event": [
 								{
 									"listen": "test",
@@ -133,145 +745,47 @@
 											"",
 											"",
 											"pm.test(\"Response has the required fields\", function () {",
-											"    const item = pm.response.json();",
+											"    const responseData = pm.response.json();",
 											"",
-											"    pm.expect(item).to.have.property('numeroCuenta');",
-											"    pm.expect(item).to.have.property('tipo');",
-											"    pm.expect(item).to.have.property('montoInicial');",
-											"    pm.expect(item).to.have.property('estado');",
-											"    pm.expect(item).to.have.property('clienteId');",
-											"    pm.expect(item).to.have.property('id');",
-											"",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.numeroCuenta).to.exist;",
+											"    pm.expect(responseData.tipo).to.exist;",
+											"    pm.expect(responseData.montoInicial).to.exist;",
+											"    pm.expect(responseData.estado).to.exist;",
+											"    pm.expect(responseData.clienteId).to.exist;",
+											"    pm.expect(responseData.id).to.exist;",
 											"});",
 											"",
 											"",
-											"pm.test(\"MontoInicial should be a non-negative integer\", function () {",
-											"    const cuenta = pm.response.json();",
-											"",
-											"    pm.expect(cuenta.montoInicial).to.be.a('number');",
-											"    pm.expect(cuenta.montoInicial).to.be.at.least(0, \"MontoInicial should be non-negative\");",
-											"   ",
+											"pm.test(\"NumeroCuenta should be a non-empty string\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.numeroCuenta).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
 											"});",
 											"",
 											"",
-											"pm.test(\"Response time is within an acceptable range\", function () {",
-											"  pm.expect(pm.response.responseTime).to.be.below(200);",
+											"pm.test(\"Tipo should be a non-empty string\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.tipo).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Tipo should not be empty\");",
 											"});",
 											"",
 											"",
-											"pm.test(\"Content-Type header is application/json\", function () {",
-											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
-											"});",
-											""
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": "{{account-ms-url}}/cuentas/2"
-							},
-							"response": [
-								{
-									"name": "Respuesta 200",
-									"originalRequest": {
-										"method": "GET",
-										"header": [],
-										"url": "http://localhost:8080/cuentas/2"
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										},
-										{
-											"key": "Date",
-											"value": "Fri, 30 Aug 2024 07:03:50 GMT"
-										},
-										{
-											"key": "Keep-Alive",
-											"value": "timeout=60"
-										},
-										{
-											"key": "Connection",
-											"value": "keep-alive"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"numeroCuenta\": \"test\",\n    \"tipo\": \"Ahorros\",\n    \"montoInicial\": 0,\n    \"estado\": false,\n    \"clienteId\": 1,\n    \"id\": 2\n}"
-								},
-								{
-									"name": "Respuesta 400",
-									"originalRequest": {
-										"method": "GET",
-										"header": [],
-										"url": "http://localhost:8080/cuentas/6"
-									},
-									"status": "Not Found",
-									"code": 404,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										},
-										{
-											"key": "Date",
-											"value": "Fri, 30 Aug 2024 07:47:32 GMT"
-										},
-										{
-											"key": "Keep-Alive",
-											"value": "timeout=60"
-										},
-										{
-											"key": "Connection",
-											"value": "keep-alive"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"message\": \"Cuenta no encontrada\",\n    \"path\": \"uri=/cuentas/6\",\n    \"code\": \"ACCOUNT_NOT_FOUND\"\n}"
-								}
-							]
-						},
-						{
-							"name": "Crear cuenta",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"",
-											"pm.test(\"La respuesta tiene código 200\", function () {",
-											"    pm.response.to.have.status(200);",
+											"pm.test(\"Monto inicial should be a non-negative number\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData.montoInicial).to.be.a('number');",
+											"    pm.expect(responseData.montoInicial).to.be.at.least(0, \"Monto inicial should be a non-negative number\");",
 											"});",
 											"",
-											"pm.test(\"La respuesta es JSON\", function () {",
-											"    pm.response.to.be.json;",
-											"});",
+											"// Only set the variable if the response is successful ",
+											"if (pm.response.code === 200) {",
+											"    const responseData = pm.response.json();",
+											"    pm.collectionVariables.set('cuentaId', responseData.id);",
+											"}",
+											"",
 											"",
 											""
 										],
@@ -295,7 +809,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"tipo\": \"Ahorros\",\r\n    \"montoInicial\": 100,\r\n    \"numeroCuenta\": \"test\",\r\n    \"clienteId\": 1,\r\n    \"estado\":  false\r\n}",
+									"raw": "{\r\n    \"tipo\": \"Ahorros\",\r\n    \"montoInicial\": 100,\r\n    \"numeroCuenta\": \"test\",\r\n    \"clienteId\": {{clienteId}},\r\n    \"estado\":  false\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -319,7 +833,7 @@
 												}
 											}
 										},
-										"url": "{{account-ms-url}}/cuentas"
+										"url": "http://localhost:8080/cuentas"
 									},
 									"status": "OK",
 									"code": 200,
@@ -356,7 +870,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"tipo\": \"Corriente\",\r\n    \"montoInicial\": 100,\r\n    \"numeroCuenta\": \"test\",\r\n    \"clienteId\": 1,\r\n    \"estado\":  false\r\n}",
+											"raw": "{\r\n    \"tipo\": \"Corriente\",\r\n    \"montoInicial\": 100,\r\n    \"numeroCuenta\": \"test\",\r\n    \"clienteId\": {{clienteId}},\r\n    \"estado\":  false\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -436,6 +950,144 @@
 							]
 						},
 						{
+							"name": "Obtener cuenta",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test(\"La respuesta tiene código 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response has the required fields\", function () {",
+											"    const item = pm.response.json();",
+											"",
+											"    pm.expect(item).to.have.property('numeroCuenta');",
+											"    pm.expect(item).to.have.property('tipo');",
+											"    pm.expect(item).to.have.property('montoInicial');",
+											"    pm.expect(item).to.have.property('estado');",
+											"    pm.expect(item).to.have.property('clienteId');",
+											"    pm.expect(item).to.have.property('id');",
+											"",
+											"});",
+											"",
+											"",
+											"pm.test(\"MontoInicial should be a non-negative integer\", function () {",
+											"    const cuenta = pm.response.json();",
+											"",
+											"    pm.expect(cuenta.montoInicial).to.be.a('number');",
+											"    pm.expect(cuenta.montoInicial).to.be.at.least(0, \"MontoInicial should be non-negative\");",
+											"   ",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response time is within an acceptable range\", function () {",
+											"  pm.expect(pm.response.responseTime).to.be.below(200);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Content-Type header is application/json\", function () {",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{account-ms-url}}/cuentas/{{cuentaId}}"
+							},
+							"response": [
+								{
+									"name": "Respuesta 200",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": "http://localhost:8080/cuentas/1"
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 30 Aug 2024 07:03:50 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"numeroCuenta\": \"test\",\n    \"tipo\": \"Ahorros\",\n    \"montoInicial\": 0,\n    \"estado\": false,\n    \"clienteId\": 1,\n    \"id\": 2\n}"
+								},
+								{
+									"name": "Respuesta 404",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": "http://localhost:8080/cuentas/6"
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 30 Aug 2024 07:47:32 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Cuenta no encontrada\",\n    \"path\": \"uri=/cuentas/6\",\n    \"code\": \"ACCOUNT_NOT_FOUND\"\n}"
+								}
+							]
+						},
+						{
 							"name": "Actualizar cuenta",
 							"event": [
 								{
@@ -501,14 +1153,14 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"tipo\": \"Ahorros\",\r\n    \"montoInicial\": 0,\r\n    \"numeroCuenta\": \"test\",\r\n    \"clienteId\": 2,\r\n    \"estado\": false\r\n}",
+									"raw": "{\r\n    \"tipo\": \"Ahorros\",\r\n    \"montoInicial\": 0,\r\n    \"numeroCuenta\": \"test\",\r\n    \"clienteId\": {{clienteId}},\r\n    \"estado\": false\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
-								"url": "{{account-ms-url}}/cuentas/2"
+								"url": "{{account-ms-url}}/cuentas/{{cuentaId}}"
 							},
 							"response": [
 								{
@@ -589,11 +1241,11 @@
 										}
 									}
 								},
-								"url": "{{account-ms-url}}/cuentas/1"
+								"url": "{{account-ms-url}}/cuentas/{{cuentaId}}"
 							},
 							"response": [
 								{
-									"name": "Respuesra 400",
+									"name": "Respuesta 400",
 									"originalRequest": {
 										"method": "DELETE",
 										"header": [],
@@ -649,17 +1301,38 @@
 								{
 									"listen": "test",
 									"script": {
-										"type": "text/javascript",
 										"exec": [
 											"",
 											"pm.test(\"La respuesta tiene código 200\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});",
 											"",
-											"pm.test(\"La respuesta es JSON\", function () {",
-											"    pm.response.to.be.json;",
-											"});"
-										]
+											"",
+											"",
+											"pm.test(\"Response has the required fields\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('array').that.is.not.empty;",
+											"    responseData.forEach(function(item) {",
+											"        pm.expect(item).to.be.an('object');",
+											"        pm.expect(item.valor).to.exist;",
+											"        pm.expect(item.cuentaId).to.exist;",
+											"        pm.expect(item.id).to.exist;",
+											"        pm.expect(item.saldo).to.exist;",
+											"        pm.expect(item.tipo).to.exist;",
+											"        pm.expect(item.fecha).to.exist;",
+											"    });",
+											"});",
+											"",
+											"",
+											"",
+											"pm.test(\"Content-Type header is application/json\", function () {",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -668,7 +1341,43 @@
 								"header": [],
 								"url": "{{account-ms-url}}/movimientos"
 							},
-							"response": []
+							"response": [
+								{
+									"name": "Respuesta 200",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": "{{account-ms-url}}/movimientos"
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 30 Aug 2024 08:22:25 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"valor\": 20,\n        \"cuentaId\": 2,\n        \"id\": 11,\n        \"saldo\": 20,\n        \"tipo\": \"Deposito\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": 20,\n        \"cuentaId\": 2,\n        \"id\": 12,\n        \"saldo\": 40,\n        \"tipo\": \"Deposito\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": 20,\n        \"cuentaId\": 2,\n        \"id\": 13,\n        \"saldo\": 60,\n        \"tipo\": \"Deposito\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": 20,\n        \"cuentaId\": 2,\n        \"id\": 14,\n        \"saldo\": 80,\n        \"tipo\": \"Deposito\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": -20,\n        \"cuentaId\": 2,\n        \"id\": 15,\n        \"saldo\": 60,\n        \"tipo\": \"Retiro\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": 20,\n        \"cuentaId\": 2,\n        \"id\": 16,\n        \"saldo\": 80,\n        \"tipo\": \"Deposito\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": 20,\n        \"cuentaId\": 2,\n        \"id\": 17,\n        \"saldo\": 100,\n        \"tipo\": \"Deposito\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": -20,\n        \"cuentaId\": 4,\n        \"id\": 18,\n        \"saldo\": 80,\n        \"tipo\": \"Retiro\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": 20,\n        \"cuentaId\": 2,\n        \"id\": 19,\n        \"saldo\": 120,\n        \"tipo\": \"Deposito\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": 20,\n        \"cuentaId\": 2,\n        \"id\": 20,\n        \"saldo\": 140,\n        \"tipo\": \"Deposito\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": 1,\n        \"cuentaId\": 2,\n        \"id\": 21,\n        \"saldo\": 160,\n        \"tipo\": \"Deposito\",\n        \"fecha\": \"2024-08-30\"\n    }\n]"
+								}
+							]
 						},
 						{
 							"name": "Crear movimiento",
@@ -700,6 +1409,14 @@
 											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
 											"});",
 											"",
+											"",
+											"",
+											"// Only set the variable if the response is successful ",
+											"if (pm.response.code === 200) {",
+											"    const responseData = pm.response.json();",
+											"    pm.collectionVariables.set('movimientoId', responseData.id);",
+											"}",
+											"",
 											""
 										],
 										"type": "text/javascript",
@@ -712,7 +1429,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"cuentaId\": 2,\r\n    \"valor\": 20\r\n}",
+									"raw": "{\r\n    \"cuentaId\": {{cuentaId}},\r\n    \"valor\": 20\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -864,25 +1581,16 @@
 											"    pm.response.to.have.status(200);",
 											"});",
 											"",
-											"pm.test(\"Response status code is 200\", function () {",
-											"  pm.response.to.have.status(200);",
-											"});",
-											"",
-											"",
-											"pm.test(\"Response time is less than 500ms\", function () {",
-											"  pm.expect(pm.response.responseTime).to.be.below(500);",
-											"});",
-											"",
 											"",
 											"pm.test(\"Validate the response schema properties and types\", function () {",
 											"    const responseData = pm.response.json();",
 											"    ",
 											"    pm.expect(responseData).to.be.an('object');",
 											"    pm.expect(responseData.id).to.be.a('number');",
-											"    pm.expect(responseData.date).to.be.a('string');",
-											"    pm.expect(responseData.description).to.be.a('string');",
-											"    pm.expect(responseData.amount).to.be.a('number');",
-											"    pm.expect(responseData.type).to.be.oneOf(['income', 'expense']);",
+											"    pm.expect(responseData.fecha).to.be.a('string');",
+											"    pm.expect(responseData.valor).to.be.a('number');",
+											"    pm.expect(responseData.saldo).to.be.a('number');",
+											"    pm.expect(responseData.tipo).to.be.oneOf(['Deposito', 'Retiro']);",
 											"});",
 											"",
 											""
@@ -897,16 +1605,134 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"cuentaId\": 1,\r\n    \"valor\": 1\r\n}",
+									"raw": "{\r\n    \"cuentaId\": 2,\r\n    \"valor\": 1\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
-								"url": "{{account-ms-url}}/movimientos/1"
+								"url": "{{account-ms-url}}/movimientos/{{movimientoId}}"
 							},
-							"response": []
+							"response": [
+								{
+									"name": "Respuesta 200",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"cuentaId\": 2,\r\n    \"valor\": 1\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{account-ms-url}}/movimientos/21"
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 30 Aug 2024 08:21:05 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"valor\": 1,\n    \"cuentaId\": 2,\n    \"id\": 21,\n    \"saldo\": 160,\n    \"tipo\": \"Deposito\",\n    \"fecha\": \"2024-08-30\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Obtener movimiento",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test(\"La respuesta tiene código 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Validate the response schema for required fields\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.valor).to.exist;",
+											"    pm.expect(responseData.cuentaId).to.exist;",
+											"    pm.expect(responseData.id).to.exist;",
+											"    pm.expect(responseData.saldo).to.exist;",
+											"    pm.expect(responseData.tipo).to.exist;",
+											"    pm.expect(responseData.fecha).to.exist;",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{account-ms-url}}/movimientos/{{movimientoId}}"
+							},
+							"response": [
+								{
+									"name": "Respuesta 200",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": "{{account-ms-url}}/movimientos"
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 30 Aug 2024 08:22:25 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"valor\": 20,\n        \"cuentaId\": 2,\n        \"id\": 11,\n        \"saldo\": 20,\n        \"tipo\": \"Deposito\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": 20,\n        \"cuentaId\": 2,\n        \"id\": 12,\n        \"saldo\": 40,\n        \"tipo\": \"Deposito\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": 20,\n        \"cuentaId\": 2,\n        \"id\": 13,\n        \"saldo\": 60,\n        \"tipo\": \"Deposito\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": 20,\n        \"cuentaId\": 2,\n        \"id\": 14,\n        \"saldo\": 80,\n        \"tipo\": \"Deposito\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": -20,\n        \"cuentaId\": 2,\n        \"id\": 15,\n        \"saldo\": 60,\n        \"tipo\": \"Retiro\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": 20,\n        \"cuentaId\": 2,\n        \"id\": 16,\n        \"saldo\": 80,\n        \"tipo\": \"Deposito\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": 20,\n        \"cuentaId\": 2,\n        \"id\": 17,\n        \"saldo\": 100,\n        \"tipo\": \"Deposito\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": -20,\n        \"cuentaId\": 4,\n        \"id\": 18,\n        \"saldo\": 80,\n        \"tipo\": \"Retiro\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": 20,\n        \"cuentaId\": 2,\n        \"id\": 19,\n        \"saldo\": 120,\n        \"tipo\": \"Deposito\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": 20,\n        \"cuentaId\": 2,\n        \"id\": 20,\n        \"saldo\": 140,\n        \"tipo\": \"Deposito\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": 1,\n        \"cuentaId\": 2,\n        \"id\": 21,\n        \"saldo\": 160,\n        \"tipo\": \"Deposito\",\n        \"fecha\": \"2024-08-30\"\n    }\n]"
+								}
+							]
 						},
 						{
 							"name": "Eliminar movimiento",
@@ -914,17 +1740,16 @@
 								{
 									"listen": "test",
 									"script": {
-										"type": "text/javascript",
 										"exec": [
 											"",
 											"pm.test(\"La respuesta tiene código 200\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});",
 											"",
-											"pm.test(\"La respuesta es JSON\", function () {",
-											"    pm.response.to.be.json;",
-											"});"
-										]
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -940,9 +1765,54 @@
 										}
 									}
 								},
-								"url": "{{account-ms-url}}/movimientos/5"
+								"url": "{{account-ms-url}}/movimientos/{{movimientoId}}"
 							},
-							"response": []
+							"response": [
+								{
+									"name": "Respuesta 404",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{account-ms-url}}/movimientos/5"
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 30 Aug 2024 08:21:57 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Transacción no encontrada\",\n    \"path\": \"uri=/movimientos/5\",\n    \"code\": \"TRANSACTION_NOT_FOUND\"\n}"
+								}
+							]
 						}
 					]
 				},
@@ -955,17 +1825,43 @@
 								{
 									"listen": "test",
 									"script": {
-										"type": "text/javascript",
 										"exec": [
 											"",
 											"pm.test(\"La respuesta tiene código 200\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});",
 											"",
-											"pm.test(\"La respuesta es JSON\", function () {",
-											"    pm.response.to.be.json;",
-											"});"
-										]
+											"",
+											"pm.test(\"La respuesta tiene el formato de esquema esperado\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.have.property('cliente');",
+											"    pm.expect(responseData).to.have.property('cuentas').that.is.an('array');",
+											"    responseData.cuentas.forEach(function(cuenta) {",
+											"        pm.expect(cuenta).to.have.property('numeroCuenta');",
+											"        pm.expect(cuenta).to.have.property('saldoActual');",
+											"        pm.expect(cuenta).to.have.property('movimientos').that.is.an('array');",
+											"        cuenta.movimientos.forEach(function(movimiento) {",
+											"            pm.expect(movimiento).to.have.property('valor');",
+											"            pm.expect(movimiento).to.have.property('saldo');",
+											"            pm.expect(movimiento).to.have.property('tipo');",
+											"            pm.expect(movimiento).to.have.property('fecha');",
+											"        });",
+											"    });",
+											"});",
+											"",
+											"",
+											"pm.test(\"Cliente is a non-empty string\", function () {",
+											"  const responseData = pm.response.json();",
+											"  ",
+											"  pm.expect(responseData.cliente).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+											"});",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -973,7 +1869,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{account-ms-url}}/reportes?cliente=1&rangoInicio=2024-08-28&rangoFin=2024-08-30",
+									"raw": "{{account-ms-url}}/reportes?cliente={{clienteId}}&rangoInicio=2024-08-28&rangoFin=2024-08-30",
 									"host": [
 										"{{account-ms-url}}"
 									],
@@ -983,7 +1879,7 @@
 									"query": [
 										{
 											"key": "cliente",
-											"value": "1"
+											"value": "{{clienteId}}"
 										},
 										{
 											"key": "rangoInicio",
@@ -1003,7 +1899,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{account-ms-url}}/reportes?cliente=1&rangoInicio=2024-08-28&rangoFin=2024-08-30",
+											"raw": "{{account-ms-url}}/reportes?cliente={{clienteId}}&rangoInicio=2024-08-28&rangoFin=2024-08-30",
 											"host": [
 												"{{account-ms-url}}"
 											],
@@ -1013,7 +1909,7 @@
 											"query": [
 												{
 													"key": "cliente",
-													"value": "1"
+													"value": "{{clienteId}}"
 												},
 												{
 													"key": "rangoInicio",
@@ -1062,141 +1958,80 @@
 			"description": "URL Endpoint: {{account-ms-url}}\n\n[<br><br>](http://localhost:8081}})"
 		},
 		{
-			"name": "Microservicios de cliente",
+			"name": "e2e",
 			"item": [
 				{
-					"name": "clientes",
-					"item": [
+					"name": "Crear cliente ",
+					"event": [
 						{
-							"name": "Obtener cliente",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Response status code is 200\", function () {",
-											"  pm.response.to.have.status(200);",
-											"});",
-											"",
-											"",
-											"pm.test(\"Validate the response schema for required fields\", function () {",
-											"    const responseData = pm.response.json();",
-											"    ",
-											"    pm.expect(responseData).to.be.an('array');",
-											"    ",
-											"    responseData.forEach(function(cliente) {",
-											"        pm.expect(cliente).to.have.property('nombre');",
-											"        pm.expect(cliente).to.have.property('direccion');",
-											"        pm.expect(cliente).to.have.property('telefono');",
-											"        pm.expect(cliente).to.have.property('contrasena');",
-											"        pm.expect(cliente).to.have.property('estado');",
-											"        pm.expect(cliente).to.have.property('genero');",
-											"        pm.expect(cliente).to.have.property('edad');",
-											"        pm.expect(cliente).to.have.property('identificacion');",
-											"        pm.expect(cliente).to.have.property('id');",
-											"    });",
-											"});",
-											"",
-											"",
-											"pm.test(\"Estado field must be a boolean\", function () {",
-											"    const responseData = pm.response.json();",
-											"    ",
-											"    responseData.forEach(function(cliente) {",
-											"        pm.expect(cliente.estado).to.be.a('boolean');",
-											"    });",
-											"});",
-											"",
-											"",
-											"pm.test(\"Response contains the header Content-Type with value application/json\", function () {",
-											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
-											"});",
-											"",
-											"",
-											"pm.test(\"Id field is a non-negative integer\", function () {",
-											"  const responseData = pm.response.json();",
-											"  ",
-											"  pm.expect(responseData).to.be.an('array');",
-											"  responseData.forEach(function (client) {",
-											"    pm.expect(client.id).to.be.a('number').and.to.satisfy((id) => id >= 0, \"Id must be a non-negative integer\");",
-											"  });",
-											"});",
-											"",
-											""
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"La respuesta tiene código 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validate the response schema for the required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.nombre).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.direccion).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.telefono).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.contrasena).to.not.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.estado).to.exist.and.to.be.a('boolean');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Estado field should be a boolean\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.estado).to.be.a('boolean');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Id field is a non-negative integer\", function () {",
+									"  const responseData = pm.response.json();",
+									"",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.id).to.exist.and.to.be.a('number');",
+									"  pm.expect(responseData.id).to.be.at.least(0, \"Id should be a non-negative integer\");",
+									"});",
+									"",
+									"// Only set the variable if the response is successful ",
+									"if (pm.response.code === 200) {",
+									"    const responseData = pm.response.json();",
+									"    pm.collectionVariables.set('clienteId', responseData.id);",
+									"}",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Franz\",\r\n    \"direccion\": \"Casa\",\r\n    \"telefono\": \"+51123456\",\r\n    \"contrasena\" : \"1234\",\r\n    \"estado\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": "{{client-ms-url}}/clientes"
-							},
-							"response": [
-								{
-									"name": "200",
-									"originalRequest": {
-										"method": "GET",
-										"header": [],
-										"url": "http://localhost:8081/clientes"
-									},
-									"_postman_previewlanguage": null,
-									"header": null,
-									"cookie": [],
-									"body": null
-								}
-							]
+							}
 						},
+						"url": "{{client-ms-url}}/clientes"
+					},
+					"response": [
 						{
-							"name": "Crear cliente",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"",
-											"pm.test(\"La respuesta tiene código 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"",
-											"pm.test(\"Validate the response schema for the required fields\", function () {",
-											"    const responseData = pm.response.json();",
-											"    ",
-											"    pm.expect(responseData).to.be.an('object');",
-											"    pm.expect(responseData.nombre).to.exist.and.to.be.a('string');",
-											"    pm.expect(responseData.direccion).to.exist.and.to.be.a('string');",
-											"    pm.expect(responseData.telefono).to.exist.and.to.be.a('string');",
-											"    pm.expect(responseData.contrasena).to.not.exist.and.to.be.a('string');",
-											"    pm.expect(responseData.estado).to.exist.and.to.be.a('boolean');",
-											"});",
-											"",
-											"",
-											"pm.test(\"Estado field should be a boolean\", function () {",
-											"    const responseData = pm.response.json();",
-											"",
-											"    pm.expect(responseData).to.be.an('object');",
-											"    pm.expect(responseData.estado).to.be.a('boolean');",
-											"});",
-											"",
-											"",
-											"pm.test(\"Id field is a non-negative integer\", function () {",
-											"  const responseData = pm.response.json();",
-											"",
-											"  pm.expect(responseData).to.be.an('object');",
-											"  pm.expect(responseData.id).to.exist.and.to.be.a('number');",
-											"  pm.expect(responseData.id).to.be.at.least(0, \"Id should be a non-negative integer\");",
-											"});",
-											"",
-											""
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
+							"name": "Respuesta 200",
+							"originalRequest": {
 								"method": "POST",
 								"header": [],
 								"body": {
@@ -1210,115 +2045,283 @@
 								},
 								"url": "{{client-ms-url}}/clientes"
 							},
-							"response": [
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
 								{
-									"name": "Respuesta 200",
-									"originalRequest": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"nombre\": \"Franz\",\r\n    \"direccion\": \"Casa\",\r\n    \"telefono\": \"+51123456\",\r\n    \"contrasena\" : \"1234\",\r\n    \"estado\": false\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": "{{client-ms-url}}/clientes"
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										},
-										{
-											"key": "Date",
-											"value": "Fri, 30 Aug 2024 07:58:02 GMT"
-										},
-										{
-											"key": "Keep-Alive",
-											"value": "timeout=60"
-										},
-										{
-											"key": "Connection",
-											"value": "keep-alive"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"nombre\": \"Franz\",\n    \"direccion\": \"Casa\",\n    \"telefono\": \"+51123456\",\n    \"estado\": false,\n    \"genero\": null,\n    \"edad\": null,\n    \"identificacion\": null,\n    \"id\": 19\n}"
+									"key": "Content-Type",
+									"value": "application/json"
 								},
 								{
-									"name": "Respuesta 400",
-									"originalRequest": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": "{{client-ms-url}}/clientes"
-									},
-									"status": "Bad Request",
-									"code": 400,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										},
-										{
-											"key": "Date",
-											"value": "Fri, 30 Aug 2024 08:01:14 GMT"
-										},
-										{
-											"key": "Connection",
-											"value": "close"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"message\": \"Campos inválidos\",\n    \"path\": \"uri=/clientes\",\n    \"code\": null,\n    \"errors\": [\n        {\n            \"field\": \"status\",\n            \"message\": \"El estado no puede estar vacío\"\n        },\n        {\n            \"field\": \"phone\",\n            \"message\": \"El correo no puede estar vacío\"\n        },\n        {\n            \"field\": \"password\",\n            \"message\": \"La contrasena no puede estar vacía\"\n        },\n        {\n            \"field\": \"password\",\n            \"message\": \"La contrasena no puede estar vacía\"\n        },\n        {\n            \"field\": \"address\",\n            \"message\": \"La direccion no puede estar vacía\"\n        },\n        {\n            \"field\": \"name\",\n            \"message\": \"El nombre no puede estar vacío\"\n        }\n    ]\n}"
-								}
-							]
-						},
-						{
-							"name": "Actualizar cliente",
-							"event": [
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
 								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"",
-											"pm.test(\"La respuesta tiene código 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"La respuesta es JSON\", function () {",
-											"    pm.response.to.be.json;",
-											"});"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
+									"key": "Date",
+									"value": "Fri, 30 Aug 2024 07:58:02 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
 								}
 							],
-							"request": {
+							"cookie": [],
+							"body": "{\n    \"nombre\": \"Franz\",\n    \"direccion\": \"Casa\",\n    \"telefono\": \"+51123456\",\n    \"estado\": false,\n    \"genero\": null,\n    \"edad\": null,\n    \"identificacion\": null,\n    \"id\": 19\n}"
+						},
+						{
+							"name": "Respuesta 400",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{client-ms-url}}/clientes"
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 30 Aug 2024 08:01:14 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Campos inválidos\",\n    \"path\": \"uri=/clientes\",\n    \"code\": null,\n    \"errors\": [\n        {\n            \"field\": \"status\",\n            \"message\": \"El estado no puede estar vacío\"\n        },\n        {\n            \"field\": \"phone\",\n            \"message\": \"El correo no puede estar vacío\"\n        },\n        {\n            \"field\": \"password\",\n            \"message\": \"La contrasena no puede estar vacía\"\n        },\n        {\n            \"field\": \"password\",\n            \"message\": \"La contrasena no puede estar vacía\"\n        },\n        {\n            \"field\": \"address\",\n            \"message\": \"La direccion no puede estar vacía\"\n        },\n        {\n            \"field\": \"name\",\n            \"message\": \"El nombre no puede estar vacío\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Obtener cliente ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validate the response schema for required fields\", function () {",
+									"    const cliente = pm.response.json();",
+									"    ",
+									"    pm.expect(cliente).to.have.property('nombre');",
+									"    pm.expect(cliente).to.have.property('direccion');",
+									"    pm.expect(cliente).to.have.property('telefono');",
+									"    pm.expect(cliente).not.to.have.property('contrasena');",
+									"    pm.expect(cliente).to.have.property('estado');",
+									"    pm.expect(cliente).to.have.property('genero');",
+									"    pm.expect(cliente).to.have.property('edad');",
+									"    pm.expect(cliente).to.have.property('identificacion');",
+									"    pm.expect(cliente).to.have.property('id');",
+									"",
+									"});",
+									"",
+									"",
+									"pm.test(\"Estado field must be a boolean\", function () {",
+									"    const cliente = pm.response.json();",
+									"    pm.expect(cliente.estado).to.be.a('boolean');",
+									"    ",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response contains the header Content-Type with value application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Id field is a non-negative integer\", function () {",
+									"  const client = pm.response.json();",
+									"",
+									"    pm.expect(client.id).to.be.a('number').and.to.satisfy((id) => id >= 0, \"Id must be a non-negative integer\");",
+									"",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{client-ms-url}}/clientes/{{clienteId}}"
+					},
+					"response": [
+						{
+							"name": "Respuesta 200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": "{{client-ms-url}}/clientes/1"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 30 Aug 2024 08:18:34 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"nombre\": \"Franz\",\n    \"direccion\": \"Casa\",\n    \"telefono\": \"+51123456\",\n    \"estado\": false,\n    \"genero\": null,\n    \"edad\": null,\n    \"identificacion\": null,\n    \"id\": 1\n}"
+						}
+					]
+				},
+				{
+					"name": "Actualizar cliente ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"La respuesta tiene código 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.nombre).to.exist;",
+									"    pm.expect(responseData.direccion).to.exist;",
+									"    pm.expect(responseData.telefono).to.exist;",
+									"    pm.expect(responseData.estado).to.exist;",
+									"    pm.expect(responseData.id).to.exist;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Nombre, direccion, and telefono are non-empty strings\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.nombre).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Nombre should not be empty\");",
+									"  pm.expect(responseData.direccion).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Direccion should not be empty\");",
+									"  pm.expect(responseData.telefono).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Telefono should not be empty\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Estado is a boolean value\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData).to.have.property('estado').that.is.a('boolean');",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Franz\",\r\n    \"direccion\": \"Casa\",\r\n    \"telefono\": \"+51123456\",\r\n    \"estado\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{client-ms-url}}/clientes/{{clienteId}}"
+					},
+					"response": [
+						{
+							"name": "Respuesta 200",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nombre\": \"Franz\",\r\n    \"direccion\": \"Casa\",\r\n    \"telefono\": \"+51123456\",\r\n    \"contrasena\" : \"1234\",\r\n    \"estado\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{client-ms-url}}/clientes/1"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 30 Aug 2024 08:01:35 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"nombre\": \"Franz\",\n    \"direccion\": \"Casa\",\n    \"telefono\": \"+51123456\",\n    \"estado\": false,\n    \"genero\": null,\n    \"edad\": null,\n    \"identificacion\": null,\n    \"id\": 1\n}"
+						},
+						{
+							"name": "Respuesa 200 - sin actualizar contraseña",
+							"originalRequest": {
 								"method": "PUT",
 								"header": [],
 								"body": {
@@ -1332,117 +2335,1286 @@
 								},
 								"url": "{{client-ms-url}}/clientes/1"
 							},
-							"response": [
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
 								{
-									"name": "Respuesta 200",
-									"originalRequest": {
-										"method": "PUT",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"nombre\": \"Franz\",\r\n    \"direccion\": \"Casa\",\r\n    \"telefono\": \"+51123456\",\r\n    \"contrasena\" : \"1234\",\r\n    \"estado\": true\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": "{{client-ms-url}}/clientes/1"
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										},
-										{
-											"key": "Date",
-											"value": "Fri, 30 Aug 2024 08:01:35 GMT"
-										},
-										{
-											"key": "Keep-Alive",
-											"value": "timeout=60"
-										},
-										{
-											"key": "Connection",
-											"value": "keep-alive"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"nombre\": \"Franz\",\n    \"direccion\": \"Casa\",\n    \"telefono\": \"+51123456\",\n    \"estado\": false,\n    \"genero\": null,\n    \"edad\": null,\n    \"identificacion\": null,\n    \"id\": 1\n}"
+									"key": "Content-Type",
+									"value": "application/json"
 								},
 								{
-									"name": "Respuesa 200 - sin actualizar contraseña",
-									"originalRequest": {
-										"method": "PUT",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"nombre\": \"Franz\",\r\n    \"direccion\": \"Casa\",\r\n    \"telefono\": \"+51123456\",\r\n    \"estado\": true\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": "{{client-ms-url}}/clientes/1"
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										},
-										{
-											"key": "Date",
-											"value": "Fri, 30 Aug 2024 08:02:15 GMT"
-										},
-										{
-											"key": "Keep-Alive",
-											"value": "timeout=60"
-										},
-										{
-											"key": "Connection",
-											"value": "keep-alive"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"nombre\": \"Franz\",\n    \"direccion\": \"Casa\",\n    \"telefono\": \"+51123456\",\n    \"estado\": false,\n    \"genero\": null,\n    \"edad\": null,\n    \"identificacion\": null,\n    \"id\": 1\n}"
-								}
-							]
-						},
-						{
-							"name": "Eliminar cliente",
-							"event": [
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
 								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"",
-											"pm.test(\"La respuesta tiene código 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											""
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
+									"key": "Date",
+									"value": "Fri, 30 Aug 2024 08:02:15 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
 								}
 							],
-							"request": {
+							"cookie": [],
+							"body": "{\n    \"nombre\": \"Franz\",\n    \"direccion\": \"Casa\",\n    \"telefono\": \"+51123456\",\n    \"estado\": false,\n    \"genero\": null,\n    \"edad\": null,\n    \"identificacion\": null,\n    \"id\": 1\n}"
+						}
+					]
+				},
+				{
+					"name": "Obtener clientes ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validate the response schema for required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('array');",
+									"    ",
+									"    responseData.forEach(function(cliente) {",
+									"        pm.expect(cliente).to.have.property('nombre');",
+									"        pm.expect(cliente).to.have.property('direccion');",
+									"        pm.expect(cliente).to.have.property('telefono');",
+									"        pm.expect(cliente).to.have.property('estado');",
+									"        pm.expect(cliente).to.have.property('genero');",
+									"        pm.expect(cliente).to.have.property('edad');",
+									"        pm.expect(cliente).to.have.property('identificacion');",
+									"        pm.expect(cliente).to.have.property('id');",
+									"    });",
+									"});",
+									"",
+									"",
+									"pm.test(\"Estado field must be a boolean\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    responseData.forEach(function(cliente) {",
+									"        pm.expect(cliente.estado).to.be.a('boolean');",
+									"    });",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response contains the header Content-Type with value application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Id field is a non-negative integer\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData).to.be.an('array');",
+									"  responseData.forEach(function (client) {",
+									"    pm.expect(client.id).to.be.a('number').and.to.satisfy((id) => id >= 0, \"Id must be a non-negative integer\");",
+									"  });",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{client-ms-url}}/clientes"
+					},
+					"response": [
+						{
+							"name": "Respuesta 200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": "{{client-ms-url}}/clientes"
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Crear cuenta ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"La respuesta tiene código 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.numeroCuenta).to.exist;",
+									"    pm.expect(responseData.tipo).to.exist;",
+									"    pm.expect(responseData.montoInicial).to.exist;",
+									"    pm.expect(responseData.estado).to.exist;",
+									"    pm.expect(responseData.clienteId).to.exist;",
+									"    pm.expect(responseData.id).to.exist;",
+									"});",
+									"",
+									"",
+									"pm.test(\"NumeroCuenta should be a non-empty string\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.numeroCuenta).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Tipo should be a non-empty string\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.tipo).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Tipo should not be empty\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Monto inicial should be a non-negative number\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.montoInicial).to.be.a('number');",
+									"    pm.expect(responseData.montoInicial).to.be.at.least(0, \"Monto inicial should be a non-negative number\");",
+									"});",
+									"",
+									"// Only set the variable if the response is successful ",
+									"if (pm.response.code === 200) {",
+									"    const responseData = pm.response.json();",
+									"    pm.collectionVariables.set('cuentaId', responseData.id);",
+									"}",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tipo\": \"Ahorros\",\r\n    \"montoInicial\": 100,\r\n    \"numeroCuenta\": \"test\",\r\n    \"clienteId\": {{clienteId}},\r\n    \"estado\":  false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{account-ms-url}}/cuentas"
+					},
+					"response": [
+						{
+							"name": "Crear Ahorros",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"tipo\": \"Ahorros\",\r\n    \"montoInicial\": 100,\r\n    \"numeroCuenta\": \"test\",\r\n    \"clienteId\": {{clienteId}},\r\n    \"estado\":  false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{account-ms-url}}/cuentas"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 30 Aug 2024 07:08:13 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"numeroCuenta\": \"test\",\n    \"tipo\": \"Ahorros\",\n    \"montoInicial\": 100,\n    \"estado\": false,\n    \"clienteId\": 1,\n    \"id\": 13\n}"
+						},
+						{
+							"name": "Crear Corriente",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"tipo\": \"Corriente\",\r\n    \"montoInicial\": 100,\r\n    \"numeroCuenta\": \"test\",\r\n    \"clienteId\": {{clienteId}},\r\n    \"estado\":  false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{account-ms-url}}/cuentas"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 30 Aug 2024 07:08:13 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"numeroCuenta\": \"test\",\n    \"tipo\": \"Corriente\",\n    \"montoInicial\": 100,\n    \"estado\": false,\n    \"clienteId\": 1,\n    \"id\": 13\n}"
+						},
+						{
+							"name": "Campos Inválidos",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{account-ms-url}}/cuentas"
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 30 Aug 2024 07:41:37 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Campos inválidos\",\n    \"path\": \"uri=/cuentas\",\n    \"code\": null,\n    \"errors\": [\n        {\n            \"field\": \"accountNumber\",\n            \"message\": \"El número de cuenta es requerido\"\n        },\n        {\n            \"field\": \"accountType\",\n            \"message\": \"El tipo de cuenta es requerido\"\n        },\n        {\n            \"field\": \"initialAmount\",\n            \"message\": \"El monto inicial es requerido\"\n        },\n        {\n            \"field\": \"clientId\",\n            \"message\": \"El id del cliente es requerido\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Obtener cuenta ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"La respuesta tiene código 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required fields\", function () {",
+									"    const item = pm.response.json();",
+									"",
+									"    pm.expect(item).to.have.property('numeroCuenta');",
+									"    pm.expect(item).to.have.property('tipo');",
+									"    pm.expect(item).to.have.property('montoInicial');",
+									"    pm.expect(item).to.have.property('estado');",
+									"    pm.expect(item).to.have.property('clienteId');",
+									"    pm.expect(item).to.have.property('id');",
+									"",
+									"});",
+									"",
+									"",
+									"pm.test(\"MontoInicial should be a non-negative integer\", function () {",
+									"    const cuenta = pm.response.json();",
+									"",
+									"    pm.expect(cuenta.montoInicial).to.be.a('number');",
+									"    pm.expect(cuenta.montoInicial).to.be.at.least(0, \"MontoInicial should be non-negative\");",
+									"   ",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response time is within an acceptable range\", function () {",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Content-Type header is application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{account-ms-url}}/cuentas/{{cuentaId}}"
+					},
+					"response": [
+						{
+							"name": "Respuesta 200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:8080/cuentas/{{clienteId}}"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 30 Aug 2024 07:03:50 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"numeroCuenta\": \"test\",\n    \"tipo\": \"Ahorros\",\n    \"montoInicial\": 0,\n    \"estado\": false,\n    \"clienteId\": 1,\n    \"id\": 2\n}"
+						},
+						{
+							"name": "Respuesta 404",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:8080/cuentas/6"
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 30 Aug 2024 07:47:32 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Cuenta no encontrada\",\n    \"path\": \"uri=/cuentas/6\",\n    \"code\": \"ACCOUNT_NOT_FOUND\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Actualizar cuenta ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"La respuesta tiene código 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"",
+									"pm.test(\"La respuesta es del tipo application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Esquema de la respuesta valida\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData).to.have.property('numeroCuenta');",
+									"  pm.expect(responseData).to.have.property('tipo');",
+									"  pm.expect(responseData).to.have.property('montoInicial');",
+									"  pm.expect(responseData).to.have.property('estado');",
+									"  pm.expect(responseData).to.have.property('clienteId');",
+									"  pm.expect(responseData).to.have.property('id');",
+									"});",
+									"",
+									"",
+									"pm.test(\"MontoInicial is a non-negative integer\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.montoInicial).to.be.a('number');",
+									"    pm.expect(responseData.montoInicial).to.be.at.least(0);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Estado is a boolean value\", function () {",
+									"  const responseData = pm.response.json();",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.estado).to.be.a('boolean');",
+									"});",
+									"",
+									"",
+									"pm.test(\"ClienteId is a non-negative integer\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.clienteId).to.be.a('number');",
+									"    pm.expect(responseData.clienteId).to.be.at.least(0, \"ClienteId should be a non-negative integer\");",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tipo\": \"Ahorros\",\r\n    \"montoInicial\": 0,\r\n    \"numeroCuenta\": \"test\",\r\n    \"clienteId\": {{clienteId}},\r\n    \"estado\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{account-ms-url}}/cuentas/{{cuentaId}}"
+					},
+					"response": [
+						{
+							"name": "Respuesta 200",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"tipo\": \"Ahorros\",\r\n    \"montoInicial\": 0,\r\n    \"numeroCuenta\": \"test\",\r\n    \"clienteId\": 1,\r\n    \"estado\":  false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{account-ms-url}}/cuentas/2"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 30 Aug 2024 07:07:26 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"numeroCuenta\": \"test\",\n    \"tipo\": \"Ahorros\",\n    \"montoInicial\": 0,\n    \"estado\": false,\n    \"clienteId\": 1,\n    \"id\": 2\n}"
+						}
+					]
+				},
+				{
+					"name": "Obtener cuentas ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"La respuesta tiene código 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"",
+									"pm.test(\"Response has the required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('array').that.is.not.empty;",
+									"    responseData.forEach(function(item) {",
+									"        pm.expect(item).to.have.property('numeroCuenta');",
+									"        pm.expect(item).to.have.property('tipo');",
+									"        pm.expect(item).to.have.property('montoInicial');",
+									"        pm.expect(item).to.have.property('estado');",
+									"        pm.expect(item).to.have.property('clienteId');",
+									"        pm.expect(item).to.have.property('id');",
+									"    });",
+									"});",
+									"",
+									"",
+									"pm.test(\"MontoInicial should be a non-negative integer\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    responseData.forEach(function (cuenta) {",
+									"        pm.expect(cuenta.montoInicial).to.be.a('number');",
+									"        pm.expect(cuenta.montoInicial).to.be.at.least(0, \"MontoInicial should be non-negative\");",
+									"    });",
+									"});",
+									"",
+									"",
+									"",
+									"pm.test(\"Content-Type header is application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{account-ms-url}}/cuentas"
+					},
+					"response": [
+						{
+							"name": "Respuesta 200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": "{{account-ms-url}}/cuentas"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 30 Aug 2024 07:10:49 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"numeroCuenta\": \"test\",\n        \"tipo\": \"Ahorros\",\n        \"montoInicial\": 0,\n        \"estado\": false,\n        \"clienteId\": 1,\n        \"id\": 2\n    },\n    {\n        \"numeroCuenta\": \"test\",\n        \"tipo\": \"Ahorros\",\n        \"montoInicial\": 100,\n        \"estado\": false,\n        \"clienteId\": 1,\n        \"id\": 3\n    },\n    {\n        \"numeroCuenta\": \"test\",\n        \"tipo\": \"Ahorros\",\n        \"montoInicial\": 100,\n        \"estado\": false,\n        \"clienteId\": 1,\n        \"id\": 4\n    },\n    {\n        \"numeroCuenta\": \"test\",\n        \"tipo\": \"Ahorros\",\n        \"montoInicial\": 100,\n        \"estado\": false,\n        \"clienteId\": 1,\n        \"id\": 7\n    },\n    {\n        \"numeroCuenta\": \"test\",\n        \"tipo\": \"Ahrros\",\n        \"montoInicial\": 100,\n        \"estado\": false,\n        \"clienteId\": 1,\n        \"id\": 8\n    },\n    {\n        \"numeroCuenta\": \"test\",\n        \"tipo\": \"Ahorros\",\n        \"montoInicial\": 100,\n        \"estado\": false,\n        \"clienteId\": 1,\n        \"id\": 9\n    },\n    {\n        \"numeroCuenta\": \"test\",\n        \"tipo\": \"Ahorros\",\n        \"montoInicial\": 100,\n        \"estado\": false,\n        \"clienteId\": 1,\n        \"id\": 10\n    },\n    {\n        \"numeroCuenta\": \"test\",\n        \"tipo\": \"Ahorros\",\n        \"montoInicial\": 100,\n        \"estado\": false,\n        \"clienteId\": 1,\n        \"id\": 11\n    },\n    {\n        \"numeroCuenta\": \"test\",\n        \"tipo\": \"Ahorros\",\n        \"montoInicial\": 100,\n        \"estado\": false,\n        \"clienteId\": 1,\n        \"id\": 12\n    },\n    {\n        \"numeroCuenta\": \"test\",\n        \"tipo\": \"Ahorros\",\n        \"montoInicial\": 100,\n        \"estado\": false,\n        \"clienteId\": 1,\n        \"id\": 13\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Crear movimiento ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"La respuesta tiene código 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validate the response schema for required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.valor).to.exist;",
+									"    pm.expect(responseData.cuentaId).to.exist;",
+									"    pm.expect(responseData.id).to.exist;",
+									"    pm.expect(responseData.saldo).to.exist;",
+									"    pm.expect(responseData.tipo).to.exist;",
+									"    pm.expect(responseData.fecha).to.exist;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verify the Content-Type header is application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+									"});",
+									"",
+									"",
+									"",
+									"// Only set the variable if the response is successful ",
+									"if (pm.response.code === 200) {",
+									"    const responseData = pm.response.json();",
+									"    pm.collectionVariables.set('movimientoId', responseData.id);",
+									"}",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cuentaId\": {{cuentaId}},\r\n    \"valor\": 20\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{account-ms-url}}/movimientos"
+					},
+					"response": [
+						{
+							"name": "Crear Depósito",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"cuentaId\": 2,\r\n    \"valor\": 20\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{account-ms-url}}/movimientos"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 30 Aug 2024 06:59:05 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"valor\": 20,\n    \"cuentaId\": 2,\n    \"id\": 17,\n    \"saldo\": 100,\n    \"tipo\": \"Deposito\",\n    \"fecha\": \"2024-08-30\"\n}"
+						},
+						{
+							"name": "Crear Retiro",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"cuentaId\": 4,\r\n    \"valor\": -20\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{account-ms-url}}/movimientos"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 30 Aug 2024 07:00:56 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"valor\": -20,\n    \"cuentaId\": 4,\n    \"id\": 18,\n    \"saldo\": 80,\n    \"tipo\": \"Retiro\",\n    \"fecha\": \"2024-08-30\"\n}"
+						},
+						{
+							"name": "Saldo insufiente",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"cuentaId\": 3,\r\n    \"valor\": -200\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:8080/movimientos"
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 30 Aug 2024 07:17:53 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Saldo insuficiente\",\n    \"path\": \"Saldo insuficiente\",\n    \"code\": \"INSUFFICIENT_BALANCE\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Actualizar movimiento ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"La respuesta tiene código 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validate the response schema properties and types\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.id).to.be.a('number');",
+									"    pm.expect(responseData.fecha).to.be.a('string');",
+									"    pm.expect(responseData.valor).to.be.a('number');",
+									"    pm.expect(responseData.saldo).to.be.a('number');",
+									"    pm.expect(responseData.tipo).to.be.oneOf(['Deposito', 'Retiro']);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cuentaId\": 2,\r\n    \"valor\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{account-ms-url}}/movimientos/{{movimientoId}}"
+					},
+					"response": [
+						{
+							"name": "Respuesta 200",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"cuentaId\": 2,\r\n    \"valor\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{account-ms-url}}/movimientos/21"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 30 Aug 2024 08:21:05 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"valor\": 1,\n    \"cuentaId\": 2,\n    \"id\": 21,\n    \"saldo\": 160,\n    \"tipo\": \"Deposito\",\n    \"fecha\": \"2024-08-30\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Obtener movimiento ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"La respuesta tiene código 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validate the response schema for required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.valor).to.exist;",
+									"    pm.expect(responseData.cuentaId).to.exist;",
+									"    pm.expect(responseData.id).to.exist;",
+									"    pm.expect(responseData.saldo).to.exist;",
+									"    pm.expect(responseData.tipo).to.exist;",
+									"    pm.expect(responseData.fecha).to.exist;",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{account-ms-url}}/movimientos/{{movimientoId}}"
+					},
+					"response": [
+						{
+							"name": "Respuesta 200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": "{{account-ms-url}}/movimientos"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 30 Aug 2024 08:22:25 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"valor\": 20,\n        \"cuentaId\": 2,\n        \"id\": 11,\n        \"saldo\": 20,\n        \"tipo\": \"Deposito\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": 20,\n        \"cuentaId\": 2,\n        \"id\": 12,\n        \"saldo\": 40,\n        \"tipo\": \"Deposito\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": 20,\n        \"cuentaId\": 2,\n        \"id\": 13,\n        \"saldo\": 60,\n        \"tipo\": \"Deposito\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": 20,\n        \"cuentaId\": 2,\n        \"id\": 14,\n        \"saldo\": 80,\n        \"tipo\": \"Deposito\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": -20,\n        \"cuentaId\": 2,\n        \"id\": 15,\n        \"saldo\": 60,\n        \"tipo\": \"Retiro\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": 20,\n        \"cuentaId\": 2,\n        \"id\": 16,\n        \"saldo\": 80,\n        \"tipo\": \"Deposito\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": 20,\n        \"cuentaId\": 2,\n        \"id\": 17,\n        \"saldo\": 100,\n        \"tipo\": \"Deposito\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": -20,\n        \"cuentaId\": 4,\n        \"id\": 18,\n        \"saldo\": 80,\n        \"tipo\": \"Retiro\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": 20,\n        \"cuentaId\": 2,\n        \"id\": 19,\n        \"saldo\": 120,\n        \"tipo\": \"Deposito\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": 20,\n        \"cuentaId\": 2,\n        \"id\": 20,\n        \"saldo\": 140,\n        \"tipo\": \"Deposito\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": 1,\n        \"cuentaId\": 2,\n        \"id\": 21,\n        \"saldo\": 160,\n        \"tipo\": \"Deposito\",\n        \"fecha\": \"2024-08-30\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Obtener movimientos ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"",
+									"pm.test(\"La respuesta tiene código 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"La respuesta es JSON\", function () {",
+									"    pm.response.to.be.json;",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{account-ms-url}}/movimientos"
+					},
+					"response": [
+						{
+							"name": "Respuesta 200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": "{{account-ms-url}}/movimientos"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 30 Aug 2024 08:22:25 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"valor\": 20,\n        \"cuentaId\": 2,\n        \"id\": 11,\n        \"saldo\": 20,\n        \"tipo\": \"Deposito\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": 20,\n        \"cuentaId\": 2,\n        \"id\": 12,\n        \"saldo\": 40,\n        \"tipo\": \"Deposito\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": 20,\n        \"cuentaId\": 2,\n        \"id\": 13,\n        \"saldo\": 60,\n        \"tipo\": \"Deposito\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": 20,\n        \"cuentaId\": 2,\n        \"id\": 14,\n        \"saldo\": 80,\n        \"tipo\": \"Deposito\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": -20,\n        \"cuentaId\": 2,\n        \"id\": 15,\n        \"saldo\": 60,\n        \"tipo\": \"Retiro\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": 20,\n        \"cuentaId\": 2,\n        \"id\": 16,\n        \"saldo\": 80,\n        \"tipo\": \"Deposito\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": 20,\n        \"cuentaId\": 2,\n        \"id\": 17,\n        \"saldo\": 100,\n        \"tipo\": \"Deposito\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": -20,\n        \"cuentaId\": 4,\n        \"id\": 18,\n        \"saldo\": 80,\n        \"tipo\": \"Retiro\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": 20,\n        \"cuentaId\": 2,\n        \"id\": 19,\n        \"saldo\": 120,\n        \"tipo\": \"Deposito\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": 20,\n        \"cuentaId\": 2,\n        \"id\": 20,\n        \"saldo\": 140,\n        \"tipo\": \"Deposito\",\n        \"fecha\": \"2024-08-30\"\n    },\n    {\n        \"valor\": 1,\n        \"cuentaId\": 2,\n        \"id\": 21,\n        \"saldo\": 160,\n        \"tipo\": \"Deposito\",\n        \"fecha\": \"2024-08-30\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Obtener Reporte de Estado de cuenta ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"La respuesta tiene código 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"La respuesta tiene el formato de esquema esperado\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.have.property('cliente');",
+									"    pm.expect(responseData).to.have.property('cuentas').that.is.an('array');",
+									"    responseData.cuentas.forEach(function(cuenta) {",
+									"        pm.expect(cuenta).to.have.property('numeroCuenta');",
+									"        pm.expect(cuenta).to.have.property('saldoActual');",
+									"        pm.expect(cuenta).to.have.property('movimientos').that.is.an('array');",
+									"        cuenta.movimientos.forEach(function(movimiento) {",
+									"            pm.expect(movimiento).to.have.property('valor');",
+									"            pm.expect(movimiento).to.have.property('saldo');",
+									"            pm.expect(movimiento).to.have.property('tipo');",
+									"            pm.expect(movimiento).to.have.property('fecha');",
+									"        });",
+									"    });",
+									"});",
+									"",
+									"",
+									"pm.test(\"Cliente is a non-empty string\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.cliente).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{account-ms-url}}/reportes?cliente={{clienteId}}&rangoInicio=2024-08-28&rangoFin=2024-08-30",
+							"host": [
+								"{{account-ms-url}}"
+							],
+							"path": [
+								"reportes"
+							],
+							"query": [
+								{
+									"key": "cliente",
+									"value": "{{clienteId}}"
+								},
+								{
+									"key": "rangoInicio",
+									"value": "2024-08-28"
+								},
+								{
+									"key": "rangoFin",
+									"value": "2024-08-30"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Respuesta 200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{account-ms-url}}/reportes?cliente={{clienteId}}&rangoInicio=2024-08-28&rangoFin=2024-08-30",
+									"host": [
+										"{{account-ms-url}}"
+									],
+									"path": [
+										"reportes"
+									],
+									"query": [
+										{
+											"key": "cliente",
+											"value": "{{clienteId}}"
+										},
+										{
+											"key": "rangoInicio",
+											"value": "2024-08-28"
+										},
+										{
+											"key": "rangoFin",
+											"value": "2024-08-30"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 30 Aug 2024 08:06:01 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"cliente\": \"Franz\",\n    \"cuentas\": [\n        {\n            \"id\": 2,\n            \"numeroCuenta\": \"test\",\n            \"saldoActual\": 120,\n            \"movimientos\": [\n                {\n                    \"valor\": 20,\n                    \"cuentaId\": 2,\n                    \"id\": 11,\n                    \"saldo\": 20,\n                    \"tipo\": \"Deposito\",\n                    \"fecha\": \"2024-08-30\"\n                },\n                {\n                    \"valor\": 20,\n                    \"cuentaId\": 2,\n                    \"id\": 12,\n                    \"saldo\": 40,\n                    \"tipo\": \"Deposito\",\n                    \"fecha\": \"2024-08-30\"\n                },\n                {\n                    \"valor\": 20,\n                    \"cuentaId\": 2,\n                    \"id\": 13,\n                    \"saldo\": 60,\n                    \"tipo\": \"Deposito\",\n                    \"fecha\": \"2024-08-30\"\n                },\n                {\n                    \"valor\": 20,\n                    \"cuentaId\": 2,\n                    \"id\": 14,\n                    \"saldo\": 80,\n                    \"tipo\": \"Deposito\",\n                    \"fecha\": \"2024-08-30\"\n                },\n                {\n                    \"valor\": -20,\n                    \"cuentaId\": 2,\n                    \"id\": 15,\n                    \"saldo\": 60,\n                    \"tipo\": \"Retiro\",\n                    \"fecha\": \"2024-08-30\"\n                },\n                {\n                    \"valor\": 20,\n                    \"cuentaId\": 2,\n                    \"id\": 16,\n                    \"saldo\": 80,\n                    \"tipo\": \"Deposito\",\n                    \"fecha\": \"2024-08-30\"\n                },\n                {\n                    \"valor\": 20,\n                    \"cuentaId\": 2,\n                    \"id\": 17,\n                    \"saldo\": 100,\n                    \"tipo\": \"Deposito\",\n                    \"fecha\": \"2024-08-30\"\n                },\n                {\n                    \"valor\": 20,\n                    \"cuentaId\": 2,\n                    \"id\": 19,\n                    \"saldo\": 120,\n                    \"tipo\": \"Deposito\",\n                    \"fecha\": \"2024-08-30\"\n                }\n            ]\n        },\n        {\n            \"id\": 3,\n            \"numeroCuenta\": \"test\",\n            \"saldoActual\": 100,\n            \"movimientos\": []\n        },\n        {\n            \"id\": 4,\n            \"numeroCuenta\": \"test\",\n            \"saldoActual\": 80,\n            \"movimientos\": [\n                {\n                    \"valor\": -20,\n                    \"cuentaId\": 4,\n                    \"id\": 18,\n                    \"saldo\": 80,\n                    \"tipo\": \"Retiro\",\n                    \"fecha\": \"2024-08-30\"\n                }\n            ]\n        },\n        {\n            \"id\": 7,\n            \"numeroCuenta\": \"test\",\n            \"saldoActual\": 100,\n            \"movimientos\": []\n        },\n        {\n            \"id\": 8,\n            \"numeroCuenta\": \"test\",\n            \"saldoActual\": 100,\n            \"movimientos\": []\n        },\n        {\n            \"id\": 9,\n            \"numeroCuenta\": \"test\",\n            \"saldoActual\": 100,\n            \"movimientos\": []\n        },\n        {\n            \"id\": 10,\n            \"numeroCuenta\": \"test\",\n            \"saldoActual\": 100,\n            \"movimientos\": []\n        },\n        {\n            \"id\": 11,\n            \"numeroCuenta\": \"test\",\n            \"saldoActual\": 100,\n            \"movimientos\": []\n        },\n        {\n            \"id\": 12,\n            \"numeroCuenta\": \"test\",\n            \"saldoActual\": 100,\n            \"movimientos\": []\n        },\n        {\n            \"id\": 13,\n            \"numeroCuenta\": \"test\",\n            \"saldoActual\": 100,\n            \"movimientos\": []\n        },\n        {\n            \"id\": 14,\n            \"numeroCuenta\": \"test\",\n            \"saldoActual\": 100,\n            \"movimientos\": []\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Eliminar cliente ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"La respuesta tiene código 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{client-ms-url}}/clientes/{{clienteId}}"
+					},
+					"response": [
+						{
+							"name": "Respuesta 404",
+							"originalRequest": {
 								"method": "DELETE",
 								"header": [],
 								"body": {
@@ -1454,94 +3626,236 @@
 										}
 									}
 								},
-								"url": "{{client-ms-url}}/clientes/2"
+								"url": "{{client-ms-url}}/clientes/5"
 							},
-							"response": [
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
 								{
-									"name": "Respuesta 404",
-									"originalRequest": {
-										"method": "DELETE",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": "{{client-ms-url}}/clientes/5"
-									},
-									"status": "Not Found",
-									"code": 404,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										},
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										},
-										{
-											"key": "Date",
-											"value": "Fri, 30 Aug 2024 08:03:14 GMT"
-										},
-										{
-											"key": "Keep-Alive",
-											"value": "timeout=60"
-										},
-										{
-											"key": "Connection",
-											"value": "keep-alive"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"message\": \"Cliente no encontrado\",\n    \"path\": \"uri=/clientes/2\",\n    \"code\": \"CLIENT_NOT_FOUND\"\n}"
+									"key": "Content-Type",
+									"value": "application/json"
 								},
 								{
-									"name": "Respuesta 200",
-									"originalRequest": {
-										"method": "DELETE",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": "{{client-ms-url}}/clientes/5"
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "plain",
-									"header": [
-										{
-											"key": "Content-Length",
-											"value": "0"
-										},
-										{
-											"key": "Date",
-											"value": "Fri, 30 Aug 2024 08:03:40 GMT"
-										},
-										{
-											"key": "Keep-Alive",
-											"value": "timeout=60"
-										},
-										{
-											"key": "Connection",
-											"value": "keep-alive"
-										}
-									],
-									"cookie": [],
-									"body": null
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 30 Aug 2024 08:03:14 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
 								}
-							]
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Cliente no encontrado\",\n    \"path\": \"uri=/clientes/2\",\n    \"code\": \"CLIENT_NOT_FOUND\"\n}"
+						},
+						{
+							"name": "Respuesta 200",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{client-ms-url}}/clientes/5"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "0"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 30 Aug 2024 08:03:40 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Eliminar cuenta ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"La respuesta tiene código 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{account-ms-url}}/cuentas/{{cuentaId}}"
+					},
+					"response": [
+						{
+							"name": "Respuesta 400",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{account-ms-url}}/cuentas/1"
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 30 Aug 2024 07:42:17 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Cuenta no encontrada\",\n    \"path\": \"uri=/cuentas/1\",\n    \"code\": null\n}"
+						}
+					]
+				},
+				{
+					"name": "Eliminar movimiento ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"La respuesta tiene código 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{account-ms-url}}/movimientos/{{movimientoId}}"
+					},
+					"response": [
+						{
+							"name": "Respuesta 404",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{account-ms-url}}/movimientos/5"
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 30 Aug 2024 08:21:57 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Transacción no encontrada\",\n    \"path\": \"uri=/movimientos/5\",\n    \"code\": \"TRANSACTION_NOT_FOUND\"\n}"
 						}
 					]
 				}
@@ -1580,6 +3894,18 @@
 			"key": "client-ms-url",
 			"value": "http://localhost:8081",
 			"type": "string"
+		},
+		{
+			"key": "cuentaId",
+			"value": "1"
+		},
+		{
+			"key": "clienteId",
+			"value": "1"
+		},
+		{
+			"key": "movimientoId",
+			"value": "1"
 		}
 	]
 }
