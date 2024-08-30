@@ -10,6 +10,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class Client extends Person {
     private String password;
-    private boolean status;
+    private Boolean status;
 
 }

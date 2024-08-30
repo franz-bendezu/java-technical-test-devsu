@@ -2,7 +2,9 @@ package com.devsu.bank.client_service.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.devsu.bank.client_service.dto.ClientCreateDTO;
+import com.devsu.bank.client_service.dto.ClientBaseDTO;
+import com.devsu.bank.client_service.dto.ClientDTO;
+import com.devsu.bank.client_service.mapper.ClientMapper;
 import com.devsu.bank.client_service.model.Client;
 import com.devsu.bank.client_service.service.ClientService;
 
@@ -30,23 +32,23 @@ public class ClientController {
     }
 
     @GetMapping
-    public List<Client> findAll() {
-        return clientService.findAll();
+    public List<ClientDTO> findAll() {
+        return ClientMapper.toDTO(clientService.findAll());
     }
 
     @GetMapping("/{id}")
-    public Client findById(@PathVariable Long id) {
-        return clientService.findById(id);
+    public ClientDTO findById(@PathVariable Long id) {
+        return ClientMapper.toDTO(clientService.findById(id));
     }
 
     @PostMapping
-    public Client save(@Valid @RequestBody ClientCreateDTO client) {
-        return clientService.save(client);
+    public ClientDTO save(@Valid @RequestBody ClientBaseDTO client) {
+        return ClientMapper.toDTO(clientService.save(client));
     }
 
     @PutMapping("/{id}")
-    public Client update(@PathVariable Long id, @Valid @RequestBody ClientCreateDTO client) {
-        return clientService.updateById(id, client);
+    public ClientDTO update(@PathVariable Long id, @Valid @RequestBody ClientBaseDTO client) {
+        return ClientMapper.toDTO(clientService.updateById(id, client));
     }
 
     @DeleteMapping("/{id}")
