@@ -1,8 +1,8 @@
 version: "3.8"
+name: "devsu-bank-prod"
 services:
   ### Posgres database for Clients
   db-client:
-    container_name: db-client
     image: postgres:16.4
     restart: unless-stopped
     environment:
@@ -17,7 +17,6 @@ services:
 
   ## MySQL database for Accounts
   db-account:
-    container_name: db-account
     image: mysql:9.0.1
     restart: unless-stopped
     environment:
@@ -67,7 +66,6 @@ services:
     build:
       context: ./client-service
       dockerfile: Dockerfile
-    container_name: client-ms
     restart: unless-stopped
     deploy:
       replicas: 1
@@ -78,7 +76,7 @@ services:
       - SPRING_DATASOURCE_PASSWORD=test
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
       - SPRING_KAFKA_GROUP_ID=client-ms
-      - PORT=8080
+      - PORT=8081
       - SPRING_FLYWAY_ENABLED=false # Colocar como "true" para executar las migraciones al iniciar la aplicación
       # Solo activale si no tienes las tablas creadas
       - SPRING_FLYWAY_USERNAME=test
@@ -92,7 +90,7 @@ services:
       - kafka
       - redis
     ports:
-      - 8080:8080
+      - 8081:8081
     networks:
       - db-client
       - kafka
@@ -101,7 +99,6 @@ services:
     build:
       context: ./account-service
       dockerfile: Dockerfile
-    container_name: account-ms
     restart: unless-stopped
     deploy:
       replicas: 1
@@ -112,7 +109,7 @@ services:
       - SPRING_DATASOURCE_PASSWORD=test
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
       - SPRING_KAFKA_GROUP_ID=account-ms
-      - PORT=8081
+      - PORT=8080
       - SPRING_FLYWAY_ENABLED=false # Colocar como "true" para executar las migraciones al iniciar la aplicación
       # Solo activale si no tienes las tablas creadas
       - SPRING_FLYWAY_USERNAME=test
@@ -126,7 +123,7 @@ services:
       - kafka
       - redis
     ports:
-      - 8081:8081
+      - 8080:8080
     networks:
       - db-account
       - kafka
