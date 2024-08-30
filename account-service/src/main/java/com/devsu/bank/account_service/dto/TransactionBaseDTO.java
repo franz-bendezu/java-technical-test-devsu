@@ -13,7 +13,7 @@ public class TransactionBaseDTO {
     private Integer amount;
 
     @NotNull
-    @JsonProperty("cuenta")
+    @JsonProperty("cuentaId")
     private Long accountId;
 
 }

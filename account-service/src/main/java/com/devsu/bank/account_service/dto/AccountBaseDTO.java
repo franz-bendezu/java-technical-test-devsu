@@ -30,7 +30,7 @@ public class AccountBaseDTO {
     private boolean status;
 
     @NotNull
-    @JsonProperty("cliente")
+    @JsonProperty("clienteId")
     private Long clientId;
 
 }
