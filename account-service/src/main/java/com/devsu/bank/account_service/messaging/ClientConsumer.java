@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import com.devsu.bank.account_service.dto.ClientDTO;
 import com.devsu.bank.account_service.dto.ClientDataEventDTO;

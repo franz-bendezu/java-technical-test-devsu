@@ -3,17 +3,15 @@ package com.devsu.bank.account_service.service;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.devsu.bank.account_service.dto.TransactionCreateDTO;
-import com.devsu.bank.account_service.dto.TransactionDTO;
+import com.devsu.bank.account_service.dto.TransactionBaseDTO;
 import com.devsu.bank.account_service.exception.InsufficientBalanceException;
 import com.devsu.bank.account_service.exception.TransactionNotFoundException;
-import com.devsu.bank.account_service.mapper.TransactionMapper;
 import com.devsu.bank.account_service.model.Account;
 import com.devsu.bank.account_service.model.Transaction;
+import com.devsu.bank.account_service.model.TransactionType;
 import com.devsu.bank.account_service.repository.TransactionRepository;
 
 @Service
@@ -27,22 +25,26 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<TransactionDTO> findAll() {
-        return transactionRepository.findAll().stream().map(TransactionMapper::toDTO).collect(Collectors.toList());
+    public List<Transaction> findAll() {
+        return transactionRepository.findAll();
     }
 
     @Override
-    public TransactionDTO findById(Long id) {
-        return transactionRepository.findById(id).map(TransactionMapper::toDTO)
+    public Transaction findById(Long id) {
+        return transactionRepository.findById(id)
                 .orElseThrow(TransactionNotFoundException::new);
     }
 
     @Override
-    public TransactionDTO create(TransactionCreateDTO transactionDTO) {
+    public Integer getBalanceByAccount(Account account) {
+        Optional<Transaction> lastTransaction = transactionRepository.findLastByAccountId(account.getId());
+        return lastTransaction.map(Transaction::getBalance).orElse(account.getInitialAmount());
+    }
+
+    @Override
+    public Transaction create(TransactionBaseDTO transactionDTO) {
         Account account = this.accountService.findById(transactionDTO.getAccountId());
-        Optional<Transaction> lastTransaction = transactionRepository
-                .findLastByAccountId(transactionDTO.getAccountId());
-        Integer balance = lastTransaction.map(Transaction::getBalance).orElse(0);
+        Integer balance = getBalanceByAccount(account);
         Integer newBalance = balance + transactionDTO.getAmount();
         if (newBalance < 0) {
             throw new InsufficientBalanceException();
@@ -51,44 +53,54 @@ public class TransactionServiceImpl implements TransactionService {
         Transaction transaction = new Transaction();
 
         if (transactionDTO.getAmount() > 0) {
-            transaction.setTransactionType("DEPOSIT");
+            transaction.setTransactionType(TransactionType.DEPOSIT);
         } else {
-            transaction.setTransactionType("WITHDRAW");
+            transaction.setTransactionType(TransactionType.WITHDRAW);
         }
         transaction.setAmount(transactionDTO.getAmount());
         transaction.setAccount(account);
         transaction.setBalance(newBalance);
 
-        Transaction transactionResult = transactionRepository.save(transaction);
-        return TransactionMapper.toDTO(transactionResult);
+        return transactionRepository.save(transaction);
     }
 
     @Override
     public void deleteById(Long id) {
+        Boolean exists = transactionRepository.existsById(id);
+        if (!exists) {
+            throw new TransactionNotFoundException();
+        }
+        // TODO: ¿se deberia modificar el saldo de transacciones posteriores?
         transactionRepository.deleteById(id);
     }
 
     @Override
-    public TransactionDTO updateById(Long id, TransactionCreateDTO transaction) {
+    public Transaction updateById(Long id, TransactionBaseDTO transaction) {
         Transaction transactionToUpdate = transactionRepository.findById(id)
                 .orElseThrow(TransactionNotFoundException::new);
+        // TODO: ¿se deberia modificar el saldo de transacciones posteriores?
         transactionToUpdate.setAmount(transaction.getAmount());
+        // TODO: ¿se deberia permitir cambiar la cuenta de la transaccion?
+        transactionToUpdate.setAccount(new Account(transaction.getAccountId()));
         if (transaction.getAmount() > 0) {
-            transactionToUpdate.setTransactionType("DEPOSIT");
+            transactionToUpdate.setTransactionType(TransactionType.DEPOSIT);
         } else {
-            transactionToUpdate.setTransactionType("WITHDRAW");
+            transactionToUpdate.setTransactionType(TransactionType.WITHDRAW);
         }
-        Transaction transactionResult = transactionRepository.save(transactionToUpdate);
-        return TransactionMapper.toDTO(transactionResult);
+        return transactionRepository.save(transactionToUpdate);
     }
 
-    public List<TransactionDTO> findAllByAccountIdAndCreatedAtBetween(Long accountId, Instant startDate,
+    @Override
+    public List<Transaction> findAllByClientIdAndCreatedAtBetween(Long clientId, Instant startDate,
+            Instant endDate) {
+        return transactionRepository.findAllByClientIdAndCreatedAtBetween(
+                clientId, startDate, endDate);
+    }
+
+    public List<Transaction> findAllByAccountIdAndCreatedAtBetween(Long accountId, Instant startDate,
             Instant endDate) {
         return transactionRepository.findAllByAccountIdAndCreatedAtBetween(
-                accountId, startDate, endDate)
-                .stream()
-                .map(TransactionMapper::toDTO)
-                .collect(Collectors.toList());
+                accountId, startDate, endDate);
     }
 
 }

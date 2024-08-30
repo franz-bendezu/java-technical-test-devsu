@@ -27,9 +27,13 @@ public class Account {
 
     private Long clientId;
 
-    @OneToMany(mappedBy = "account",  fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
     private List<Transaction> transactions;
 
     public Account() {
+    }
+
+    public Account(Long id) {
+        this.id = id;
     }
 }

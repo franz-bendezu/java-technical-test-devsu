@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class ClientDataEventDTO {
-    ClientDTO data;
-    Long clientId;
+    private ClientDTO data;
+    private Long clientId;
 }

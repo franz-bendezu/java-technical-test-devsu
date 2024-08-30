@@ -11,10 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.devsu.bank.account_service.dto.AccountCreateDTO;
+import com.devsu.bank.account_service.dto.AccountBaseDTO;
 import com.devsu.bank.account_service.dto.AccountDTO;
 import com.devsu.bank.account_service.mapper.AccountMapper;
-import com.devsu.bank.account_service.model.Account;
 import com.devsu.bank.account_service.service.AccountService;
 
 import jakarta.validation.Valid;
@@ -33,7 +32,7 @@ public class AccountController {
 
     @GetMapping
     public List<AccountDTO> findAll() {
-        return accountService.findAll();
+        return AccountMapper.toDTO(accountService.findAll());
     }
 
     @GetMapping("/{id}")
@@ -42,12 +41,12 @@ public class AccountController {
     }
 
     @PostMapping
-    public AccountDTO save(@Valid @RequestBody AccountCreateDTO account) {
+    public AccountDTO save(@Valid @RequestBody AccountBaseDTO account) {
         return AccountMapper.toDTO(accountService.create(account));
     }
 
     @PutMapping("/{id}")
-    public AccountDTO update(@PathVariable Long id, @Valid @RequestBody AccountCreateDTO account) {
+    public AccountDTO update(@PathVariable Long id, @Valid @RequestBody AccountBaseDTO account) {
         return AccountMapper.toDTO(accountService.updateById(id, account));
     }
 

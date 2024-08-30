@@ -12,24 +12,21 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import com.devsu.bank.client_service.dto.ClientCreateDTO;
+import com.devsu.bank.client_service.dto.ClientBaseDTO;
 import com.devsu.bank.client_service.model.Client;
-import com.devsu.bank.client_service.model.Person;
 import com.devsu.bank.client_service.repository.ClientRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Testcontainers
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 public class ClientControllerIntegrationTest {
 
@@ -53,10 +50,8 @@ public class ClientControllerIntegrationTest {
     Client initialClient;
 
     @BeforeEach
-    void setUp() {
-        if(initialClient != null) {
-            return;
-        }
+    void beforeEach() {
+        clientRepository.deleteAll();
         Client client = new Client();
         client.setName("John Doe");
         client.setGender("Male");
@@ -65,7 +60,7 @@ public class ClientControllerIntegrationTest {
         client.setAddress("123 Main St");
         client.setPhone("555-1234");
         client.setPassword("password");
-        client.setStatus("true");
+        client.setStatus(true);
         initialClient = clientRepository.save(client);
 
     }
@@ -89,20 +84,20 @@ public class ClientControllerIntegrationTest {
     }
 
     @Test
-    public void testFindAll() throws Exception {
-        mockMvc.perform(get("/clientes"))
+    public void shouldReturnAllClients() throws Exception {
+        mockMvc.perform(get(ClientController.PATH))
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void testFindById() throws Exception {
-        mockMvc.perform(get("/clientes/{id}", initialClient.getId()))
+    public void shouldReturnClientById() throws Exception {
+        mockMvc.perform(get(ClientController.PATH + "/{id}", initialClient.getId()))
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void testSave() throws Exception {
-        ClientCreateDTO client = new ClientCreateDTO();
+    public void shouldCreateClient() throws Exception {
+        ClientBaseDTO client = new ClientBaseDTO();
         client.setName("John Doe");
         client.setGender("Male");
         client.setAge(30);
@@ -110,16 +105,29 @@ public class ClientControllerIntegrationTest {
         client.setAddress("123 Main St");
         client.setPhone("555-1234");
         client.setPassword("password");
+        client.setStatus(false);
 
-        mockMvc.perform(post("/clientes")
+        mockMvc.perform(post(ClientController.PATH)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(client)))
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void testUpdate() throws Exception {
-        ClientCreateDTO client = new ClientCreateDTO();
+    public void shouldReturnBadRequestWhenCreateInvalidClient() throws Exception {
+        ClientBaseDTO client = new ClientBaseDTO();
+        client.setName("John Doe");
+    
+        mockMvc.perform(post(ClientController.PATH)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(client)))
+                .andExpect(status().isBadRequest());
+    }
+
+
+    @Test
+    public void shouldUpdateClient() throws Exception {
+        ClientBaseDTO client = new ClientBaseDTO();
         client.setName("Jane Doe");
         client.setGender("Female");
         client.setAge(25);
@@ -127,16 +135,36 @@ public class ClientControllerIntegrationTest {
         client.setAddress("456 Main St");
         client.setPhone("555-5678");
         client.setPassword("password");
+        client.setStatus(true);
 
-        mockMvc.perform(put("/clientes/{id}", initialClient.getId())
+        mockMvc.perform(put(ClientController.PATH + "/{id}", initialClient.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(client)))
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void testDeleteById() throws Exception {
-        mockMvc.perform(delete("/clientes/{id}", initialClient.getId()))
+    public void shouldReturnNotFoundWhenUpdatingNonExistentClient() throws Exception {
+        ClientBaseDTO client = new ClientBaseDTO();
+        client.setName("Jane Doe");
+        client.setName("Jane Doe");
+        client.setGender("Female");
+        client.setAge(25);
+        client.setIdentification("987654321");
+        client.setAddress("456 Main St");
+        client.setPhone("555-5678");
+        client.setPassword("password");
+        client.setStatus(true);
+
+        mockMvc.perform(put(ClientController.PATH + "/{id}", 0)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(client)))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void shouldDeleteClientById() throws Exception {
+        mockMvc.perform(delete(ClientController.PATH + "/{id}", initialClient.getId()))
                 .andExpect(status().isOk());
     }
 }

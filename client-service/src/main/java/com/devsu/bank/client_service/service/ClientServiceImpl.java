@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.devsu.bank.client_service.dto.ClientCreateDTO;
+import com.devsu.bank.client_service.dto.ClientBaseDTO;
 import com.devsu.bank.client_service.exception.ClientNotFoundException;
 import com.devsu.bank.client_service.model.Client;
 import com.devsu.bank.client_service.repository.ClientRepository;
@@ -33,17 +33,21 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client save(ClientCreateDTO clientDTO) {
+    public Client save(ClientBaseDTO clientDTO) {
         Client client = new Client();
         client.setName(clientDTO.getName());
         client.setAddress(clientDTO.getAddress());
         client.setPhone(clientDTO.getPhone());
         client.setPassword(passwordEncoder.encode(clientDTO.getPassword()));
+        client.setStatus(clientDTO.getStatus());
+        client.setGender(clientDTO.getGender());
+        client.setAge(clientDTO.getAge());
+        client.setIdentification(clientDTO.getIdentification());
         return clientRepository.save(client);
     }
 
     @Override
-    public Client updateById(Long id, ClientCreateDTO client) {
+    public Client updateById(Long id, ClientBaseDTO client) {
         Client currentClient = this.findById(id);
         currentClient.setName(client.getName());
         currentClient.setAddress(client.getAddress());
@@ -56,6 +60,11 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void deleteById(Long id) {
+        Boolean exists = clientRepository.existsById(id);
+        if (!exists) {
+            throw new ClientNotFoundException();
+        }
+        // TODO: Comuniarse con el servicio de cuentas para eliminar ( hard delete o soft delete ) las cuentas asociadas al cliente
         clientRepository.deleteById(id);
     }
 

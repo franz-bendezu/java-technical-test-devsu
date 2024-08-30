@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Min;
 import lombok.Data;
 
 @Data
-public class AccountCreateDTO {
+public class AccountBaseDTO {
 
     @NotNull
     @JsonProperty("numeroCuenta")
@@ -28,7 +28,7 @@ public class AccountCreateDTO {
     private boolean status;
 
     @NotNull
-    @JsonProperty("cliente")
+    @JsonProperty("clienteId")
     private Long clientId;
 
 }

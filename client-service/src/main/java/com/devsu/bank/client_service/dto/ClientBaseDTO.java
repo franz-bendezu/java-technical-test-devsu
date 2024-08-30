@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class ClientCreateDTO {
+public class ClientBaseDTO {
     @NotBlank
     @JsonProperty("nombre")
     private String name;
@@ -26,7 +26,7 @@ public class ClientCreateDTO {
 
     @NotNull
     @JsonProperty("estado")
-    private String status;
+    private Boolean status;
 
     @JsonProperty("genero")
     private String gender;

@@ -4,7 +4,6 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 import com.devsu.bank.client_service.dto.ClientDataEventDTO;
-import com.devsu.bank.client_service.model.Client;
 
 @Component
 public class ClientProducer {

@@ -21,11 +21,14 @@ public class Person {
 
     private String gender;
 
-    private int age;
+    private Integer age;
 
     private String identification;
 
     private String address;
 
     private String phone;
+
+    public Person() {
+    }
 }

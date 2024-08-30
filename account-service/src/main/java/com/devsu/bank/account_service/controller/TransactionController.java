@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.devsu.bank.account_service.dto.TransactionCreateDTO;
+import com.devsu.bank.account_service.dto.TransactionBaseDTO;
 import com.devsu.bank.account_service.dto.TransactionDTO;
-import com.devsu.bank.account_service.model.Transaction;
+import com.devsu.bank.account_service.mapper.TransactionMapper;
 import com.devsu.bank.account_service.service.TransactionService;
 
 import jakarta.validation.Valid;
@@ -32,22 +32,22 @@ public class TransactionController {
 
     @GetMapping
     public List<TransactionDTO> findAll() {
-        return transactionService.findAll();
+        return TransactionMapper.toDTO(transactionService.findAll());
     }
 
     @GetMapping("/{id}")
     public TransactionDTO findById(@PathVariable Long id) {
-        return transactionService.findById(id);
+        return TransactionMapper.toDTO(transactionService.findById(id));
     }
 
     @PostMapping
-    public TransactionDTO save(@Valid @RequestBody TransactionCreateDTO movement) {
-        return transactionService.create(movement);
+    public TransactionDTO save(@Valid @RequestBody TransactionBaseDTO movement) {
+        return TransactionMapper.toDTO(transactionService.create(movement));
     }
 
     @PutMapping("/{id}")
-    public TransactionDTO update(@PathVariable Long id, @Valid @RequestBody TransactionCreateDTO movement) {
-        return transactionService.updateById(id, movement);
+    public TransactionDTO update(@PathVariable Long id, @Valid @RequestBody TransactionBaseDTO movement) {
+        return TransactionMapper.toDTO(transactionService.updateById(id, movement));
     }
 
     @DeleteMapping("/{id}")
