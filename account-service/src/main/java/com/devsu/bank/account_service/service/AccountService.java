@@ -1,6 +1,6 @@
 package com.devsu.bank.account_service.service;
 
-import com.devsu.bank.account_service.dto.AccountCreateDTO;
+import com.devsu.bank.account_service.dto.AccountBaseDTO;
 import com.devsu.bank.account_service.dto.AccountDTO;
 import com.devsu.bank.account_service.dto.ReportStatementAccountDTO;
 import com.devsu.bank.account_service.model.Account;
@@ -13,9 +13,9 @@ public interface AccountService {
 
     public Account findById(Long id);
 
-    public Account create(AccountCreateDTO account);
+    public Account create(AccountBaseDTO account);
 
     public void deleteById(Long id);
 
-    public Account updateById(Long id, AccountCreateDTO account);
+    public Account updateById(Long id, AccountBaseDTO account);
 }

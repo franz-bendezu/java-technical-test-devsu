@@ -3,12 +3,14 @@ package com.devsu.bank.account_service.dto;
 import jakarta.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import jakarta.validation.constraints.Min;
 import lombok.Data;
 
 @Data
-public class AccountCreateDTO {
+public class AccountBaseDTO {
 
     @NotNull
     @JsonProperty("numeroCuenta")

@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.devsu.bank.account_service.dto.AccountCreateDTO;
+import com.devsu.bank.account_service.dto.AccountBaseDTO;
 import com.devsu.bank.account_service.dto.AccountDTO;
 import com.devsu.bank.account_service.dto.ClientDTO;
 import com.devsu.bank.account_service.exception.AccountNotFoundException;
@@ -34,7 +34,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account create(AccountCreateDTO accountCreateDTO) {
+    public Account create(AccountBaseDTO accountCreateDTO) {
         Account account = new Account();
         ClientDTO client = clientService.findById(accountCreateDTO.getClientId());
         account.setClientId(client.getId());
@@ -45,7 +45,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account updateById(Long id, AccountCreateDTO accountCreateDTO) {
+    public Account updateById(Long id, AccountBaseDTO accountCreateDTO) {
         Account account = this.findById(id);
         account.setAccountNumber(accountCreateDTO.getAccountNumber());
         account.setAccountType(accountCreateDTO.getAccountType());
