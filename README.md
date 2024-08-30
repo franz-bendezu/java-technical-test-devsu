@@ -95,9 +95,10 @@ Para compilar y ejecutar cada microservicio individualmente, siga los siguientes
 
 Se incluye una colección de Postman en el archivo `Devsu Bank.postman_collection.json` para probar los endpoints de los microservicios.
 
-### JUnit
+### JUnit y Test Containers (Docker)
 
-Para ejecutar las pruebas unitarias, navegue al directorio del microservicio correspondiente y ejecute:
+Para ejecutar las pruebas unitarias y de integración,
+ navegue al directorio del microservicio correspondiente y ejecute:
 
 ```sh
 ./mvnw test
