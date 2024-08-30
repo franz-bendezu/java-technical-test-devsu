@@ -8,28 +8,12 @@ Este repositorio contiene dos microservicios: `account-service` y `client-servic
 
 ```
 .
-├── account-service/
-│   ├── .mvn/
-│   ├── src/
-│   ├── target/
-│   ├── Dockerfile
-│   ├── mvnw
-│   ├── mvnw.cmd
-│   ├── pom.xml
-│   └── .gitignore
-├── client-service/
-│   ├── .mvn/
-│   ├── src/
-│   ├── target/
-│   ├── Dockerfile
-│   ├── mvnw
-│   ├── mvnw.cmd
-│   ├── pom.xml
-│   └── .gitignore
-├── Devsu Bank.postman_collection.json
-├── docker-compose.dev.yml
-├── docker-compose.yml
-└── BaseDatos.sql
+├── account-service/ ( Microservicio de Cuentas - Movimientos )
+├── client-service/ ( Microservicio de Cliente- Persona )
+├── Devsu Bank.postman_collection.json ( Colección de Postman )
+├── docker-compose.dev.yml ( Archivo de configuración de Docker Compose para desarrollo )
+├── docker-compose.yml ( Archivo de configuración de Docker Compose para producción )
+└── BaseDatos.sql ( Script de creación de base de datos )
 ```
 
 ## Requisitos
