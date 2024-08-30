@@ -33,7 +33,7 @@ public class TransactionController {
 
     @GetMapping
     public List<TransactionDTO> findAll() {
-        return transactionService.findAll();
+        return TransactionMapper.toDTO(transactionService.findAll());
     }
 
     @GetMapping("/{id}")

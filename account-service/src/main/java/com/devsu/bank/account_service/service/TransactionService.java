@@ -10,7 +10,7 @@ import com.devsu.bank.account_service.model.Transaction;
 
 public interface TransactionService {
 
-    public List<TransactionDTO> findAll();
+    public List<Transaction> findAll();
 
     public TransactionDTO findById(Long id);
 

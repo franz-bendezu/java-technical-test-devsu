@@ -28,8 +28,8 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<TransactionDTO> findAll() {
-        return transactionRepository.findAll().stream().map(TransactionMapper::toDTO).collect(Collectors.toList());
+    public List<Transaction> findAll() {
+        return transactionRepository.findAll();
     }
 
     @Override
