@@ -8,19 +8,19 @@ import lombok.Data;
 
 @Data
 public class ClientBaseDTO {
-    @NotBlank
+    @NotBlank(message = "El nombre no puede estar vacío")
     @JsonProperty("nombre")
     private String name;
 
-    @NotBlank
+    @NotBlank(message = "La dirección no puede estar vacía")
     @JsonProperty("direccion")
     private String address;
 
-    @NotBlank
+    @NotBlank(message = "El correo no puede estar vacío")
     @JsonProperty("telefono")
     private String phone;
 
-    @NotNull
+    @NotNull(message = "El estado no puede estar vacío")
     @JsonProperty("estado")
     private Boolean status;
 
