@@ -37,7 +37,7 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionRepository.findById(id)
                 .orElseThrow(TransactionNotFoundException::new);
     }
-    
+
     @Override
     public Integer getBalanceByAccount(Account account) {
         Optional<Transaction> lastTransaction = transactionRepository.findLastByAccountId(account.getId());
@@ -66,6 +66,7 @@ public class TransactionServiceImpl implements TransactionService {
 
         return transactionRepository.save(transaction);
     }
+
     @Override
     public void deleteById(Long id) {
         Boolean exists = transactionRepository.existsById(id);
@@ -91,6 +92,7 @@ public class TransactionServiceImpl implements TransactionService {
         }
         return transactionRepository.save(transactionToUpdate);
     }
+
     @Override
     public List<Transaction> findAllByClientIdAndCreatedAtBetween(Long clientId, Instant startDate,
             Instant endDate) {
