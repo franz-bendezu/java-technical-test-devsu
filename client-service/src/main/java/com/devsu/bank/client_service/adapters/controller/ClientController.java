@@ -13,6 +13,7 @@ import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -47,7 +48,7 @@ public class ClientController {
         return ClientMapper.toDTO(clientService.save(client));
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ClientDTO update(@PathVariable Long id, @Valid @RequestBody ClientUpdateDTO client) {
         return ClientMapper.toDTO(clientService.updateById(id, client));
     }

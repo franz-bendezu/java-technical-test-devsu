@@ -2,6 +2,7 @@ package com.devsu.bank.client_service.adapters.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -146,7 +147,7 @@ public class ClientControllerIntegrationTest {
         client.setPassword("password");
         client.setStatus(true);
 
-        mockMvc.perform(put(ClientController.PATH + "/{id}", initialClient.getId())
+        mockMvc.perform(patch(ClientController.PATH + "/{id}", initialClient.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(client)))
                 .andExpect(status().isOk());
@@ -165,7 +166,7 @@ public class ClientControllerIntegrationTest {
         client.setPassword("password");
         client.setStatus(true);
 
-        mockMvc.perform(put(ClientController.PATH + "/{id}", 0)
+        mockMvc.perform(patch(ClientController.PATH + "/{id}", 0)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(client)))
                 .andExpect(status().isNotFound());
