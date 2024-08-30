@@ -28,7 +28,10 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(AccountNotFoundException.class)
 	public ResponseEntity<ErrorResponse> handleAccountNotFoundException(AccountNotFoundException ex,
 			WebRequest request) {
-		return new ResponseEntity<>(new ErrorResponse(ex.getMessage(), request.getDescription(false)),
+		return new ResponseEntity<>(
+				new ErrorResponse(ex.getMessage(), request.getDescription(false), ex.getCode()
+
+				),
 				HttpStatus.NOT_FOUND);
 	}
 
