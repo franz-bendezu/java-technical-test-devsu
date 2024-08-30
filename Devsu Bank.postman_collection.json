@@ -18,7 +18,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{account-ms-url}}/reportes?cliente=123&rangoInicio=2024-08-28&rangoFin=2024-08-28",
+									"raw": "{{account-ms-url}}/reportes?cliente=1&rangoInicio=2024-08-28&rangoFin=2024-08-30",
 									"host": [
 										"{{account-ms-url}}"
 									],
@@ -28,7 +28,7 @@
 									"query": [
 										{
 											"key": "cliente",
-											"value": "123"
+											"value": "1"
 										},
 										{
 											"key": "rangoInicio",
@@ -36,7 +36,7 @@
 										},
 										{
 											"key": "rangoFin",
-											"value": "2024-08-28"
+											"value": "2024-08-30"
 										}
 									]
 								}
@@ -64,7 +64,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"tipo\": \"Ahorros\",\r\n    \"montoInicial\": 0,\r\n    \"numeroCuenta\": \"test\",\r\n    \"cliente\": 123,\r\n    \"estado\":  false\r\n}",
+									"raw": "{\r\n    \"tipo\": \"Ahorros\",\r\n    \"montoInicial\": 100,\r\n    \"numeroCuenta\": \"test\",\r\n    \"clienteId\": 1,\r\n    \"estado\":  false\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -82,7 +82,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"tipo\": \"Ahorros\",\r\n    \"montoInicial\": 0,\r\n    \"numeroCuenta\": \"test\",\r\n    \"estado\":  false\r\n}",
+									"raw": "{\r\n    \"tipo\": \"Ahorros\",\r\n    \"montoInicial\": 0,\r\n    \"numeroCuenta\": \"test\",\r\n    \"clienteId\": 1,\r\n    \"estado\":  false\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -107,7 +107,7 @@
 										}
 									}
 								},
-								"url": "{{account-ms-url}}/cuentas/5"
+								"url": "{{account-ms-url}}/cuentas/6"
 							},
 							"response": []
 						}
@@ -132,7 +132,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"cuenta\": 1,\r\n    \"valor\": 1\r\n}",
+									"raw": "{\r\n    \"cuentaId\": 6,\r\n    \"valor\": -20\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -150,7 +150,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"cuenta\": 1,\r\n    \"valor\": 1\r\n}",
+									"raw": "{\r\n    \"cuentaId\": 1,\r\n    \"valor\": 1\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
