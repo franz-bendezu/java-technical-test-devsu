@@ -5,15 +5,14 @@ import java.time.Instant;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-public class TransactionDTO {
+@EqualsAndHashCode(callSuper = false)
+public class TransactionDTO extends TransactionBaseDTO {
 
     @JsonProperty("id")
     private Long id;
-
-    @JsonProperty("valor")
-    private Integer amount;
 
     @JsonProperty("saldo")
     private Integer balance;
@@ -23,7 +22,5 @@ public class TransactionDTO {
 
     @JsonProperty("fecha")
     private String createdDate;
-    
-    @JsonProperty("cuenta")
-    private Long accountId;
+
 }

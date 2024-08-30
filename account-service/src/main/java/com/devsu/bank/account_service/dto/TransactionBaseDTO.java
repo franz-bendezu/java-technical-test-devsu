@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class TransactionCreateDTO {
+public class TransactionBaseDTO {
 
     @NotNull
     @JsonProperty("valor")
@@ -16,6 +16,4 @@ public class TransactionCreateDTO {
     @JsonProperty("cuenta")
     private Long accountId;
 
-    public TransactionCreateDTO() {
-    }
 }

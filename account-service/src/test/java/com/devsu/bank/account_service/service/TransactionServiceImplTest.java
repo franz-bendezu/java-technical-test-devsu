@@ -1,6 +1,6 @@
 package com.devsu.bank.account_service.service;
 
-import com.devsu.bank.account_service.dto.TransactionCreateDTO;
+import com.devsu.bank.account_service.dto.TransactionBaseDTO;
 import com.devsu.bank.account_service.dto.TransactionDTO;
 import com.devsu.bank.account_service.exception.InsufficientBalanceException;
 import com.devsu.bank.account_service.exception.TransactionNotFoundException;
@@ -96,7 +96,7 @@ public class TransactionServiceImplTest {
     public void shouldCreateTransaction() {
         Long accountId = 1L;
         Integer amount = 100;
-        TransactionCreateDTO transactionDTO = new TransactionCreateDTO();
+        TransactionBaseDTO transactionDTO = new TransactionBaseDTO();
         transactionDTO.setAccountId(accountId);
         transactionDTO.setAmount(amount);
 
@@ -135,7 +135,7 @@ public class TransactionServiceImplTest {
     public void shouldThrowExceptionWhenInsufficientBalance() {
         Long accountId = 1L;
         Integer amount = -100;
-        TransactionCreateDTO transactionDTO = new TransactionCreateDTO();
+        TransactionBaseDTO transactionDTO = new TransactionBaseDTO();
         transactionDTO.setAccountId(accountId);
         transactionDTO.setAmount(amount);
 
@@ -161,7 +161,7 @@ public class TransactionServiceImplTest {
     public void shouldUpdateTransactionById() {
         Long id = 1L;
         Integer amount = 200;
-        TransactionCreateDTO transactionDTO = new TransactionCreateDTO();
+        TransactionBaseDTO transactionDTO = new TransactionBaseDTO();
         transactionDTO.setAmount(amount);
 
         Transaction existingTransaction = new Transaction();
@@ -184,7 +184,7 @@ public class TransactionServiceImplTest {
         when(transactionRepository.findById(id)).thenReturn(Optional.empty());
 
         Assertions.assertThrows(TransactionNotFoundException.class, () -> {
-            transactionService.updateById(id, new TransactionCreateDTO());
+            transactionService.updateById(id, new TransactionBaseDTO());
         });
     }
 

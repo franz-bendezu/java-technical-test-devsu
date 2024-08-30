@@ -3,7 +3,7 @@ package com.devsu.bank.account_service.service;
 import java.time.Instant;
 import java.util.List;
 
-import com.devsu.bank.account_service.dto.TransactionCreateDTO;
+import com.devsu.bank.account_service.dto.TransactionBaseDTO;
 import com.devsu.bank.account_service.dto.TransactionDTO;
 import com.devsu.bank.account_service.model.Account;
 import com.devsu.bank.account_service.model.Transaction;
@@ -14,9 +14,9 @@ public interface TransactionService {
 
     public TransactionDTO findById(Long id);
 
-    public Transaction create(TransactionCreateDTO transaction);
+    public Transaction create(TransactionBaseDTO transaction);
 
-    public Transaction updateById(Long id, TransactionCreateDTO transaction);
+    public Transaction updateById(Long id, TransactionBaseDTO transaction);
 
     public void deleteById(Long id);
 

@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.devsu.bank.account_service.dto.TransactionCreateDTO;
+import com.devsu.bank.account_service.dto.TransactionBaseDTO;
 import com.devsu.bank.account_service.dto.TransactionDTO;
 import com.devsu.bank.account_service.exception.InsufficientBalanceException;
 import com.devsu.bank.account_service.exception.TransactionNotFoundException;
@@ -45,7 +45,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Transaction create(TransactionCreateDTO transactionDTO) {
+    public Transaction create(TransactionBaseDTO transactionDTO) {
         Account account = this.accountService.findById(transactionDTO.getAccountId());
         Integer balance = getBalanceByAccount(account);
         Integer newBalance = balance + transactionDTO.getAmount();
@@ -73,7 +73,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Transaction updateById(Long id, TransactionCreateDTO transaction) {
+    public Transaction updateById(Long id, TransactionBaseDTO transaction) {
         Transaction transactionToUpdate = transactionRepository.findById(id)
                 .orElseThrow(TransactionNotFoundException::new);
         transactionToUpdate.setAmount(transaction.getAmount());
