@@ -65,7 +65,7 @@ Para compilar y ejecutar cada microservicio individualmente, siga los siguientes
 
 #### [`account-service`] ("/account-service")
 
-1. Navegue al directorio [`account-service`]("/account-service"):
+1. Navegue al directorio [`account-service`](/account-service):
 
    ```sh
    cd account-service
@@ -76,9 +76,9 @@ Para compilar y ejecutar cada microservicio individualmente, siga los siguientes
    ./mvnw spring-boot:run
    ```
 
-#### [`client-service`]("/client-service")
+#### [`client-service`](/client-service)
 
-1. Navegue al directorio [`client-service`]("/client-service"):
+1. Navegue al directorio [`client-service`](/client-service):
 
    ```sh
    cd client-service
