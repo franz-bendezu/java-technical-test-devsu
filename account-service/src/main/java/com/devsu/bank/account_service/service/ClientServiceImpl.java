@@ -25,6 +25,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    // TODO: Usar Redis para cachear la información del cliente
     public ClientDTO findById(Long clientId) {
         try {
 
