@@ -117,10 +117,6 @@ esté configurada en [`true`]
 Las migraciones de base de datos se ejecutan automáticamente al iniciar los contenedores de Docker
  siempre y cuando la variable [`SPRING_FLYWAY_ENABLED`] esté configurada en [`true`] en los archivos [`docker-compose.yml`](docker-compose.yml) para cada microservicio.
 
-## Contacto
-
-Para cualquier consulta, por favor contacte al equipo de Devsu.
-
 ```
 
 ```
