@@ -72,6 +72,7 @@ public class TransactionServiceImpl implements TransactionService {
         if (!exists) {
             throw new TransactionNotFoundException();
         }
+        // TODO: ¿se deberia modificar el saldo de transacciones posteriores?
         transactionRepository.deleteById(id);
     }
 
@@ -79,7 +80,10 @@ public class TransactionServiceImpl implements TransactionService {
     public Transaction updateById(Long id, TransactionBaseDTO transaction) {
         Transaction transactionToUpdate = transactionRepository.findById(id)
                 .orElseThrow(TransactionNotFoundException::new);
+        // TODO: ¿se deberia modificar el saldo de transacciones posteriores?
         transactionToUpdate.setAmount(transaction.getAmount());
+        // TODO: ¿se deberia permitir cambiar la cuenta de la transaccion?
+        transactionToUpdate.setAccount(new Account(transaction.getAccountId()));
         if (transaction.getAmount() > 0) {
             transactionToUpdate.setTransactionType(TransactionType.DEPOSIT);
         } else {
