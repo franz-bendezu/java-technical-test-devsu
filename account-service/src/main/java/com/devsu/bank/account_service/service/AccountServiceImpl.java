@@ -55,6 +55,10 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void deleteById(Long id) {
+        Boolean exists = accountRepository.existsById(id);
+        if (!exists) {
+            throw new AccountNotFoundException();
+        }
         accountRepository.deleteById(id);
     }
 

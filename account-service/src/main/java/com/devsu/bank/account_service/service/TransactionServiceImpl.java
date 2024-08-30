@@ -66,9 +66,12 @@ public class TransactionServiceImpl implements TransactionService {
 
         return transactionRepository.save(transaction);
     }
-
     @Override
     public void deleteById(Long id) {
+        Boolean exists = transactionRepository.existsById(id);
+        if (!exists) {
+            throw new TransactionNotFoundException();
+        }
         transactionRepository.deleteById(id);
     }
 
