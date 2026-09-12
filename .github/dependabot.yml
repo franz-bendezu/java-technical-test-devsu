@@ -10,3 +10,15 @@ updates:
    directory: "/"
    schedule:
      interval: weekly
+   groups:
+     devcontainers:
+       patterns:
+         - "*"
+       update-types:
+         - minor
+         - patch
+     devcontainers-major:
+       patterns:
+         - "*"
+       update-types:
+         - major
