@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:experimental
 #### Stage 1: Build the application
-FROM eclipse-temurin:21-jdk-alpine as build
+FROM eclipse-temurin:21.0.13.1_2-jdk-alpine as build
 
 # Set the current working directory inside the image
 WORKDIR /app
@@ -27,7 +27,7 @@ RUN --mount=type=cache,target=/root/.m2 ./mvnw install -DskipTests
 RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
 
 #### Stage 2: A minimal docker image with command to run the app
-FROM eclipse-temurin:21-jre-alpine
+FROM eclipse-temurin:21.0.13.1_2-jre-alpine
 VOLUME /tmp
 ARG DEPENDENCY=/app/target/dependency
 
